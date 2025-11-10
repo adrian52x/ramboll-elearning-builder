@@ -9,6 +9,15 @@ interface Unit {
     name: string;
 }
 
+interface User {
+    id: string;
+    unit_id: string; // refers to Unit.id
+    username: string;
+    password: string; // hashed password
+    role: 'user' | 'incept-admin';
+    created_at: Date;
+}
+
 interface ModuleAssignment {
     id: string;
     universe_id: string; // refers to Universe.id
