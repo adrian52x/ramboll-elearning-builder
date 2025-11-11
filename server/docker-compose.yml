@@ -1,6 +1,30 @@
 version: '3.8'
 
 services:
+  # NestJS Backend
+  # backend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: ramboll-elearning-backend
+  #   environment:
+  #     DB_HOST: postgres  # hostname inside Docker network
+  #     DB_PORT: 5432
+  #     DB_USERNAME: ${DB_USERNAME}
+  #     DB_PASSWORD: ${DB_PASSWORD}
+  #     DB_NAME: ${DB_NAME}
+  #     NODE_ENV: ${NODE_ENV}
+  #     PORT: ${PORT}
+  #   ports:
+  #     - "${PORT}:3000"
+  #   volumes:
+  #     - .:/app  # mount source code for hot reload
+  #     - /app/node_modules  # prevent overwriting node_modules
+  #   depends_on:
+  #     - postgres
+  #   restart: unless-stopped
+  #   command: npm run start:dev
+
   postgres:
     image: postgres:15
     container_name: ramboll-elearning-db
