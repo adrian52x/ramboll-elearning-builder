@@ -25,7 +25,7 @@
 ## Description
 npx @nestjs/cli new . --package-manager npm
 npm install --save @nestjs/typeorm typeorm pg @nestjs/config
-
+npm install @mikro-orm/core @mikro-orm/nestjs @mikro-orm/postgresql @mikro-orm/migrations @mikro-orm/seeder
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
