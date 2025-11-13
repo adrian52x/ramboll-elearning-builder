@@ -3,7 +3,7 @@ import { UniversesService } from './universes.service';
 import { CreateUniverseDto } from './dto/create-universe.dto';
 import { UpdateUniverseDto } from './dto/update-universe.dto';
 
-@Controller('universes')
+@Controller('api/universes')
 export class UniversesController {
   constructor(private readonly universesService: UniversesService) {}
 
