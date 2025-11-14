@@ -18,14 +18,14 @@ interface User {
     created_at: Date;
 }
 
-interface ModuleAssignment {
+interface ELearningAssignment {
     id: string;
     universe_id: string; // refers to Universe.id
-    module_id: string; // refers to Modules.id
+    e_learning_id: string; // refers to ELearning.id
     assigned_at: Date;
 }
 
-interface Modules {
+interface ELearning {
     id: string;
     title: string;
     description: string;
@@ -33,9 +33,9 @@ interface Modules {
     updated_at: Date;
 }
 
-interface ModuleStep {
+interface ELearningStep {
     id: string;
-    module_id: string; // refers to Modules.id
+    e_learning_id: string; // refers to ELearning.id
     title: string;
     order_index: number;
     created_at: Date;

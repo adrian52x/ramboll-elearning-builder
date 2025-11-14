@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { UniversesModule } from './modules/universes/universes.module';
 import { UnitsModule } from './modules/units/units.module';
 import { UsersModule } from './modules/users/users.module';
-import { CoursesModule } from './modules/courses/courses.module';
+import { ELearningsModule } from './modules/e-learnings/e-learnings.module';
 import config from '../mikro-orm.config';
 
 @Module({
@@ -19,7 +19,7 @@ import config from '../mikro-orm.config';
     UniversesModule,
     UnitsModule,
     UsersModule,
-    CoursesModule,
+    ELearningsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

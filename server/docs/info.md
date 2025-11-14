@@ -92,13 +92,47 @@ npx nest g service modules/users --no-spec
 npx nest g class entities/user.entity --no-spec
 
 # Generate Courses module
-npx nest g module modules/courses
-npx nest g controller modules/courses --no-spec
-npx nest g service modules/courses --no-spec
-npx nest g class entities/course.entity --no-spec
+npx nest g module modules/e-learnings
+npx nest g controller modules/e-learnings --no-spec
+npx nest g service modules/e-learnings --no-spec
+npx nest g class modules/e-learnings/entities/e-learning.entity --no-spec
 
 # Generate DTOs for each (optional but recommended)
 npx nest g class modules/universes/dto/create-universe.dto --no-spec
 npx nest g class modules/units/dto/create-unit.dto --no-spec
 npx nest g class modules/users/dto/create-user.dto --no-spec
 npx nest g class modules/courses/dto/create-course.dto --no-spec
+
+
+
+
+
+
+The Real Setup (They DON'T switch databases)
+Your Confusion:
+❌ You're thinking: "They'll replace PostgreSQL with MySQL for everything"
+
+Reality:
+✅ They'll use BOTH databases simultaneously:
+
+Their MySQL (existing) - Read Universe/Unit/User
+Your PostgreSQL (new) - Write Course/Module/Block data
+
+┌─────────────────────────────────────────────────┐
+│         Your NestJS Application                 │
+│                                                 │
+│  ┌──────────────────┐    ┌──────────────────┐ │
+│  │   PostgreSQL     │    │   Their MySQL    │ │
+│  │   (NEW)          │    │   (EXISTING)     │ │
+│  │                  │    │                  │ │
+│  │ ✨ Your Tables:  │    │ 📖 Read-Only:   │ │
+│  │ - courses        │    │ - universes     │ │
+│  │ - modules        │    │ - units         │ │
+│  │ - lessons        │    │ - users         │ │
+│  │ - blocks         │    │                 │ │
+│  │ - progress       │    │ (100+ other     │ │
+│  │ - assignments    │    │  tables they    │ │
+│  │                  │    │  don't touch)   │ │
+│  └──────────────────┘    └──────────────────┘ │
+│         ↕️ READ/WRITE           ↕️ READ ONLY    │
+└─────────────────────────────────────────────────┘

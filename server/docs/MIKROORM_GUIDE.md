@@ -41,6 +41,9 @@ npm run migration:list
 npm run migration:pending
 ```
 
+npm run migration:fresh  # Drop all tables and re-run migrations
+npm run seed            # Then seed clean database
+
 ### Database Schema
 
 ```powershell
