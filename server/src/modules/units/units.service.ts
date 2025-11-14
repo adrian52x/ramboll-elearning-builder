@@ -11,7 +11,7 @@ export class UnitsService {
     return this.em.find(Unit, {}, { populate: ['universe'] });
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const unit = await this.em.findOne(Unit, { id }, { populate: ['universe', 'users'] });
     if (!unit) {
       throw new NotFoundException(`Unit with id ${id} not found`);
@@ -19,7 +19,7 @@ export class UnitsService {
     return unit;
   }
 
-  async create(name: string, universeId: string) {
+  async create(name: string, universeId: number) {
     const universe = await this.em.findOne(Universe, { id: universeId });
     if (!universe) {
       throw new NotFoundException(`Universe with id ${universeId} not found`);
@@ -33,7 +33,7 @@ export class UnitsService {
     return unit;
   }
 
-  async update(id: string, name: string) {
+  async update(id: number, name: string) {
     const unit = await this.em.findOne(Unit, { id });
     if (!unit) {
       throw new NotFoundException(`Unit with id ${id} not found`);
@@ -44,7 +44,7 @@ export class UnitsService {
     return unit;
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     const unit = await this.em.findOne(Unit, { id });
     if (!unit) {
       throw new NotFoundException(`Unit with id ${id} not found`);

@@ -12,7 +12,7 @@ export class UsersService {
     return this.em.find(User, {}, { populate: ['unit', 'unit.universe'] });
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const user = await this.em.findOne(User, { id }, { populate: ['unit', 'unit.universe'] });
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
@@ -20,7 +20,7 @@ export class UsersService {
     return user;
   }
 
-  async create(username: string, password: string, role: UserRole, unitId: string) {
+  async create(username: string, password: string, role: UserRole, unitId: number) {
     const unit = await this.em.findOne(Unit, { id: unitId });
     if (!unit) {
       throw new NotFoundException(`Unit with id ${unitId} not found`);
@@ -37,7 +37,7 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, username?: string, password?: string, role?: UserRole) {
+  async update(id: number, username?: string, password?: string, role?: UserRole) {
     const user = await this.em.findOne(User, { id });
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
@@ -51,7 +51,7 @@ export class UsersService {
     return user;
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     const user = await this.em.findOne(User, { id });
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);

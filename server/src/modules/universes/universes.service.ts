@@ -10,7 +10,7 @@ export class UniversesService {
     return this.em.find(Universe, {});
   }
 
-  async findOne(id: string): Promise<Universe> {
+  async findOne(id: number): Promise<Universe> {
     return this.em.findOneOrFail(Universe, { id }, { populate: ['units'] });
   }
 
@@ -20,14 +20,14 @@ export class UniversesService {
     return universe;
   }
 
-  async update(id: string, name: string): Promise<Universe> {
+  async update(id: number, name: string): Promise<Universe> {
     const universe = await this.em.findOneOrFail(Universe, { id });
     universe.name = name;
     await this.em.flush();
     return universe;
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     const universe = await this.em.findOneOrFail(Universe, { id });
     await this.em.removeAndFlush(universe);
   }

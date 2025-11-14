@@ -1,5 +1,4 @@
 import { Entity, PrimaryKey, Property, ManyToOne, Enum, OptionalProps } from '@mikro-orm/core';
-import { v4 } from 'uuid';
 import { Unit } from '../../units/entities/unit.entity';
 
 export enum UserRole {
@@ -11,8 +10,8 @@ export enum UserRole {
 export class User {
   [OptionalProps]?: 'createdAt' | 'updatedAt';
 
-  @PrimaryKey({ type: 'uuid' })
-  id: string = v4();
+  @PrimaryKey()
+  id!: number;
 
   @Property()
   username!: string;

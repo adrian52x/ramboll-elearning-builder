@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEnum, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString, IsEnum, IsInt } from 'class-validator';
 import { UserRole } from '../entities/user.entity';
 
 export class CreateUserDto {
@@ -14,7 +14,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   role: UserRole;
 
-  @IsUUID()
+  @IsInt()
   @IsNotEmpty()
-  unit_id: string;
+  unit_id: number;
 }

@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property, ManyToMany, Collection, Enum, OptionalProps } from '@mikro-orm/core';
-import { v4 } from 'uuid';
 import { Step } from '../../steps/entities/step.entity';
+import { StepBlock } from '../../step-blocks/entities/step-block.entity';
 
 export enum BlockType {
   VIDEO = 'video',
@@ -14,10 +14,12 @@ export enum BlockType {
 export class Block {
   [OptionalProps]?: 'createdAt' | 'updatedAt';
 
-  @PrimaryKey({ type: 'uuid' })
-  id: string = v4();
+  @PrimaryKey()
+  id!: number;
 
-  @ManyToMany(() => Step, step => step.blocks)
+  @ManyToMany(() => Step, step => step.blocks, {
+    pivotEntity: () => StepBlock,
+  })
   steps = new Collection<Step>(this);
 
   @Enum(() => BlockType)

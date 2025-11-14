@@ -32,14 +32,14 @@ export class BlocksService {
         return this.em.find(Block, {});
     }
 
-    async findOne(id: string): Promise<Block> {
+    async findOne(id: number): Promise<Block> {
         return this.em.findOneOrFail(Block, { id });
     }
 
     /**
      * Update block content (affects all steps using this block)
      */
-    async update(id: string, dto: Partial<CreateBlockDto>): Promise<Block> {
+    async update(id: number, dto: Partial<CreateBlockDto>): Promise<Block> {
         const block = await this.em.findOneOrFail(Block, { id });
         
         if (dto.headline) block.headline = dto.headline;
@@ -58,7 +58,7 @@ export class BlocksService {
         return block;
     }
 
-    async remove(id: string): Promise<void> {
+    async remove(id: number): Promise<void> {
         const block = await this.em.findOneOrFail(Block, { id });
         await this.em.removeAndFlush(block);
     }

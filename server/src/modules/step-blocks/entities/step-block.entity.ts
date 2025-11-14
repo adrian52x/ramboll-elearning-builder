@@ -1,5 +1,4 @@
 import { Entity, PrimaryKey, Property, ManyToOne, OptionalProps } from '@mikro-orm/core';
-import { v4 } from 'uuid';
 import { Step } from '../../steps/entities/step.entity';
 import { Block } from '../../blocks/entities/block.entity';
 
@@ -11,8 +10,8 @@ import { Block } from '../../blocks/entities/block.entity';
 export class StepBlock {
   [OptionalProps]?: 'createdAt';
 
-  @PrimaryKey({ type: 'uuid' })
-  id: string = v4();
+  @PrimaryKey()
+  id!: number;
 
   @ManyToOne(() => Step, { fieldName: 'step_id' })
   step!: Step;

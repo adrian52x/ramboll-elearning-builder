@@ -1,13 +1,12 @@
 import { Entity, PrimaryKey, Property, OneToMany, Collection, OptionalProps } from '@mikro-orm/core';
-import { v4 } from 'uuid';
 import { Step } from '../../steps/entities/step.entity';
 
 @Entity({ tableName: 'e_learnings' })
 export class ELearning {
   [OptionalProps]?: 'createdAt' | 'updatedAt';
 
-  @PrimaryKey({ type: 'uuid' })
-  id: string = v4();
+  @PrimaryKey()
+  id!: number;
 
   @Property()
   title!: string;

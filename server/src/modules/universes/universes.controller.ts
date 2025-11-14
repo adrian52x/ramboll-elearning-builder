@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { UniversesService } from './universes.service';
 import { CreateUniverseDto } from './dto/create-universe.dto';
 import { UpdateUniverseDto } from './dto/update-universe.dto';
@@ -13,7 +13,7 @@ export class UniversesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.universesService.findOne(id);
   }
 
@@ -23,12 +23,12 @@ export class UniversesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDto: UpdateUniverseDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateUniverseDto) {
     return this.universesService.update(id, updateDto.name!);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.universesService.remove(id);
   }
 }

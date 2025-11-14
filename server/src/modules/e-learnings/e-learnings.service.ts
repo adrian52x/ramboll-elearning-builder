@@ -96,11 +96,11 @@ export class ELearningsService {
         return this.em.find(ELearning, {}, { populate: ['steps'] });
     }
 
-    async findOne(id: string): Promise<ELearning> {
+    async findOne(id: number): Promise<ELearning> {
         return this.em.findOneOrFail(ELearning, { id }, { populate: ['steps'] });
     }
 
-    async remove(id: string): Promise<void> {
+    async remove(id: number): Promise<void> {
         const eLearning = await this.em.findOneOrFail(ELearning, { id });
         await this.em.removeAndFlush(eLearning);
     }

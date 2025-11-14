@@ -1,5 +1,4 @@
 import { Entity, PrimaryKey, Property, ManyToOne, Collection, OneToMany, OptionalProps } from '@mikro-orm/core';
-import { v4 } from 'uuid';
 import { Universe } from '../../universes/entities/universe.entity';
 import { User } from '../../users/entities/user.entity';
 
@@ -7,8 +6,8 @@ import { User } from '../../users/entities/user.entity';
 export class Unit {
   [OptionalProps]?: 'createdAt' | 'updatedAt';
 
-  @PrimaryKey({ type: 'uuid' })
-  id: string = v4();
+  @PrimaryKey()
+  id!: number;
 
   @Property()
   name!: string;
