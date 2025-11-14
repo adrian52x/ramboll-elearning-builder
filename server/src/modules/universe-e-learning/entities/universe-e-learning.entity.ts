@@ -2,8 +2,8 @@ import { Entity, PrimaryKey, Property, ManyToOne, OptionalProps } from '@mikro-o
 import { Universe } from '../../universes/entities/universe.entity';
 import { ELearning } from '../../e-learnings/entities/e-learning.entity';
 
-@Entity({ tableName: 'e_learning_assignments' })
-export class ELearningAssignment {
+@Entity({ tableName: 'universe_e_learnings' })
+export class UniverseELearning {
   [OptionalProps]?: 'assignedAt';
 
   @PrimaryKey()

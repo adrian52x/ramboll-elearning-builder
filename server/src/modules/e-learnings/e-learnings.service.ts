@@ -4,7 +4,7 @@ import { ELearning } from './entities/e-learning.entity';
 import { Step } from '../steps/entities/step.entity';
 import { Block } from '../blocks/entities/block.entity';
 import { StepBlock } from '../step-blocks/entities/step-block.entity';
-import { ELearningAssignment } from '../e-learning-assignments/entities/e-learning-assignment.entity';
+import { UniverseELearning } from '../universe-e-learning/entities/universe-e-learning.entity';
 import { Universe } from '../universes/entities/universe.entity';
 import { CreateELearningDto } from './dto/create-e-learning.dto';
 import { buildBlockContent } from '../../common/utils/block.utils';
@@ -81,7 +81,7 @@ export class ELearningsService {
             // 5. Assign to universes
             for (const universeId of dto.universeIds) {
                 const universe = await em.findOneOrFail(Universe, { id: universeId });
-                em.create(ELearningAssignment, {
+                em.create(UniverseELearning, {
                     universe,
                     eLearning,
                 });

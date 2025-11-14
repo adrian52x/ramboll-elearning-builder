@@ -7,7 +7,7 @@ import { ELearning } from '../../modules/e-learnings/entities/e-learning.entity'
 import { Step } from '../../modules/steps/entities/step.entity';
 import { Block, BlockType } from '../../modules/blocks/entities/block.entity';
 import { StepBlock } from '../../modules/step-blocks/entities/step-block.entity';
-import { ELearningAssignment } from '../../modules/e-learning-assignments/entities/e-learning-assignment.entity';
+import { UniverseELearning } from '../../modules/universe-e-learning/entities/universe-e-learning.entity';
 import * as bcrypt from 'bcrypt';
 
 export class DatabaseSeeder extends Seeder {
@@ -219,12 +219,12 @@ export class DatabaseSeeder extends Seeder {
     });
 
     // Assign E-Learning 1 to Universe 1 and Universe 2
-    em.create(ELearningAssignment, {
+    em.create(UniverseELearning, {
       universe: universe1,
       eLearning: eLearning1,
     });
 
-    em.create(ELearningAssignment, {
+    em.create(UniverseELearning, {
       universe: universe2,
       eLearning: eLearning1,
     });
@@ -300,7 +300,7 @@ export class DatabaseSeeder extends Seeder {
     });
 
     // Assign E-Learning 2 to Universe 3
-    em.create(ELearningAssignment, {
+    em.create(UniverseELearning, {
       universe: universe3,
       eLearning: eLearning2,
     });
