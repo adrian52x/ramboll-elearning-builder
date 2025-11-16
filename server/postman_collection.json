@@ -1,0 +1,517 @@
+{
+	"info": {
+		"_postman_id": "ramboll-elearning-api",
+		"name": "Ramboll E-Learning API",
+		"description": "Complete API collection for the E-Learning Course Builder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Universes",
+			"item": [
+				{
+					"name": "Get All Universes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/universes",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "universes"]
+						}
+					}
+				},
+				{
+					"name": "Get Universe by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/universes/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "universes", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Universe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"New Universe\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/universes",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "universes"]
+						}
+					}
+				},
+				{
+					"name": "Update Universe",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Universe Name\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/universes/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "universes", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Universe",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/universes/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "universes", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Units",
+			"item": [
+				{
+					"name": "Get All Units",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/units",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "units"]
+						}
+					}
+				},
+				{
+					"name": "Get Unit by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/units/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "units", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Unit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"New Unit\",\n  \"universe_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/units",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "units"]
+						}
+					}
+				},
+				{
+					"name": "Update Unit",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Unit Name\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/units/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "units", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Unit",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/units/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "units", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"newuser@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"user\",\n  \"unit_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"updated@example.com\",\n  \"role\": \"incept-admin\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "E-Learnings",
+			"item": [
+				{
+					"name": "Get All E-Learnings (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/e-learnings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "e-learnings"]
+						},
+						"description": "Get all e-learnings without filtering. Use for admin view."
+					}
+				},
+				{
+					"name": "Get My E-Learnings (User - Mock Auth)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/e-learnings?universeId=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "e-learnings"],
+							"query": [
+								{
+									"key": "universeId",
+									"value": "1",
+									"description": "Filter by universe ID (simulates logged-in user). Change to 2 or 3 to see different universes."
+								}
+							]
+						},
+						"description": "Get e-learnings filtered by universe (simulates what a logged-in user would see). Returns light data for list view."
+					}
+				},
+				{
+					"name": "Get E-Learning by ID (Detail View)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/e-learnings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "e-learnings", "1"]
+						},
+						"description": "Get single e-learning with full details including steps, blocks (in order), and universe assignments. Use for detail view."
+					}
+				},
+				{
+					"name": "Create E-Learning (Transactional)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"New Sustainability Course\",\n  \"description\": \"Learn about environmental responsibility\",\n  \"steps\": [\n    {\n      \"title\": \"Introduction\",\n      \"orderIndex\": 1,\n      \"blocks\": [\n        {\n          \"newBlock\": {\n            \"type\": \"video\",\n            \"headline\": \"Welcome Video\",\n            \"description\": \"Introduction to the course\",\n            \"video_url\": \"https://example.com/video.mp4\"\n          },\n          \"orderIndex\": 1\n        },\n        {\n          \"existingBlockId\": 1,\n          \"orderIndex\": 2\n        }\n      ]\n    },\n    {\n      \"title\": \"Assessment\",\n      \"orderIndex\": 2,\n      \"blocks\": [\n        {\n          \"newBlock\": {\n            \"type\": \"feedback_activity\",\n            \"headline\": \"Your Feedback\",\n            \"description\": \"Share your thoughts\",\n            \"question\": \"What did you learn?\"\n          },\n          \"orderIndex\": 1\n        }\n      ]\n    }\n  ],\n  \"universeIds\": [1, 2]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/e-learnings",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "e-learnings"]
+						}
+					}
+				},
+				{
+					"name": "Delete E-Learning",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/e-learnings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "e-learnings", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Blocks",
+			"item": [
+				{
+					"name": "Get All Blocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks"]
+						}
+					}
+				},
+				{
+					"name": "Get Block by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Video Block",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"video\",\n  \"headline\": \"Introduction Video\",\n  \"description\": \"Learn the basics\",\n  \"video_url\": \"https://example.com/video.mp4\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks"]
+						}
+					}
+				},
+				{
+					"name": "Create Image Block",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"image\",\n  \"headline\": \"Visual Guide\",\n  \"description\": \"Important images\",\n  \"image_urls\": [\n    \"https://example.com/image1.jpg\",\n    \"https://example.com/image2.jpg\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks"]
+						}
+					}
+				},
+				{
+					"name": "Create Interactive Tabs Block",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"interactive_tabs\",\n  \"headline\": \"Explore Topics\",\n  \"description\": \"Click each tab to learn more\",\n  \"tabs\": [\n    {\n      \"title\": \"Topic 1\",\n      \"description\": \"First topic details\",\n      \"content_url\": \"https://example.com/topic1.html\"\n    },\n    {\n      \"title\": \"Topic 2\",\n      \"description\": \"Second topic details\",\n      \"content_url\": \"https://example.com/topic2.html\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks"]
+						}
+					}
+				},
+				{
+					"name": "Create Flip Cards Block",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"flip_cards\",\n  \"headline\": \"Test Your Knowledge\",\n  \"description\": \"Flip each card to see the answer\",\n  \"cards\": [\n    {\n      \"front\": \"What is sustainability?\",\n      \"back\": \"Meeting present needs without compromising future generations\"\n    },\n    {\n      \"front\": \"Name a renewable energy source\",\n      \"back\": \"Solar, wind, or hydroelectric power\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks"]
+						}
+					}
+				},
+				{
+					"name": "Create Feedback Activity Block",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"feedback_activity\",\n  \"headline\": \"Share Your Thoughts\",\n  \"description\": \"Help us improve\",\n  \"question\": \"What did you find most valuable in this course?\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks"]
+						}
+					}
+				},
+				{
+					"name": "Update Block",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"headline\": \"Updated Headline\",\n  \"description\": \"Updated description\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Block",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/blocks/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "blocks", "1"]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
