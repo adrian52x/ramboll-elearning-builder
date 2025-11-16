@@ -259,7 +259,7 @@
 			"name": "E-Learnings",
 			"item": [
 				{
-					"name": "Get All E-Learnings",
+					"name": "Get All E-Learnings (Admin)",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -267,11 +267,32 @@
 							"raw": "{{baseUrl}}/api/e-learnings",
 							"host": ["{{baseUrl}}"],
 							"path": ["api", "e-learnings"]
-						}
+						},
+						"description": "Get all e-learnings without filtering. Use for admin view."
 					}
 				},
 				{
-					"name": "Get E-Learning by ID",
+					"name": "Get My E-Learnings (User - Mock Auth)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/e-learnings?universeId=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "e-learnings"],
+							"query": [
+								{
+									"key": "universeId",
+									"value": "1",
+									"description": "Filter by universe ID (simulates logged-in user). Change to 2 or 3 to see different universes."
+								}
+							]
+						},
+						"description": "Get e-learnings filtered by universe (simulates what a logged-in user would see). Returns light data for list view."
+					}
+				},
+				{
+					"name": "Get E-Learning by ID (Detail View)",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -279,7 +300,8 @@
 							"raw": "{{baseUrl}}/api/e-learnings/1",
 							"host": ["{{baseUrl}}"],
 							"path": ["api", "e-learnings", "1"]
-						}
+						},
+						"description": "Get single e-learning with full details including steps, blocks (in order), and universe assignments. Use for detail view."
 					}
 				},
 				{

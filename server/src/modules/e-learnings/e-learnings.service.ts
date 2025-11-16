@@ -92,12 +92,37 @@ export class ELearningsService {
         });
     }
 
+    /**
+     * Get all e-learnings with minimal data (for list view)
+     */
     async findAll(): Promise<ELearning[]> {
-        return this.em.find(ELearning, {}, { populate: ['steps'] });
+        return this.em.find(ELearning, {}, { 
+            populate: ['universeElearnings.universe'],
+            orderBy: { createdAt: 'DESC' }
+        });
     }
 
+    /**
+     * Get all e-learnings assigned to a specific universe (for logged-in user's universe)
+     * Light population for list view - only basic info
+     */
+    async findAllByUniverseId(universeId: number): Promise<ELearning[]> {
+        return this.em.find(ELearning, {
+            universeElearnings: { universe: { id: universeId } }
+        }, { 
+            populate: ['universeElearnings.universe'],
+            orderBy: { createdAt: 'DESC' }
+        });
+    }
+
+    /**
+     * Get single e-learning with full deep population (for detail view)
+     * Includes steps, blocks with proper order, and universe assignments
+     */
     async findOne(id: number): Promise<ELearning> {
-        return this.em.findOneOrFail(ELearning, { id }, { populate: ['steps'] });
+        return this.em.findOneOrFail(ELearning, { id }, { 
+            populate: ['steps.stepBlocks.block', 'universeElearnings'] as any
+        });
     }
 
     async remove(id: number): Promise<void> {

@@ -8,6 +8,7 @@ import { UnitsModule } from './modules/units/units.module';
 import { UsersModule } from './modules/users/users.module';
 import { ELearningsModule } from './modules/e-learnings/e-learnings.module';
 import config from '../mikro-orm.config';
+import { BlocksModule } from './modules/blocks/blocks.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import config from '../mikro-orm.config';
     UnitsModule,
     UsersModule,
     ELearningsModule,
+    BlocksModule
   ],
   controllers: [AppController],
   providers: [AppService],

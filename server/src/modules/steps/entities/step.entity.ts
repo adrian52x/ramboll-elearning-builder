@@ -1,6 +1,5 @@
-import { Entity, PrimaryKey, Property, ManyToOne, ManyToMany, Collection, OptionalProps } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, ManyToOne, OneToMany, Collection, OptionalProps } from '@mikro-orm/core';
 import { ELearning } from '../../e-learnings/entities/e-learning.entity';
-import { Block } from '../../blocks/entities/block.entity';
 import { StepBlock } from '../../step-blocks/entities/step-block.entity';
 
 @Entity({ tableName: 'steps' })
@@ -19,11 +18,8 @@ export class Step {
   @Property()
   orderIndex!: number;
 
-  @ManyToMany(() => Block, block => block.steps, { 
-    owner: true,
-    pivotEntity: () => StepBlock,
-  })
-  blocks = new Collection<Block>(this);
+  @OneToMany(() => StepBlock, stepBlock => stepBlock.step)
+  stepBlocks = new Collection<StepBlock>(this);
 
   @Property({ onCreate: () => new Date() })
   createdAt: Date = new Date();

@@ -1,5 +1,4 @@
-import { Entity, PrimaryKey, Property, ManyToMany, Collection, Enum, OptionalProps } from '@mikro-orm/core';
-import { Step } from '../../steps/entities/step.entity';
+import { Entity, PrimaryKey, Property, OneToMany, Collection, Enum, OptionalProps } from '@mikro-orm/core';
 import { StepBlock } from '../../step-blocks/entities/step-block.entity';
 
 export enum BlockType {
@@ -17,10 +16,8 @@ export class Block {
   @PrimaryKey()
   id!: number;
 
-  @ManyToMany(() => Step, step => step.blocks, {
-    pivotEntity: () => StepBlock,
-  })
-  steps = new Collection<Step>(this);
+  @OneToMany(() => StepBlock, stepBlock => stepBlock.block)
+  stepBlocks = new Collection<StepBlock>(this);
 
   @Enum(() => BlockType)
   type!: BlockType;
