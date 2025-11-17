@@ -10,7 +10,7 @@ export class Step {
   @PrimaryKey()
   id!: number;
 
-  @ManyToOne(() => ELearning, { fieldName: 'e_learning_id' })
+  @ManyToOne(() => ELearning, { fieldName: 'e_learning_id', hidden: true })
   eLearning!: ELearning;
 
   @Property()

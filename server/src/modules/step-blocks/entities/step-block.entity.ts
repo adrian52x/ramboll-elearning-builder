@@ -15,10 +15,10 @@ export class StepBlock {
   @PrimaryKey()
   id!: number;
 
-  @ManyToOne(() => Step, { fieldName: 'step_id' })
+  @ManyToOne(() => Step, { fieldName: 'step_id', hidden: true }) // Won't appear in JSON output
   step!: Step;
 
-  @ManyToOne(() => Block, { fieldName: 'block_id' })
+  @ManyToOne(() => Block, { fieldName: 'block_id', hidden: false }) // Will appear in JSON output
   block!: Block;
 
   @Property()
