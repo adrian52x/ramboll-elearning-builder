@@ -4,7 +4,7 @@ import { UniverseELearning } from '../../universe-e-learning/entities/universe-e
 
 @Entity({ tableName: 'universes' })
 export class Universe {
-  [OptionalProps]?: 'createdAt' | 'updatedAt';
+  //[OptionalProps]?: 'createdAt' | 'updatedAt';
 
   @PrimaryKey()
   id!: number;
@@ -12,15 +12,15 @@ export class Universe {
   @Property()
   name!: string;
 
-  @Property()
-  createdAt: Date = new Date();
-
-  @Property({ onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
-
   @OneToMany(() => Unit, (unit) => unit.universe, { orphanRemoval: true })
   units = new Collection<Unit>(this);
 
   @OneToMany(() => UniverseELearning, (universeElearning) => universeElearning.universe)
   universeElearnings = new Collection<UniverseELearning>(this);
+
+  // @Property()
+  // createdAt: Date = new Date();
+
+  // @Property({ onUpdate: () => new Date() })
+  // updatedAt: Date = new Date();
 }

@@ -11,7 +11,7 @@ export enum BlockType {
 
 @Entity({ tableName: 'blocks' })
 export class Block {
-  [OptionalProps]?: 'createdAt' | 'updatedAt';
+  //[OptionalProps]?: 'createdAt' | 'updatedAt';
 
   @PrimaryKey()
   id!: number;
@@ -41,9 +41,9 @@ export class Block {
   @Property({ type: 'json' })
   content!: Record<string, any>;
 
-  @Property({ onCreate: () => new Date() })
-  createdAt: Date = new Date();
+  // @Property({ onCreate: () => new Date() })
+  // createdAt: Date = new Date();
 
-  @Property({ onCreate: () => new Date(), onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
+  // @Property({ onCreate: () => new Date(), onUpdate: () => new Date() })
+  // updatedAt: Date = new Date();
 }

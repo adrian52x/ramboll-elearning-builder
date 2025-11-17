@@ -1,30 +1,46 @@
-import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { ELearningsService } from './e-learnings.service';
 import { CreateELearningDto } from './dto/create-e-learning.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { AdminGuard } from '../auth/guards/admin.guard';
+import { AuthUser } from 'src/common/interfaces/auth.interface';
 
 @Controller('api/e-learnings')
 export class ELearningsController {
   constructor(private readonly eLearningsService: ELearningsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, AdminGuard)
   create(@Body() dto: CreateELearningDto) {
     return this.eLearningsService.create(dto);
   }
 
   /**
-   * Get all e-learnings (admin view or filtered by universe)
-   * Query param: ?universeId=1 (optional, simulates logged-in user's universe)
+   * Get all e-learnings (admin view - no filtering)
    * 
    * Frontend usage:
-   * - List view: GET /api/e-learnings?universeId=1 (returns light data)
-   * - Returns only: id, title, description, assigned universes
+   * - Admin panel: GET /api/e-learnings
+   * - Returns all e-learnings: id, title, description, assigned universes
    */
   @Get()
-  findAll(@Query('universeId', new ParseIntPipe({ optional: true })) universeId?: number) {
-    if (universeId) {
-      return this.eLearningsService.findAllByUniverseId(universeId);
-    }
+  findAll() {
     return this.eLearningsService.findAll();
+  }
+
+  /**
+   * Get e-learnings for current logged-in user's universe
+   * 
+   * Frontend usage:
+   * - User dashboard: GET /api/e-learnings/my
+   * - Automatically filters by user's universe
+   * - Returns only: id, title, description
+   */
+  
+  @Get('my')
+  @UseGuards(JwtAuthGuard)
+  findMyELearnings(@CurrentUser() user: AuthUser) {
+    return this.eLearningsService.findAllByUniverseId(user.universe.id);
   }
 
   /**

@@ -38,7 +38,7 @@ export default defineConfig({
   },
 
   // Show SQL queries in console during development
-  debug: process.env.NODE_ENV === 'development',
+  //debug: process.env.NODE_ENV === 'development',
 
   // Migration settings
   migrations: {

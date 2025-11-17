@@ -9,6 +9,7 @@ import { UsersModule } from './modules/users/users.module';
 import { ELearningsModule } from './modules/e-learnings/e-learnings.module';
 import config from '../mikro-orm.config';
 import { BlocksModule } from './modules/blocks/blocks.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { BlocksModule } from './modules/blocks/blocks.module';
       envFilePath: '.env',
     }),
     MikroOrmModule.forRoot(config),
+    AuthModule,
     UniversesModule,
     UnitsModule,
     UsersModule,

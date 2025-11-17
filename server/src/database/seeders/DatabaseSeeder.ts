@@ -54,29 +54,29 @@ export class DatabaseSeeder extends Seeder {
 
     // Create Users
     const adminUser = em.create(User, {
-      username: 'admin@incept.dk',
-      password: await bcrypt.hash('admin123', 10),
-      role: UserRole.INCEPT_ADMIN,
+      username: 'admin',
+      password: await bcrypt.hash('123456', 10),
+      role: UserRole.ADMIN,
       unit: company5,
     });
 
     const clientUser1 = em.create(User, {
-      username: 'user1@company1.com',
-      password: await bcrypt.hash('user123', 10),
+      username: 'user1',
+      password: await bcrypt.hash('123456', 10),
       role: UserRole.USER,
       unit: company1,
     });
 
     const clientUser2 = em.create(User, {
-      username: 'user2@company1.com',
-      password: await bcrypt.hash('user123', 10),
+      username: 'user2',
+      password: await bcrypt.hash('123456', 10),
       role: UserRole.USER,
       unit: company1,
     });
 
     const clientUser3 = em.create(User, {
-      username: 'user3@company2.com',
-      password: await bcrypt.hash('user123', 10),
+      username: 'user3',
+      password: await bcrypt.hash('123456', 10),
       role: UserRole.USER,
       unit: company3,
     });

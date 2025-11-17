@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsArray, ValidateNested, IsNumber, IsInt, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsArray, ValidateNested, IsInt, IsOptional, Min, ArrayMinSize } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateBlockDto } from '../../blocks/dto/create-block.dto';
 
@@ -13,11 +13,13 @@ export class CreateELearningDto {
   description?: string;
 
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => CreateStepDto)
   steps!: CreateStepDto[];
 
   @IsArray()
+  //@ArrayMinSize(1)
   @IsInt({ each: true })
   universeIds!: number[];
 }
@@ -27,10 +29,12 @@ export class CreateStepDto {
   @IsNotEmpty()
   title!: string;
 
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   orderIndex!: number;
 
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => BlockAssignmentDto)
   blocks!: BlockAssignmentDto[];
@@ -46,6 +50,7 @@ export class BlockAssignmentDto {
   @Type(() => CreateBlockDto)
   newBlock?: CreateBlockDto;
 
-  @IsNumber()
+  @IsInt()
+  @Min(1)
   orderIndex!: number;
 }

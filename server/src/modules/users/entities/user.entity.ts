@@ -3,12 +3,12 @@ import { Unit } from '../../units/entities/unit.entity';
 
 export enum UserRole {
   USER = 'user',
-  INCEPT_ADMIN = 'incept-admin',
+  ADMIN = 'admin',
 }
 
 @Entity({ tableName: 'users' })
 export class User {
-  [OptionalProps]?: 'createdAt' | 'updatedAt';
+  //[OptionalProps]?: 'createdAt' | 'updatedAt';
 
   @PrimaryKey()
   id!: number;
@@ -25,9 +25,9 @@ export class User {
   @ManyToOne(() => Unit)
   unit!: Unit;
 
-  @Property()
-  createdAt: Date = new Date();
+  // @Property()
+  // createdAt: Date = new Date();
 
-  @Property({ onUpdate: () => new Date() })
-  updatedAt: Date = new Date();
+  // @Property({ onUpdate: () => new Date() })
+  // updatedAt: Date = new Date();
 }

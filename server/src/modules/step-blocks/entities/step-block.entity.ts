@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, ManyToOne, OptionalProps } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, ManyToOne, OptionalProps, Unique, Index } from '@mikro-orm/core';
 import { Step } from '../../steps/entities/step.entity';
 import { Block } from '../../blocks/entities/block.entity';
 
@@ -7,8 +7,10 @@ import { Block } from '../../blocks/entities/block.entity';
  * Stores the order of blocks within each step
  */
 @Entity({ tableName: 'step_blocks' })
+@Unique({ properties: ['step', 'block'] }) // A block can only appear once per step -- composite unique constraint on multiple columns.
+@Unique({ properties: ['step', 'orderIndex'] }) // Each step must have unique order indexes
 export class StepBlock {
-  [OptionalProps]?: 'createdAt';
+  //[OptionalProps]?: 'createdAt';
 
   @PrimaryKey()
   id!: number;
@@ -22,6 +24,6 @@ export class StepBlock {
   @Property()
   orderIndex!: number;
 
-  @Property({ onCreate: () => new Date() })
-  createdAt: Date = new Date();
+  // @Property({ onCreate: () => new Date() })
+  // createdAt: Date = new Date();
 }

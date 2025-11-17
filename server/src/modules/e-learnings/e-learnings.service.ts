@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { EntityManager, UniqueConstraintViolationException } from '@mikro-orm/postgresql';
 import { ELearning } from './entities/e-learning.entity';
 import { Step } from '../steps/entities/step.entity';
 import { Block } from '../blocks/entities/block.entity';
@@ -33,63 +33,70 @@ export class ELearningsService {
      *   universeIds: ["uuid1", "uuid2"]
      * }
      */
-    async create(dto: CreateELearningDto): Promise<ELearning> {
-        return await this.em.transactional(async (em) => {
-            // 1. Create the e-learning
-            const eLearning = em.create(ELearning, {
-                title: dto.title,
-                description: dto.description,
-            });
-
-            // 2. Create steps and assign blocks
-            for (const stepDto of dto.steps) {
-                const step = em.create(Step, {
-                    eLearning,
-                    title: stepDto.title,
-                    orderIndex: stepDto.orderIndex,
+    async create(dto: CreateELearningDto) {
+        try {
+            return await this.em.transactional(async (em) => {
+                // 1. Create the e-learning
+                const eLearning = em.create(ELearning, {
+                    title: dto.title,
+                    description: dto.description,
                 });
 
-                // 3. Handle blocks (create new or reference existing)
-                for (const blockAssignment of stepDto.blocks) {
-                    let block: Block;
+                // 2. Create steps and assign blocks
+                for (const stepDto of dto.steps) {
+                    const step = em.create(Step, {
+                        eLearning,
+                        title: stepDto.title,
+                        orderIndex: stepDto.orderIndex,
+                    });
 
-                    if (blockAssignment.existingBlockId) {
-                        // Reference existing block
-                        block = await em.findOneOrFail(Block, { id: blockAssignment.existingBlockId });
-                    } else if (blockAssignment.newBlock) {
-                        // Create new block
-                        const content = buildBlockContent(blockAssignment.newBlock);
-                        block = em.create(Block, {
-                            type: blockAssignment.newBlock.type,
-                            headline: blockAssignment.newBlock.headline,
-                            description: blockAssignment.newBlock.description,
-                            content,
+                    // 3. Handle blocks (create new or reference existing)
+                    for (const blockAssignment of stepDto.blocks) {
+                        let block: Block;
+
+                        if (blockAssignment.existingBlockId) {
+                            // Reference existing block
+                            block = await em.findOneOrFail(Block, { id: blockAssignment.existingBlockId });
+                        } else if (blockAssignment.newBlock) {
+                            // Create new block
+                            const content = buildBlockContent(blockAssignment.newBlock);
+                            block = em.create(Block, {
+                                type: blockAssignment.newBlock.type,
+                                headline: blockAssignment.newBlock.headline,
+                                description: blockAssignment.newBlock.description,
+                                content,
+                            });
+                        } else {
+                            throw new Error('Each block assignment must have either existingBlockId or newBlock');
+                        }
+
+                        // 4. Create step-block relationship
+                        em.create(StepBlock, {
+                            step,
+                            block,
+                            orderIndex: blockAssignment.orderIndex,
                         });
-                    } else {
-                        throw new Error('Each block assignment must have either existingBlockId or newBlock');
                     }
+                }
 
-                    // 4. Create step-block relationship
-                    em.create(StepBlock, {
-                        step,
-                        block,
-                        orderIndex: blockAssignment.orderIndex,
+                // 5. Assign to universes
+                for (const universeId of dto.universeIds) {
+                    const universe = await em.findOneOrFail(Universe, { id: universeId });
+                    em.create(UniverseELearning, {
+                        universe,
+                        eLearning,
                     });
                 }
-            }
 
-            // 5. Assign to universes
-            for (const universeId of dto.universeIds) {
-                const universe = await em.findOneOrFail(Universe, { id: universeId });
-                em.create(UniverseELearning, {
-                    universe,
-                    eLearning,
-                });
+                await em.flush();
+                return { message: 'E-learning created successfully', id: eLearning.id };
+            });
+        } catch (error) {
+            if (error instanceof UniqueConstraintViolationException) {
+                throw new BadRequestException('Duplicate data detected: ensure all orderIndex values are unique and blocks are not duplicated within steps');
             }
-
-            await em.flush();
-            return eLearning;
-        });
+            throw error;
+        }
     }
 
     /**
