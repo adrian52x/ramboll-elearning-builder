@@ -1,0 +1,55 @@
+[
+    {
+        "id": 2,
+        "title": "Biodiversity and Ecosystems: Awareness Training for Infrastructure",
+        "description": "Understanding the impact of infrastructure projects on biodiversity and ecosystem services",
+        "createdAt": "2025-11-17T00:59:54.248Z",
+        "updatedAt": "2025-11-17T00:59:54.248Z",
+        "universeElearnings": [
+            {
+                "id": 3,
+                "universe": {
+                    "id": 3,
+                    "name": "Ramboll group"
+                },
+                "eLearning": 2,
+                "assignedAt": "2025-11-17T00:59:54.248Z"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Carbon Footprint and Greenhouse Gas Emissions",
+        "description": "Understanding and reducing carbon emissions in infrastructure and construction",
+        "createdAt": "2025-11-17T00:59:54.248Z",
+        "updatedAt": "2025-11-17T00:59:54.248Z",
+        "universeElearnings": []
+    },
+    {
+        "id": 1,
+        "title": "Introduction to Sustainability",
+        "description": "Learn the fundamentals of sustainable development and environmental responsibility",
+        "createdAt": "2025-11-17T00:59:54.240Z",
+        "updatedAt": "2025-11-17T00:59:54.240Z",
+        "universeElearnings": [
+            {
+                "id": 1,
+                "universe": {
+                    "id": 1,
+                    "name": "Swedbank group"
+                },
+                "eLearning": 1,
+                "assignedAt": "2025-11-17T00:59:54.248Z"
+            },
+            {
+                "id": 2,
+                "universe": {
+                    "id": 2,
+                    "name": "Ejendom Danmark"
+                },
+                "eLearning": 1,
+                "assignedAt": "2025-11-17T00:59:54.248Z"
+            }
+        ]
+    }
+]
