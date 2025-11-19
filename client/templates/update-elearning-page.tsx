@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { CreateELearningDto, CreateStepDto, BlockAssignmentDto, BlockType } from "@/types";
-import { createELearning } from "@/lib/api/elearnings";
+import { updateELearning } from "@/lib/api/elearnings";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -22,15 +21,17 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 
+interface UpdateELearningPageProps {
+    eLearningId: number;
+    initialData: CreateELearningDto;
+}
 
-export function CreateELearningPage() {
+export function UpdateELearningPage({ 
+    eLearningId,
+    initialData 
+}: UpdateELearningPageProps) {
     const router = useRouter();
-    const [formData, setFormData] = useState<CreateELearningDto>({
-        title: "",
-        description: "",
-        steps: [],
-        universeIds: []
-    });
+    const [formData, setFormData] = useState<CreateELearningDto>(initialData);
 
     // Update form data from any tab
     const updateFormData = (updates: Partial<CreateELearningDto>) => {
@@ -59,12 +60,12 @@ export function CreateELearningPage() {
         }
         
         try {
-            const newELearning = await createELearning(formData);
-            console.log("E-learning created successfully:", newELearning);
+            const updatedELearning = await updateELearning(eLearningId, formData);
+            console.log("E-learning updated successfully:", updatedELearning);
             router.push("/");
         } catch (error) {
-            console.error("Failed to create e-learning:", error);
-            alert("Failed to create e-learning. Please check the console for details.");
+            console.error("Failed to update e-learning:", error);
+            alert("Failed to update e-learning. Please check the console for details.");
         }
     };
 
@@ -77,7 +78,7 @@ export function CreateELearningPage() {
             <div className="space-y-8">
                 {/* Header */}
                 <h1 className="text-2xl font-bold text-background">
-                    Create New E-Learning
+                    Edit E-Learning
                 </h1>
 
                 <Tabs defaultValue="basic">
@@ -333,6 +334,11 @@ const StructureTab = ({
                                             />
                                         </>
                                     )}
+                                    {block.existingBlockId && (
+                                        <div className="text-sm text-muted-foreground">
+                                            Existing Block ID: {block.existingBlockId}
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -431,7 +437,7 @@ const UniversesTab = ({
                     Cancel
                 </Button>
                 <Button type="button" variant="primary" onClick={onSubmit}>
-                    Create E-Learning
+                    Update E-Learning
                 </Button>
             </div>
         </>

@@ -129,6 +129,6 @@
 
 @layer components {
     .page-wrapper {
-        @apply h-full p-5 bg-pageBackground rounded-l-sm;
+        @apply h-full p-5 bg-pageBackground rounded-l-sm overflow-auto;
     }
 }

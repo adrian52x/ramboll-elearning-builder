@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 interface ELearningCardProps {
     id: number;
     title: string;
-    description: string;
+    description?: string;
     onEdit?: (id: number) => void;
     onDelete?: (id: number) => void;
 }

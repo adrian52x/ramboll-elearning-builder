@@ -3,23 +3,7 @@
 import { ELearningCard } from "@/components/e-learning-card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-
-interface ELearning {
-    id: number;
-    title: string;
-    description: string;
-    createdAt: string;
-    updatedAt: string;
-    universeElearnings: Array<{
-        id: number;
-        universe: {
-            id: number;
-            name: string;
-        };
-        eLearning: number;
-        assignedAt: string;
-    }>;
-}
+import { ELearning } from "@/types";
     
 interface DisplayELearningsPageProps {
     eLearnings: ELearning[];
@@ -29,8 +13,7 @@ export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps
     const router = useRouter();
 
     const handleEdit = (id: number) => {
-        console.log("Edit e-learning:", id);
-        // TODO: Implement edit functionality
+        router.push(`/${id}/edit`);
     };
 
     const handleDelete = (id: number) => {
@@ -67,7 +50,7 @@ export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps
                             key={eLearning.id}
                             id={eLearning.id}
                             title={eLearning.title}
-                            description={eLearning.description}
+                            description={eLearning.description || ""}
                             onEdit={handleEdit}
                             onDelete={handleDelete}
                         />

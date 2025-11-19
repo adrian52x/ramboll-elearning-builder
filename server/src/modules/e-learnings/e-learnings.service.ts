@@ -128,7 +128,7 @@ export class ELearningsService {
      */
     async findOne(id: number): Promise<ELearning> {
         return this.em.findOneOrFail(ELearning, { id }, { 
-            populate: ['steps.stepBlocks.block', 'universeElearnings'] as any
+            populate: ['steps.stepBlocks.block', 'universeElearnings.universe'] 
         });
     }
 

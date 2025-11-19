@@ -1,19 +1,61 @@
-export interface ELearning {
-    id: string;
-    title: string;
-    description: string;
-    created_at: Date;
-    updated_at: Date;
+// API Response Types - List (without full relations)
+export interface Universe {
+    id: number;
+    name: string;
 }
 
-export interface ELearningStep {
-    id: string;
-    e_learning_id: string; // refers to ELearning.id
-    title: string;
-    order_index: number;
-    created_at: Date;
-    updated_at: Date;
+export interface UniverseELearning {
+    id: number;
+    universe: Universe;
+    eLearning: number;
+    assignedAt: string;
 }
+
+export interface ELearning {
+    id: number;
+    title: string;
+    description?: string;
+    createdAt: string;
+    updatedAt: string;
+    universeElearnings: UniverseELearning[];
+    //steps?: Step[];
+}
+
+
+
+// API Response Types - Single E-Learning by ID (with full relations)
+export interface ELearningById {
+    id: number;
+    title: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+    steps: Step[];
+    universeElearnings: UniverseELearning[];
+
+}
+export interface Step {
+    id: number;
+    title: string;
+    orderIndex: number;
+    stepBlocks: StepBlock[];
+}
+export interface StepBlock {
+    id: number;
+    block: Block;
+    orderIndex: number;
+}
+
+// Legacy types (can be deprecated)
+// export interface Step {
+//     id: number;
+//     title: string;
+//     orderIndex: number;
+//     eLearningId: number;
+//     createdAt: string;
+//     updatedAt: string;
+//     stepBlocks?: StepBlock[];
+// }
 
 export enum BlockType {
     VIDEO = "video",
@@ -23,41 +65,39 @@ export enum BlockType {
     FEEDBACK_ACTIVITY = "feedback_activity",
 }
 
-export interface BaseBlock {
-    id: string;
+export interface Block {
+    id: number;
+    type: BlockType;
     headline: string;
-    description: string;
-    step_id: string; // refers to ModuleStep.id
-    order_index: number;
-    created_at: Date;
-    updated_at: Date;
+    description?: string;
+    content: Record<string, any>;
 }
 
-export interface VideoBlock extends BaseBlock {
-    video_url: string;
+// DTO Types for Creating
+export interface CreateELearningDto {
+    title: string;
+    description?: string;
+    steps: CreateStepDto[];
+    universeIds: number[];
 }
 
-export interface ImageBlock extends BaseBlock {
-    image_urls: string[]; // array of image URLs
+export interface CreateStepDto {
+    title: string;
+    orderIndex: number;
+    blocks: BlockAssignmentDto[];
 }
 
-export interface InteractiveTabsBlock extends BaseBlock {
-    tabs: {
-        title: string;
-        content: string;
-        content_url: string;
-    }[];
+export interface BlockAssignmentDto {
+    existingBlockId?: number;
+    newBlock?: CreateBlockDto;
+    orderIndex: number;
 }
 
-export interface FlipCardsBlock extends BaseBlock {
-    cards: {
-        front: string;
-        back: string;
-    }[];
-}
-
-export interface FeedbackActivityBlock extends BaseBlock {
-    question: string;
+export interface CreateBlockDto {
+    type: BlockType;
+    headline: string;
+    description?: string;
+    content: Record<string, any>;
 }
 
 
