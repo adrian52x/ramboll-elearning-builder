@@ -27,7 +27,7 @@ export function CreateELearningPage() {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="bg-card border border-border rounded-lg p-6 space-y-6">
+                    <div className="bg-card border border-neutral-300 shadow-md rounded-md p-6 space-y-6">
                         {/* Title */}
                         <div className="space-y-2">
                             <label
@@ -40,11 +40,11 @@ export function CreateELearningPage() {
                                 id="title"
                                 type="text"
                                 required
-                                className="w-full px-3 py-2 bg-pageBackground border border-input rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                                className="w-full px-3 py-2 bg-neutral-50 border border-input rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                                 placeholder="Enter e-learning title"
                             />
                         </div>
-
+        
                         {/* Description */}
                         <div className="space-y-2">
                             <label
@@ -67,7 +67,7 @@ export function CreateELearningPage() {
                             <label className="text-sm font-medium text-card-foreground">
                                 Cover Image
                             </label>
-                            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+                            <div className="border-2 border-dashed border-input bg-neutral-50 rounded-lg p-8 text-center">
                                 <p className="text-muted-foreground">
                                     Image upload coming soon...
                                 </p>
