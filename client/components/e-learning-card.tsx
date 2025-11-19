@@ -33,14 +33,14 @@ export function ELearningCard({
                 <div className="flex gap-2 justify-end mt-auto">
                     <Button
                         onClick={() => onEdit?.(id)}
-                        variant="primary"
+                        variant="outline"
                         size="sm"
                     >
                         <Edit className="h-4 w-4" />
                     </Button>
                     <Button
                         onClick={() => onDelete?.(id)}
-                        variant="destructive"
+                        variant="outline"
                         size="sm"
                     >
                         <Trash2 className="h-4 w-4" />

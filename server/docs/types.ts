@@ -85,8 +85,6 @@ interface FlipCardsBlock extends BaseBlock {
 
 interface FeedbackActivityBlock extends BaseBlock {
     question: string;
-    response_type: "text" | "option"; // could be extended
-    options?: string[]; // optional, only for "option" type
 }
 
 
@@ -137,6 +135,4 @@ const flipCardsBlockJson = {
 const feedbackActivityBlockJson = {
     "headline": "Feedback Activity",
     "question": "This is a sample feedback activity question.",
-    "response_type": "text", // could be "text" or "option", etc.
-    "options": [], // empty for text response type
 };

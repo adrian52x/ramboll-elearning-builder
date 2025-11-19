@@ -26,11 +26,11 @@ export function AppSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 h-screen bg-sidebar flex flex-col">
+        <aside className="w-54 h-screen bg-background flex flex-col">
             {/* Header */}
-            <div className="p-6 border-b">
-                <div className="text-sm font-semibold">
-                    Ramboll E-Learning Builder
+            <div className="p-6 border-b border-neutral-500">
+                <div className="font-semibold text-lg text-white">
+                    Ramboll E-Learning
                 </div>
             </div>
 
@@ -43,8 +43,8 @@ export function AppSidebar() {
                             href={item.url}
                             className={`flex items-center gap-3 px-3 py-2 rounded-l-lg transition-colors ${
                                 pathname === item.url
-                                    ? "bg-neutral-200 text-orange-500"
-                                    : "hover:bg-neutral-200"
+                                    ? "bg-neutral-200"
+                                    : "hover:bg-neutral-200 text-white hover:text-background"
                             }`}
                         >
                             <item.icon className="h-4 w-4" />

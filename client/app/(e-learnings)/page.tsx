@@ -1,6 +1,6 @@
 import eLearningsData from "@/data/e-learnings.json";
-import { ELearningsPage } from "@/templates/e-learnings-page";
+import { DisplayELearningsPage } from "@/templates/display-elearnings-page";
 
 export default function ELearnings() {
-    return <ELearningsPage eLearnings={eLearningsData} />;
+    return <DisplayELearningsPage eLearnings={eLearningsData} />;
 }
