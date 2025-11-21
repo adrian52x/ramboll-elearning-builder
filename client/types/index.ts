@@ -63,6 +63,7 @@ export enum BlockType {
     INTERACTIVE_TABS = "interactive_tabs",
     FLIP_CARDS = "flip_cards",
     FEEDBACK_ACTIVITY = "feedback_activity",
+    ADD_BLOCK = "add_block",
 }
 
 export interface Block {
