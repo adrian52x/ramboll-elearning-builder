@@ -4,12 +4,14 @@ import { BlockCard } from "@/components/block-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BlockType, StepBlockDTO, CreateStepDto } from "@/types";
-import { Trash2 } from "lucide-react";
+import { generateOutputJSON } from "@/lib/step-builder-utils";
+import { Trash2, GripVertical } from "lucide-react";
 
 
 export default function ContentstepBlocks() {
     const [steps, setSteps] = useState<CreateStepDto[]>([]);
     const [draggedBlockType, setDraggedBlockType] = useState<BlockType | null>(null);
+    const [draggedStepIndex, setDraggedStepIndex] = useState<number | null>(null);
 
     // Add new step
     const addStep = () => {
@@ -37,15 +39,15 @@ export default function ContentstepBlocks() {
     };
 
     // Drag handlers for stepBlocks
-    const handleDragStart = (blockType: BlockType) => {
+    const handleDragStartBlock = (blockType: BlockType) => {
         setDraggedBlockType(blockType);
     };
 
-    const handleDragOver = (e: React.DragEvent) => {
+    const handleDragOverBlock = (e: React.DragEvent) => {
         e.preventDefault();
     };
 
-    const handleDrop = (e: React.DragEvent, stepIndex: number) => {
+    const handleDropBlock = (e: React.DragEvent, stepIndex: number) => {
         e.preventDefault();
         if (!draggedBlockType) return;
 
@@ -79,21 +81,32 @@ export default function ContentstepBlocks() {
         setSteps(newSteps);
     };
 
-    // Generate output JSON
-    const generateOutputJSON = () => {
-        return steps.map(step => ({
-            title: step.title,
-            orderIndex: step.orderIndex,
-            stepBlocks: step.stepBlocks.map(stepBlock => ({
-                newBlock: {
-                    type: stepBlock.newBlock.type,
-                    headline: stepBlock.newBlock.headline,
-                    description: stepBlock.newBlock.description,
-                    content: stepBlock.newBlock.content
-                },
-                orderIndex: stepBlock.orderIndex
-            }))
-        }));
+    // Drag handlers for reordering steps
+    const handleDragStartStep = (stepIndex: number) => {
+        setDraggedStepIndex(stepIndex);
+    };
+
+    const handleDragOverStep = (e: React.DragEvent, stepIndex: number) => {
+        e.preventDefault();
+        if (draggedStepIndex === null || draggedStepIndex === stepIndex) return;
+        
+        const newSteps = [...steps];
+        const draggedStep = newSteps[draggedStepIndex];
+        
+        // Remove from old position
+        newSteps.splice(draggedStepIndex, 1);
+        // Insert at new position
+        newSteps.splice(stepIndex, 0, draggedStep);
+        
+        // Recalculate orderIndex
+        newSteps.forEach((step, i) => step.orderIndex = i);
+        
+        setSteps(newSteps);
+        setDraggedStepIndex(stepIndex);
+    };
+
+    const handleDragEndStep = () => {
+        setDraggedStepIndex(null);
     };
 
     return (
@@ -107,7 +120,7 @@ export default function ContentstepBlocks() {
                                 <div
                                     key={type}
                                     draggable
-                                    onDragStart={() => handleDragStart(type)}
+                                    onDragStart={() => handleDragStartBlock(type)}
                                 >
                                     <BlockCard type={type} />
                                 </div>
@@ -120,51 +133,64 @@ export default function ContentstepBlocks() {
                     <h3 className="text-lg font-semibold">Steps</h3>
                     
                     {steps.map((step, stepIndex) => (
-                        <div key={stepIndex} className="space-y-2">
-                            <div className="flex gap-2 items-center">
-                                <Input
-                                    placeholder={`Enter step ${stepIndex + 1} title`}
-                                    className="bg-white flex-1"
-                                    value={step.title}
-                                    onChange={(e) => updateStepTitle(stepIndex, e.target.value)}
-                                />
-                                <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="sm"
-                                    onClick={() => removeStep(stepIndex)}
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
+                        <div 
+                            key={stepIndex} 
+                            className="flex"
+                            draggable
+                            onDragStart={() => handleDragStartStep(stepIndex)}
+                            onDragOver={(e) => handleDragOverStep(e, stepIndex)}
+                            onDragEnd={handleDragEndStep}
+                        >
+                            <div className="cursor-grab active:cursor-grabbing justify-center flex items-center mr-2">
+                                <GripVertical className="h-8 w-8 text-gray-400" />
                             </div>
+
+                            <div className="flex-1 space-y-2">
+                                <div className="flex gap-2 items-center">
+                                    <Input
+                                        placeholder={`Enter step ${stepIndex + 1} title`}
+                                        className="bg-white flex-1"
+                                        value={step.title}
+                                        onChange={(e) => updateStepTitle(stepIndex, e.target.value)}
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        size="sm"
+                                        onClick={() => removeStep(stepIndex)}
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </div>
                             
-                            <div
-                                className="p-4 border-2 border-gray-500 rounded-lg min-h-[100px]"
-                                onDragOver={handleDragOver}
-                                onDrop={(e) => handleDrop(e, stepIndex)}
-                            >
-                                {step.stepBlocks.length === 0 ? (
-                                    <div className="flex items-center justify-center h-20 text-muted-foreground">
-                                        Drop stepBlocks here
-                                    </div>
-                                ) : (
-                                    <div className="flex gap-4 flex-wrap">
-                                        {step.stepBlocks.map((stepBlock, blockIndex) => (
-                                            <div key={blockIndex} className="relative group">
-                                                <BlockCard type={stepBlock.newBlock.type} />
-                                                <Button
-                                                    type="button"
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                    onClick={() => removeBlock(stepIndex, blockIndex)}
-                                                >
-                                                    <Trash2 className="h-3 w-3" />
-                                                </Button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                <div
+                                    className="p-4 border-2 border-gray-500 rounded-lg min-h-[100px]"
+                                    onDragOver={handleDragOverBlock}
+                                    onDrop={(e) => handleDropBlock(e, stepIndex)}
+                                >
+                                    {step.stepBlocks.length === 0 ? (
+                                        <div className="flex items-center justify-center h-20 text-muted-foreground">
+                                            Drop stepBlocks here
+                                        </div>
+                                    ) : (
+                                        <div className="flex gap-4 flex-wrap">
+                                            {step.stepBlocks.map((stepBlock, blockIndex) => (
+                                                <div key={blockIndex} className="relative group">
+                                                    <BlockCard type={stepBlock.newBlock.type} />
+                                                    <Button
+                                                        type="button"
+                                                        variant="destructive"
+                                                        size="sm"
+                                                        className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                        onClick={() => removeBlock(stepIndex, blockIndex)}
+                                                    >
+                                                        <Trash2 className="h-3 w-3" />
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -185,7 +211,7 @@ export default function ContentstepBlocks() {
                     <div className="mt-8">
                         <h3 className="text-lg font-semibold mb-3">Output JSON Preview</h3>
                         <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">
-                            {JSON.stringify(generateOutputJSON(), null, 2)}
+                            {JSON.stringify(generateOutputJSON(steps), null, 2)}
                         </pre>
                     </div>
                 )}
