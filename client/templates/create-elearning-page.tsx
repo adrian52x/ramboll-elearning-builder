@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { CreateELearningDto, CreateStepDto, BlockAssignmentDto, BlockType } from "@/types";
+import { CreateELearningDto, CreateStepDto, BlockType, StepBlockDTO } from "@/types";
 import { createELearning } from "@/lib/api/elearnings";
 import {
   Card,
@@ -221,7 +221,7 @@ const StructureTab = ({
 
     const addBlockToStep = (stepIndex: number) => {
         const newSteps = [...data.steps];
-        const newBlock: BlockAssignmentDto = {
+        const newBlock: StepBlockDTO = {
             orderIndex: newSteps[stepIndex].stepBlocks.length,
             newBlock: {
                 type: BlockType.VIDEO,
