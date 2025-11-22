@@ -51,7 +51,7 @@ export class ELearningsService {
                     });
 
                     // 3. Handle blocks (create new or reference existing)
-                    for (const blockAssignment of stepDto.blocks) {
+                    for (const blockAssignment of stepDto.stepBlocks) {
                         let block: Block;
 
                         if (blockAssignment.existingBlockId) {

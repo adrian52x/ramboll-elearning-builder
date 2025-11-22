@@ -37,7 +37,7 @@ export class CreateStepDto {
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => BlockAssignmentDto)
-  blocks!: BlockAssignmentDto[];
+  stepBlocks!: BlockAssignmentDto[];
 }
 
 export class BlockAssignmentDto {

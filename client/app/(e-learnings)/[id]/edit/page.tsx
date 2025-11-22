@@ -20,7 +20,7 @@ export default async function EditELearningPage({
             steps: eLearning.steps.map(step => ({
                 title: step.title,
                 orderIndex: step.orderIndex,
-                blocks: step.stepBlocks.map(sb => ({
+                stepBlocks: step.stepBlocks.map(sb => ({
                     existingBlockId: sb.block.id,
                     orderIndex: sb.orderIndex
                 }))

@@ -201,7 +201,7 @@ const StructureTab = ({
         const newStep: CreateStepDto = {
             title: "",
             orderIndex: data.steps.length,
-            blocks: []
+            stepBlocks: []
         };
         onUpdate({ steps: [...data.steps, newStep] });
     };
@@ -222,22 +222,22 @@ const StructureTab = ({
     const addBlockToStep = (stepIndex: number) => {
         const newSteps = [...data.steps];
         const newBlock: BlockAssignmentDto = {
-            orderIndex: newSteps[stepIndex].blocks.length,
+            orderIndex: newSteps[stepIndex].stepBlocks.length,
             newBlock: {
                 type: BlockType.VIDEO,
                 headline: "",
                 content: {}
             }
         };
-        newSteps[stepIndex].blocks = [...newSteps[stepIndex].blocks, newBlock];
+        newSteps[stepIndex].stepBlocks = [...newSteps[stepIndex].stepBlocks, newBlock];
         onUpdate({ steps: newSteps });
     };
 
     const updateBlock = (stepIndex: number, blockIndex: number, updates: any) => {
         const newSteps = [...data.steps];
-        const block = newSteps[stepIndex].blocks[blockIndex];
+        const block = newSteps[stepIndex].stepBlocks[blockIndex];
         if (block.newBlock) {
-            newSteps[stepIndex].blocks[blockIndex] = {
+            newSteps[stepIndex].stepBlocks[blockIndex] = {
                 ...block,
                 newBlock: { ...block.newBlock, ...updates }
             };
@@ -247,7 +247,7 @@ const StructureTab = ({
 
     const removeBlock = (stepIndex: number, blockIndex: number) => {
         const newSteps = [...data.steps];
-        newSteps[stepIndex].blocks = newSteps[stepIndex].blocks.filter((_, i) => i !== blockIndex);
+        newSteps[stepIndex].stepBlocks = newSteps[stepIndex].stepBlocks.filter((_, i) => i !== blockIndex);
         onUpdate({ steps: newSteps });
     };
 
@@ -256,7 +256,7 @@ const StructureTab = ({
             <CardHeader>
                 <CardTitle>E-Learning Structure</CardTitle>
                 <CardDescription>
-                    Define steps and blocks for your e-learning course. At least one step is required.
+                    Define steps and stepBlocks for your e-learning course. At least one step is required.
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -286,7 +286,7 @@ const StructureTab = ({
 
                         <div className="space-y-3">
                             <div className="flex justify-between items-center">
-                                <Label>Blocks</Label>
+                                <Label>stepBlocks</Label>
                                 <Button 
                                     type="button" 
                                     variant="outline" 
@@ -297,7 +297,7 @@ const StructureTab = ({
                                 </Button>
                             </div>
                             
-                            {step.blocks.map((block, blockIndex) => (
+                            {step.stepBlocks.map((block, blockIndex) => (
                                 <div key={blockIndex} className="bg-muted p-3 rounded space-y-2">
                                     <div className="flex justify-between items-start">
                                         <span className="text-sm font-medium">Block {blockIndex + 1}</span>

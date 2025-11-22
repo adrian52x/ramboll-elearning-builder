@@ -1,5 +1,5 @@
 import { BlockType } from "@/types";
-import { Video, Image, TabletSmartphone, CreditCard, MessageSquare, RotateCcwSquare, RotateCwSquare, SquareMousePointer, Plus  } from "lucide-react";
+import { Video, Image, TabletSmartphone, CreditCard, MessageSquare, RotateCcwSquare, RotateCwSquare, SquareMousePointer } from "lucide-react";
 
 interface BlockCardProps {
     type: BlockType;
@@ -43,13 +43,6 @@ export function BlockCard({ type, onClick, className = "" }: BlockCardProps) {
             bgColor: "bg-pink-50",
             iconColor: "text-pink-600",
             borderColor: "border-pink-200"
-        },
-        [BlockType.ADD_BLOCK]: {
-            icon: Plus,
-            label: "Add Block",
-            bgColor: "bg-gray-50",
-            iconColor: "text-gray-600",
-            borderColor: "border-gray-300"
         }
     };
 
@@ -61,7 +54,7 @@ export function BlockCard({ type, onClick, className = "" }: BlockCardProps) {
         <div
             onClick={onClick}
             className={`
-                w-28
+                w-28 h-28
                 flex flex-col items-center justify-center
                 p-4 rounded-lg border-1
                 border-gray-500 border-dashed
