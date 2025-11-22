@@ -8,14 +8,25 @@ export const generateOutputJSON = (steps: CreateStepDto[]) => {
     return steps.map(step => ({
         title: step.title,
         orderIndex: step.orderIndex,
-        stepBlocks: step.stepBlocks.map(stepBlock => ({
-            newBlock: {
-                type: stepBlock.newBlock?.type,
-                headline: stepBlock.newBlock?.headline,
-                description: stepBlock.newBlock?.description,
-                content: stepBlock.newBlock?.content
-            },
-            orderIndex: stepBlock.orderIndex
-        }))
+        stepBlocks: step.stepBlocks.map(stepBlock => {
+            // Handle existing block reference
+            if (stepBlock.existingBlockId !== undefined) {
+                return {
+                    existingBlockId: stepBlock.existingBlockId,
+                    orderIndex: stepBlock.orderIndex
+                };
+            }
+            
+            // Handle new block creation
+            return {
+                newBlock: {
+                    type: stepBlock.newBlock?.type,
+                    headline: stepBlock.newBlock?.headline,
+                    description: stepBlock.newBlock?.description,
+                    content: stepBlock.newBlock?.content
+                },
+                orderIndex: stepBlock.orderIndex
+            };
+        })
     }));
 };

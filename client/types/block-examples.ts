@@ -1,19 +1,24 @@
 // Block Content Examples
 // Sample JSON structures for different block types
 
+import { BlockType } from "./enums";
+
 export const videoBlockExample = {
+    type: BlockType.VIDEO,
     headline: "Sample Video",
     description: "This is a sample video description.",
     video_url: "https://example.com/video.mp4"
 };
 
 export const imageBlockExample = {
+    type: BlockType.IMAGE,
     headline: "Sample Image",
     description: "This is a sample image description.",
     image_urls: ["https://example.com/image.jpg"]
 };
 
 export const interactiveTabsBlockExample = {
+    type: BlockType.INTERACTIVE_TABS,
     headline: "Interactive Tabs",
     description: "This is a sample interactive tabs description.",
     tabs: [
@@ -31,6 +36,7 @@ export const interactiveTabsBlockExample = {
 };
 
 export const flipCardsBlockExample = {
+    type: BlockType.FLIP_CARDS,
     headline: "Flip Cards",
     description: "This is a sample flip cards description.",
     cards: [
@@ -46,6 +52,7 @@ export const flipCardsBlockExample = {
 };
 
 export const feedbackActivityBlockExample = {
+    type: BlockType.FEEDBACK_ACTIVITY,
     headline: "Feedback Activity",
     question: "This is a sample feedback activity question.",
 };

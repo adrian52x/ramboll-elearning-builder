@@ -18,8 +18,8 @@ export interface CreateStepDto {
 }
 
 export interface StepBlockDTO {
-    //existingBlockId?: number;
-    newBlock: CreateBlockDto;
+    existingBlockId?: number;
+    newBlock?: CreateBlockDto;
     orderIndex: number;
 }
 
