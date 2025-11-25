@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BookOpen, Box, Folder } from "lucide-react";
+import { BookOpen, Box, Folder, Plus } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const menuItems = [
@@ -9,6 +9,11 @@ const menuItems = [
         title: "E-learnings",
         icon: BookOpen,
         url: "/",
+    },
+    {
+        title: "Create E-learning",
+        icon: Plus,
+        url: "/create",
     },
     {
         title: "Content Blocks",
