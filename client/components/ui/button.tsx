@@ -9,8 +9,7 @@ const buttonVariants = cva(
             variant: {
                 primary: "bg-background text-white hover:opacity-90",
                 secondary: "bg-secondary text-secondary-foreground hover:opacity-90",
-                outline:
-                    "border border-neutral-300 bg-white hover:border-neutral-400 hover:bg-neutral-50",
+                outline: "border border-neutral-300 bg-white hover:border-neutral-400 hover:bg-neutral-50",
                 destructive: "bg-orange-700 text-white hover:opacity-90",
             },
             size: {
@@ -27,23 +26,13 @@ const buttonVariants = cva(
     }
 );
 
-export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-        VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
     asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
-        return (
-            <button
-                className={cn(buttonVariants({ variant, size, className }))}
-                ref={ref}
-                {...props}
-            />
-        );
-    }
-);
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, asChild = false, ...props }, ref) => {
+    return <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
+});
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

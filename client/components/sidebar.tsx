@@ -29,9 +29,7 @@ export function AppSidebar() {
         <aside className="w-54 h-screen bg-background flex flex-col">
             {/* Header */}
             <div className="p-6 border-b border-neutral-500">
-                <div className="font-semibold text-lg text-white">
-                    Ramboll E-Learning
-                </div>
+                <div className="font-semibold text-lg text-white">Ramboll E-Learning</div>
             </div>
 
             {/* Menu */}
@@ -42,9 +40,7 @@ export function AppSidebar() {
                             key={item.title}
                             href={item.url}
                             className={`flex items-center gap-3 px-3 py-2 rounded-l-lg transition-colors ${
-                                pathname === item.url
-                                    ? "bg-neutral-200"
-                                    : "hover:bg-neutral-200 text-white hover:text-background"
+                                pathname === item.url ? "bg-neutral-200" : "hover:bg-neutral-200 text-white hover:text-background"
                             }`}
                         >
                             <item.icon className="h-4 w-4" />

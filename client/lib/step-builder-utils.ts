@@ -5,28 +5,23 @@ import { CreateStepDto } from "@/types";
  * Maps CreateStepDto array to the exact structure expected by the backend
  */
 export const generateOutputJSON = (steps: CreateStepDto[]) => {
-    return steps.map(step => ({
+    return steps.map((step) => ({
         title: step.title,
         orderIndex: step.orderIndex,
-        stepBlocks: step.stepBlocks.map(stepBlock => {
+        stepBlocks: step.stepBlocks.map((stepBlock) => {
             // Handle existing block reference
             if (stepBlock.existingBlockId !== undefined) {
                 return {
                     existingBlockId: stepBlock.existingBlockId,
-                    orderIndex: stepBlock.orderIndex
+                    orderIndex: stepBlock.orderIndex,
                 };
             }
-            
-            // Handle new block creation
+
+            // Handle new block creation - spread all properties from newBlock
             return {
-                newBlock: {
-                    type: stepBlock.newBlock?.type,
-                    headline: stepBlock.newBlock?.headline,
-                    description: stepBlock.newBlock?.description,
-                    content: stepBlock.newBlock?.content
-                },
-                orderIndex: stepBlock.orderIndex
+                newBlock: stepBlock.newBlock,
+                orderIndex: stepBlock.orderIndex,
             };
-        })
+        }),
     }));
 };

@@ -48,8 +48,8 @@
 
 :root {
     --radius: 0.625rem;
-    --background: #23282d;  /* neutral-200  oklch(0.92 0.00 0); old*/
-    --pageBackground: oklch(0.92 0.00 0);  /* neutral-200  oklch(0.92 0.00 0); old*/
+    --background: #23282d; /* neutral-200  oklch(0.92 0.00 0); old*/
+    --pageBackground: oklch(0.92 0 0); /* neutral-200  oklch(0.92 0.00 0); old*/
     --foreground: oklch(0.145 0 0); /* neutral-950 */
     --incept-primary: #ff8855;
     --incept-secondary: #009df0;

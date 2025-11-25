@@ -3,8 +3,6 @@
 
 import { BlockType } from "./enums";
 
-
-
 // Universe Types
 export interface Universe {
     id: number;

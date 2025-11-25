@@ -4,7 +4,7 @@ import { ELearningCard } from "@/components/e-learning-card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ELearning } from "@/types";
-    
+
 interface DisplayELearningsPageProps {
     eLearnings: ELearning[];
 }
@@ -32,15 +32,12 @@ export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps
                 <div className="flex justify-between items-start">
                     <div className="space-y-2">
                         <h1 className="text-2xl font-bold text-foreground">E-Learnings</h1>
-                        <p className="text-muted-foreground">
-                            Manage your e-learning courses and content.
-                        </p>
+                        <p className="text-muted-foreground">Manage your e-learning courses and content.</p>
                     </div>
-                    
+
                     <Button className="shrink-0 bg-incept-primary" onClick={handleCreate}>
                         + Create New E-Learning
                     </Button>
-
                 </div>
 
                 {/* E-Learning Grid */}

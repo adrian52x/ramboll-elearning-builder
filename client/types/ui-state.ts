@@ -19,6 +19,6 @@
 // };
 
 export enum BlockModalMode {
-    NEW = 'new',
-    EXISTING = 'existing'
+    NEW = "new",
+    EXISTING = "existing",
 }

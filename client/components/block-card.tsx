@@ -14,36 +14,36 @@ export function BlockCard({ type, onClick, className = "" }: BlockCardProps) {
             label: "Video",
             bgColor: "bg-blue-50",
             iconColor: "text-blue-600",
-            borderColor: "border-blue-200"
+            borderColor: "border-blue-200",
         },
         [BlockType.IMAGE]: {
             icon: Image,
             label: "Image",
             bgColor: "bg-green-50",
             iconColor: "text-green-600",
-            borderColor: "border-green-200"
+            borderColor: "border-green-200",
         },
         [BlockType.INTERACTIVE_TABS]: {
             icon: SquareMousePointer,
             label: "Interactive Tabs",
             bgColor: "bg-purple-50",
             iconColor: "text-purple-600",
-            borderColor: "border-purple-200"
+            borderColor: "border-purple-200",
         },
         [BlockType.FLIP_CARDS]: {
             icon: RotateCwSquare,
             label: "Flip Cards",
             bgColor: "bg-orange-50",
             iconColor: "text-orange-600",
-            borderColor: "border-orange-200"
+            borderColor: "border-orange-200",
         },
         [BlockType.FEEDBACK_ACTIVITY]: {
             icon: MessageSquare,
             label: "Feedback",
             bgColor: "bg-pink-50",
             iconColor: "text-pink-600",
-            borderColor: "border-pink-200"
-        }
+            borderColor: "border-pink-200",
+        },
     };
 
     const config = blockConfig[type];
@@ -67,9 +67,7 @@ export function BlockCard({ type, onClick, className = "" }: BlockCardProps) {
             `}
         >
             <Icon className={`h-8 w-8 ${config.iconColor} mb-2`} />
-            <span className={`text-sm font-medium text-center`}>
-                {config.label}
-            </span>
+            <span className={`text-sm font-medium text-center`}>{config.label}</span>
         </div>
     );
 }
