@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
-import { BlockCard } from "@/components/block-card";
+import { BlockCard } from "@/components/cards/block-card";
 import { BlockConfigModal } from "@/components/block-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BlockType, StepBlockDTO, CreateStepDto, CreateBlockDto } from "@/types";
-import { generateOutputJSON } from "@/lib/step-builder-utils";
 import { Trash2 } from "lucide-react";
 import { BlockModalMode } from "@/types/ui-state";
 import { mockExistingBlocks } from "@/data/blocks";
+import { generateStepsJSON } from "@/lib/elearning-builder-utils";
 
 export default function ContentstepBlocks() {
     const [steps, setSteps] = useState<CreateStepDto[]>([]);
@@ -241,7 +241,7 @@ export default function ContentstepBlocks() {
                 {steps.length > 0 && (
                     <div className="mt-8">
                         <h3 className="text-lg font-semibold mb-3">Output JSON Preview</h3>
-                        <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">{JSON.stringify(generateOutputJSON(steps), null, 2)}</pre>
+                        <pre className="bg-gray-100 p-4 rounded-lg overflow-auto max-h-96 text-sm">{JSON.stringify(generateStepsJSON(steps), null, 2)}</pre>
                     </div>
                 )}
             </div>

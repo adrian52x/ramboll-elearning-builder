@@ -1,6 +1,6 @@
 "use client";
 
-import { ELearningCard } from "@/components/e-learning-card";
+import { ELearningCard } from "@/components/cards/e-learning-card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ELearning } from "@/types";

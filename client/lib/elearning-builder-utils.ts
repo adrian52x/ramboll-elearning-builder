@@ -1,10 +1,22 @@
-import { CreateStepDto } from "@/types";
+import { CreateELearningDto } from "@/types";
 
 /**
- * Transforms UI state steps to API request format
- * Maps CreateStepDto array to the exact structure expected by the backend
+ * Transforms UI state e-learning data to API request format
+ * Maps CreateELearningDto to the exact structure expected by the backend
  */
-export const generateOutputJSON = (steps: CreateStepDto[]) => {
+export const generateOutputJSON = (data: CreateELearningDto) => {
+    return {
+        title: data.title,
+        description: data.description,
+        universeIds: data.universeIds,
+        steps: generateStepsJSON(data.steps),
+    };
+};
+
+/**
+ * Helper function to transform steps array
+ */
+export const generateStepsJSON = (steps: CreateELearningDto['steps']) => {
     return steps.map((step) => ({
         title: step.title,
         orderIndex: step.orderIndex,
