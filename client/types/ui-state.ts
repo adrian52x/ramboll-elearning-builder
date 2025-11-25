@@ -17,3 +17,8 @@
 // export type StepDTO = Omit<Step, 'id' | 'stepBlocks'> & {
 //     stepBlocks: StepBlockDTO[];
 // };
+
+export enum BlockModalMode {
+    NEW = 'new',
+    EXISTING = 'existing'
+}

@@ -1,16 +1,24 @@
 'use client';
 import { useState } from "react";
 import { BlockCard } from "@/components/block-card";
+import { BlockConfigModal } from "@/components/block-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { BlockType, StepBlockDTO, CreateStepDto } from "@/types";
+import { BlockType, StepBlockDTO, CreateStepDto, CreateBlockDto } from "@/types";
 import { generateOutputJSON } from "@/lib/step-builder-utils";
 import { Trash2 } from "lucide-react";
+import { BlockModalMode } from "@/types/ui-state";
+import { mockExistingBlocks } from "@/data/blocks";
 
 
 export default function ContentstepBlocks() {
     const [steps, setSteps] = useState<CreateStepDto[]>([]);
     const [draggedBlockType, setDraggedBlockType] = useState<BlockType | null>(null);
+    
+    // Modal state
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedBlock, setSelectedBlock] = useState<{ stepIndex: number; blockIndex: number } | null>(null);
+    const [modalBlockType, setModalBlockType] = useState<BlockType | null>(null);
 
     // Add new step
     const addStep = () => {
@@ -50,6 +58,7 @@ export default function ContentstepBlocks() {
         e.preventDefault();
         if (!draggedBlockType) return;
 
+        // Add a placeholder block
         const newSteps = [...steps];
         const newStepBlock: StepBlockDTO = {
             newBlock: {
@@ -61,13 +70,18 @@ export default function ContentstepBlocks() {
             orderIndex: newSteps[stepIndex].stepBlocks.length
         };
         
-        // Create new stepBlocks array instead of mutating (.push)
         newSteps[stepIndex] = {
             ...newSteps[stepIndex],
             stepBlocks: [...newSteps[stepIndex].stepBlocks, newStepBlock]
         };
         
         setSteps(newSteps);
+        
+        // Open modal on block Dropped - disabled for now
+        // setSelectedBlock({ stepIndex, blockIndex: newSteps[stepIndex].stepBlocks.length - 1 });
+        // setModalBlockType(draggedBlockType);
+        // setIsModalOpen(true);
+        
         setDraggedBlockType(null);
     };
 
@@ -78,6 +92,55 @@ export default function ContentstepBlocks() {
         // Recalculate orderIndex for remaining stepBlocks
         newSteps[stepIndex].stepBlocks.forEach((stepBlock, i) => stepBlock.orderIndex = i);
         setSteps(newSteps);
+    };
+
+    // Handle clicking on a block to edit it
+    const handleBlockClick = (stepIndex: number, blockIndex: number) => {
+        const block = steps[stepIndex].stepBlocks[blockIndex];
+
+        //console.log(block);
+        
+        
+        // Get type from either newBlock or existing block
+        let blockType: BlockType | undefined;
+        
+        if (block.existingBlockId !== undefined) {
+            const existingBlock = mockExistingBlocks.find(b => b.id === block.existingBlockId);
+            blockType = existingBlock?.type;
+        } else {
+            blockType = block.newBlock?.type;
+        }
+        
+        if (!blockType) return;
+        
+        setSelectedBlock({ stepIndex, blockIndex });
+        setModalBlockType(blockType);
+        setIsModalOpen(true);
+    };
+
+    // Handle saving block configuration from modal
+    const handleModalSave = (data: { mode: BlockModalMode; blockData?: CreateBlockDto; existingBlockId?: number }) => {
+        if (!selectedBlock) return;
+        
+        const newSteps = [...steps];
+        const { stepIndex, blockIndex } = selectedBlock;
+        
+        if (data.mode === BlockModalMode.EXISTING && data.existingBlockId) {
+            // Use existing block
+            newSteps[stepIndex].stepBlocks[blockIndex] = {
+                existingBlockId: data.existingBlockId,
+                orderIndex: newSteps[stepIndex].stepBlocks[blockIndex].orderIndex
+            };
+        } else if (data.mode === BlockModalMode.NEW && data.blockData) {
+            // Create new block with filled data
+            newSteps[stepIndex].stepBlocks[blockIndex] = {
+                newBlock: data.blockData,
+                orderIndex: newSteps[stepIndex].stepBlocks[blockIndex].orderIndex
+            };
+        }
+        
+        setSteps(newSteps);
+        setSelectedBlock(null);
     };
 
     return (
@@ -116,7 +179,7 @@ export default function ContentstepBlocks() {
                                 <div className="flex gap-2 items-center">
                                     <Input
                                         placeholder={`Enter step ${stepIndex + 1} title`}
-                                        className="bg-white flex-1"
+                                        className="flex-1"
                                         value={step.title}
                                         onChange={(e) => updateStepTitle(stepIndex, e.target.value)}
                                     />
@@ -130,6 +193,7 @@ export default function ContentstepBlocks() {
                                     </Button>
                                 </div>
                             
+                                {/* Step (Row) Drop Area */}
                                 <div
                                     className="p-4 border-2 border-gray-500 rounded-lg min-h-[100px]"
                                     onDragOver={handleDragOver}
@@ -141,20 +205,51 @@ export default function ContentstepBlocks() {
                                         </div>
                                     ) : (
                                         <div className="flex gap-4 flex-wrap">
-                                            {step.stepBlocks.map((stepBlock, blockIndex) => (
-                                                <div key={blockIndex} className="relative group">
-                                                    <BlockCard type={stepBlock.newBlock.type} />
-                                                    <Button
-                                                        type="button"
-                                                        variant="destructive"
-                                                        size="sm"
-                                                        className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                        onClick={() => removeBlock(stepIndex, blockIndex)}
+                                            {/* Blocks inside each step */}
+                                            {step.stepBlocks.map((stepBlock, blockIndex) => {
+                                                // Determine block type from newBlock or existing block
+                                                // TO DO : move this to a utility function later
+                                                const isExisting = stepBlock.existingBlockId !== undefined;
+                                                const existingBlock = isExisting 
+                                                    ? mockExistingBlocks.find(b => b.id === stepBlock.existingBlockId)
+                                                    : null;
+                                                const blockType = existingBlock?.type || stepBlock.newBlock?.type;
+                                                
+                                                if (!blockType) return null;
+                                                
+                                                return (
+                                                    <div 
+                                                        key={blockIndex} 
+                                                        className="relative group cursor-pointer"
+                                                        onClick={() => handleBlockClick(stepIndex, blockIndex)}
                                                     >
-                                                        <Trash2 className="h-3 w-3" />
-                                                    </Button>
-                                                </div>
-                                            ))}
+                                                        <BlockCard type={blockType} />
+                                                        {/* TO DO // Rething maybe this later */}
+                                                        {existingBlock && (
+                                                            <div className="absolute bottom-1 left-1 right-1 bg-background/90 text-white text-xs px-1 rounded text-center truncate">
+                                                                {existingBlock.headline}
+                                                            </div>
+                                                        )}
+                                                        {stepBlock.newBlock && stepBlock.newBlock.headline && (
+                                                            <div className="absolute bottom-1 left-1 right-1 bg-background/90 text-white text-xs px-1 rounded text-center truncate">
+                                                                {stepBlock.newBlock.headline}
+                                                            </div>
+                                                        )}
+                                                        <Button
+                                                            type="button"
+                                                            variant="destructive"
+                                                            size="sm"
+                                                            className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                removeBlock(stepIndex, blockIndex);
+                                                            }}
+                                                        >
+                                                            <Trash2 className="h-3 w-3" />
+                                                        </Button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -183,6 +278,23 @@ export default function ContentstepBlocks() {
                     </div>
                 )}
             </div>
+
+            {/* Block Configuration Modal */}
+            <BlockConfigModal
+                key={selectedBlock ? `${selectedBlock.stepIndex}-${selectedBlock.blockIndex}` : 'new'}
+                isOpen={isModalOpen}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    setSelectedBlock(null);
+                    setModalBlockType(null);
+                }}
+                // TO DO : Send StepBlockDTO object instead of initialData + initialExistingBlockId
+                blockType={modalBlockType}
+                initialData={selectedBlock ? steps[selectedBlock.stepIndex].stepBlocks[selectedBlock.blockIndex].newBlock : undefined}
+                initialExistingBlockId={selectedBlock ? steps[selectedBlock.stepIndex].stepBlocks[selectedBlock.blockIndex].existingBlockId : undefined}
+                existingBlocks={mockExistingBlocks}
+                onSave={handleModalSave}
+            />
         </div>
     );
 }
