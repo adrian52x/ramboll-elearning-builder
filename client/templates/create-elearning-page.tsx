@@ -18,7 +18,8 @@ export function CreateELearningPage() {
         universeIds: [],
     });
 
-    // Update form data from any tab
+    /* Update form data from any tab
+    Only updates the specific field, preserving other form data */
     const updateFormData = (updates: Partial<CreateELearningDto>) => {
         setFormData((prev) => ({ ...prev, ...updates }));
     };
@@ -82,7 +83,7 @@ export function CreateELearningPage() {
                 </Tabs>
 
                 {/* JSON Output */}
-                <Card className="mt-6">
+                <Card>
                     <CardHeader>
                         <CardTitle>JSON Output Preview</CardTitle>
                     </CardHeader>

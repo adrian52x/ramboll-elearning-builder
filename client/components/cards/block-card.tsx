@@ -54,9 +54,9 @@ export function BlockCard({ type, onClick, className = "" }: BlockCardProps) {
         <div
             onClick={onClick}
             className={`
-                w-28 h-28
+                w-24 h-24
                 flex flex-col items-center justify-center
-                p-4 rounded-lg border-1
+                rounded-lg border-1
                 border-gray-500 border-dashed
                 cursor-pointer
                 transition-all duration-200
@@ -66,7 +66,7 @@ export function BlockCard({ type, onClick, className = "" }: BlockCardProps) {
                 ${className}
             `}
         >
-            <Icon className={`h-8 w-8 ${config.iconColor} mb-2`} />
+            <Icon className={`h-8 w-8 ${config.iconColor} mb-1`} />
             <span className={`text-sm font-medium text-center`}>{config.label}</span>
         </div>
     );

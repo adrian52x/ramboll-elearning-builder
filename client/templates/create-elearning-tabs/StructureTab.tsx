@@ -133,28 +133,24 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
 
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>E-Learning Structure</CardTitle>
-                <CardDescription>Define steps and blocks for your e-learning course. At least one step is required.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-                {/* Block Palette */}
-                <div>
-                    <h3 className="text-lg font-semibold mb-3">Available Blocks (Drag to add)</h3>
-                    <div className="flex gap-4 flex-wrap">
-                        {Object.values(BlockType).map((type) => (
-                            <div key={type} draggable onDragStart={() => handleDragStart(type)}>
-                                <BlockCard type={type} />
-                            </div>
-                        ))}
-                    </div>
+            <CardHeader className="justify-center items-center sticky top-[-20px] z-5">
+                <div className="flex gap-4 flex-wrap border-b-2 border-background rounded-lg shadow-xl p-3 bg-white w-full">
+                    {Object.values(BlockType).map((type) => (
+                        <div key={type} draggable onDragStart={() => handleDragStart(type)}>
+                            <BlockCard type={type} />
+                        </div>
+                    ))}
                 </div>
-
+            </CardHeader>
+            <div className="flex justify-center w-full">
+                <span className="text-muted-foreground">Available Blocks (Drag to add)</span>
+            </div>
+            <CardContent className="space-y-6">
                 {/* Steps */}
                 <div className="space-y-6">
                     <div className="flex items-center justify-between">
                         <h3 className="text-lg font-semibold">Steps</h3>
-                        <Button type="button" variant="outline" onClick={addStep}>
+                        <Button className="z-10" type="button" variant="outline" onClick={addStep}>
                             Add Step
                         </Button>
                     </div>
@@ -178,7 +174,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                             value={step.title}
                                             onChange={(e) => updateStep(stepIndex, { title: e.target.value })}
                                         />
-                                        <Button type="button" variant="destructive" size="sm" onClick={() => removeStep(stepIndex)}>
+                                        <Button className="z-10" type="button" variant="destructive" size="sm" onClick={() => removeStep(stepIndex)}>
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
                                     </div>
