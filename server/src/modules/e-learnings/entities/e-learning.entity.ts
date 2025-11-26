@@ -18,7 +18,7 @@ export class ELearning {
   @OneToMany(() => Step, step => step.eLearning, { orphanRemoval: true })
   steps = new Collection<Step>(this);
 
-  @OneToMany(() => UniverseELearning, (universeElearning) => universeElearning.eLearning)
+  @OneToMany(() => UniverseELearning, (universeElearning) => universeElearning.eLearning, { orphanRemoval: true })
   universeElearnings = new Collection<UniverseELearning>(this);
   //universes = new Collection<UniverseELearning>(this);
 

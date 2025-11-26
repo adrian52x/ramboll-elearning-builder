@@ -11,7 +11,7 @@ export class ELearningsController {
   constructor(private readonly eLearningsService: ELearningsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, AdminGuard)
+  //@UseGuards(JwtAuthGuard, AdminGuard)
   create(@Body() dto: CreateELearningDto) {
     return this.eLearningsService.create(dto);
   }

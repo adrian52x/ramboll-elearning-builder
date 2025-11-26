@@ -132,8 +132,14 @@ export class ELearningsService {
         });
     }
 
+    /**
+     * Need to populate the relationships before deleting, 
+     * so MikroORM knows what children to remove.
+     */
     async remove(id: number): Promise<void> {
-        const eLearning = await this.em.findOneOrFail(ELearning, { id });
+        const eLearning = await this.em.findOneOrFail(ELearning, { id }, {
+            populate: ['steps.stepBlocks', 'universeElearnings']
+        });
         await this.em.removeAndFlush(eLearning);
     }
 }

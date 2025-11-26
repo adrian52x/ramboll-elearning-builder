@@ -19,7 +19,7 @@ export class Step {
   @Property()
   title!: string;
 
-  @OneToMany(() => StepBlock, stepBlock => stepBlock.step)
+  @OneToMany(() => StepBlock, stepBlock => stepBlock.step, { orphanRemoval: true })
   stepBlocks = new Collection<StepBlock>(this);
 
   // @Property({ onCreate: () => new Date() })

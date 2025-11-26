@@ -30,7 +30,7 @@ export class CreateStepDto {
   title!: string;
 
   @IsInt()
-  @Min(1)
+  @Min(0)
   orderIndex!: number;
 
   @IsArray()
@@ -51,6 +51,6 @@ export class BlockAssignmentDto {
   newBlock?: CreateBlockDto;
 
   @IsInt()
-  @Min(1)
+  @Min(0)
   orderIndex!: number;
 }

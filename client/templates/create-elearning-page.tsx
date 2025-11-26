@@ -46,8 +46,8 @@ export function CreateELearningPage() {
         }
 
         try {
-            //const newELearning = await createELearning(formData);
-            console.log("E-learning created successfully:", formData);
+            const newELearning = await createELearning(formData);
+            console.log("E-learning created successfully:", newELearning);
             //router.push("/");
         } catch (error) {
             console.error("Failed to create e-learning:", error);

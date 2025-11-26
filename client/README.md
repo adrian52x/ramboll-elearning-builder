@@ -10,3 +10,12 @@
 
     form input:
     className="w-full px-3 py-2 bg-neutral-50 border border-input rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+
+TO DO (later):
+
+Preview routes 
+
+/preview/block/{id}
+/preview/elearning/{1}
+
+Components that will show case block/elearning (Ramboll style)
