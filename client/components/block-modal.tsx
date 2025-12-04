@@ -106,7 +106,7 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
         <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Configure {blockType.replace("_", " ")} Block</DialogTitle>
+                    <DialogTitle>Configure "{blockType}" Block</DialogTitle>
                     <DialogDescription>Create a new block or select an existing one</DialogDescription>
                 </DialogHeader>
 
@@ -132,7 +132,7 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
 
                     <TabsContent value={BlockModalMode.EXISTING} className="space-y-4 mt-4">
                         {filteredExistingBlocks.length === 0 ? (
-                            <div className="text-center py-8 text-gray-500">No existing {blockType.replace("_", " ")} blocks available</div>
+                            <div className="text-center py-8 text-gray-500">No existing {blockType} blocks available</div>
                         ) : (
                             <div className="grid grid-cols-3 gap-3">
                                 {filteredExistingBlocks.map((block) => (
