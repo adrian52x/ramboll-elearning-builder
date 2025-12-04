@@ -83,7 +83,7 @@ export function VideoBlockForm({ videoUrl, onVideoUrlChange }: VideoBlockFormPro
                             <Video className="w-8 h-8 text-gray-600" />
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-gray-900">Video uploaded</p>
-                                <p className="text-xs text-gray-500 truncate">{videoUrl}</p>
+                                <p className="text-xs text-gray-500 break-all overflow-hidden">{videoUrl}</p>
                             </div>
                         </div>
                     </div>
