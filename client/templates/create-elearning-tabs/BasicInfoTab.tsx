@@ -8,6 +8,7 @@ import { uploadFile } from "@/lib/api/uploads";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface BasicInfoTabProps {
     data: CreateELearningDto;
@@ -60,13 +61,13 @@ export const BasicInfoTab = ({ data, onUpdate, onCancel }: BasicInfoTabProps) =>
                     <label htmlFor="title" className="text-sm font-medium text-card-foreground">
                         Title *
                     </label>
-                    <input
+                    <Input
                         id="title"
                         type="text"
                         required
                         value={data.title}
                         onChange={(e) => handleChange("title", e.target.value)}
-                        className="w-full px-3 py-2 bg-neutral-50 border border-input rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                        className="bg-neutral-50"
                         placeholder="Enter e-learning title"
                     />
                 </div>
@@ -76,12 +77,12 @@ export const BasicInfoTab = ({ data, onUpdate, onCancel }: BasicInfoTabProps) =>
                     <label htmlFor="description" className="text-sm font-medium text-card-foreground">
                         Description
                     </label>
-                    <textarea
+                    <Textarea
                         id="description"
                         rows={4}
                         value={data.description || ""}
                         onChange={(e) => handleChange("description", e.target.value)}
-                        className="w-full px-3 py-2 bg-neutral-50 border border-input rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                        className="bg-neutral-50"
                         placeholder="Enter e-learning description"
                     />
                 </div>
@@ -107,6 +108,7 @@ export const BasicInfoTab = ({ data, onUpdate, onCancel }: BasicInfoTabProps) =>
                         value={data.coverImage}
                         onChange={(e) => handleChange("coverImage", e.target.value)}
                         disabled={uploading}
+                        className="bg-neutral-50"
                     />
                     {uploading && (
                         <div className="flex items-center gap-2 text-sm text-blue-600">
