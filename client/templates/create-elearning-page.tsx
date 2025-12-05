@@ -14,6 +14,7 @@ export function CreateELearningPage() {
     const [formData, setFormData] = useState<CreateELearningDto>({
         title: "",
         description: "",
+        coverImage: "",
         steps: [],
         universeIds: [],
     });

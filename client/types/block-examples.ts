@@ -7,14 +7,14 @@ export const videoBlockExample = {
     type: BlockType.VIDEO,
     headline: "Sample Video",
     description: "This is a sample video description.",
-    video_url: "https://example.com/video.mp4",
+    videoUrl: "https://example.com/video.mp4",
 };
 
 export const imageBlockExample = {
     type: BlockType.IMAGE,
     headline: "Sample Image",
     description: "This is a sample image description.",
-    image_urls: ["https://example.com/image.jpg"],
+    imageUrls: ["https://example.com/image.jpg"],
 };
 
 export const interactiveTabsBlockExample = {
@@ -25,12 +25,12 @@ export const interactiveTabsBlockExample = {
         {
             title: "Box 1",
             content: "This is the content of box 1.",
-            content_url: "https://example.com/box1-content",
+            contentUrl: "https://example.com/box1-content",
         },
         {
             title: "Box 2",
             content: "This is the content of box 2.",
-            content_url: "https://example.com/box2-content",
+            contentUrl: "https://example.com/box2-content",
         },
     ],
 };

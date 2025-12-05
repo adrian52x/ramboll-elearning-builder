@@ -13,6 +13,7 @@ export default async function EditELearningPage({ params }: { params: Promise<{ 
         const initialData = {
             title: eLearning.title,
             description: eLearning.description,
+            coverImage: eLearning.coverImage,
             steps: eLearning.steps.map((step) => ({
                 title: step.title,
                 orderIndex: step.orderIndex,

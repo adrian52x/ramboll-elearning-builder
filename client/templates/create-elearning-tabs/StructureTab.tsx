@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { CreateELearningDto, CreateStepDto, BlockType, StepBlockDTO, CreateBlockDto } from "@/types";
+import { CreateELearningDto, CreateStepDto, BlockType, StepBlockDTO, CreateBlockDto, Block } from "@/types";
 import { BlockCard } from "@/components/cards/block-card";
 import { BlockConfigModal } from "@/components/block-modal";
 import { BlockModalMode } from "@/types/ui-state";
-import { mockExistingBlocks } from "@/data/blocks";
+import { getAllBlocks } from "@/lib/api/blocks";
 import { Trash2 } from "lucide-react";
 
 interface StructureTabProps {
@@ -17,6 +17,8 @@ interface StructureTabProps {
 }
 
 export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
+    const [existingBlocks, setExistingBlocks] = useState<Block[]>([]);
+    const [loadingBlocks, setLoadingBlocks] = useState(true);
     const [draggedBlockType, setDraggedBlockType] = useState<BlockType | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBlock, setSelectedBlock] = useState<{
@@ -24,6 +26,20 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
         blockIndex: number;
     } | null>(null);
     const [modalBlockType, setModalBlockType] = useState<BlockType | null>(null);
+
+    useEffect(() => {
+        const fetchBlocks = async () => {
+            try {
+                const blocks = await getAllBlocks();
+                setExistingBlocks(blocks);
+            } catch (error) {
+                console.error('Failed to fetch blocks:', error);
+            } finally {
+                setLoadingBlocks(false);
+            }
+        };
+        fetchBlocks();
+    }, []);
 
     const addStep = () => {
         const newStep: CreateStepDto = {
@@ -94,7 +110,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
         let blockType: BlockType | undefined;
 
         if (block.existingBlockId !== undefined) {
-            const existingBlock = mockExistingBlocks.find((b) => b.id === block.existingBlockId);
+            const existingBlock = existingBlocks.find((b) => b.id === block.existingBlockId);
             blockType = existingBlock?.type;
         } else {
             blockType = block.newBlock?.type;
@@ -192,7 +208,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                                 {step.stepBlocks.map((stepBlock, blockIndex) => {
                                                     const isExisting = stepBlock.existingBlockId !== undefined;
                                                     const existingBlock = isExisting
-                                                        ? mockExistingBlocks.find((b) => b.id === stepBlock.existingBlockId)
+                                                        ? existingBlocks.find((b) => b.id === stepBlock.existingBlockId)
                                                         : null;
                                                     const blockType = existingBlock?.type || stepBlock.newBlock?.type;
 
@@ -253,7 +269,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                     initialExistingBlockId={
                         selectedBlock ? data.steps[selectedBlock.stepIndex].stepBlocks[selectedBlock.blockIndex].existingBlockId : undefined
                     }
-                    existingBlocks={mockExistingBlocks}
+                    existingBlocks={existingBlocks}
                     onSave={handleModalSave}
                 />
             </CardContent>

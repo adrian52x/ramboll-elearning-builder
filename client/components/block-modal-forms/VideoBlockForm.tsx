@@ -27,10 +27,10 @@ export function VideoBlockForm({ videoUrl, onVideoUrlChange }: VideoBlockFormPro
             return;
         }
 
-        // Validate file size (50MB max)
-        const maxSize = 50 * 1024 * 1024;
+        // Validate file size (500MB max)
+        const maxSize = 500 * 1024 * 1024;
         if (file.size > maxSize) {
-            setError('File size must be less than 50MB');
+            setError('File size must be less than 500MB');
             return;
         }
 

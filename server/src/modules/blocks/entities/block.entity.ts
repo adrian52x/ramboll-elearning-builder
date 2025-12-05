@@ -32,9 +32,9 @@ export class Block {
    * Type-specific content stored as JSON
    * 
    * Examples:
-   * - VIDEO: { video_url: string }
-   * - IMAGE: { image_urls: string[] }
-   * - INTERACTIVE_TABS: { tabs: Array<{ title, description, content_url }> }
+   * - VIDEO: { videoUrl: string }
+   * - IMAGE: { imageUrls: string[] }
+   * - INTERACTIVE_TABS: { tabs: Array<{ title, description, contentUrl }> }
    * - FLIP_CARDS: { cards: Array<{ front, back }> }
    * - FEEDBACK_ACTIVITY: { question }
    */

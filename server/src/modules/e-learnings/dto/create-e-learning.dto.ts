@@ -12,6 +12,10 @@ export class CreateELearningDto {
   @IsOptional()
   description?: string;
 
+  @IsString()
+  @IsNotEmpty()
+  coverImage!: string;
+
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })

@@ -15,6 +15,9 @@ export class ELearning {
   @Property({ type: 'text', nullable: true })
   description?: string;
 
+  @Property()
+  coverImage!: string;
+
   @OneToMany(() => Step, step => step.eLearning, { orphanRemoval: true })
   steps = new Collection<Step>(this);
 

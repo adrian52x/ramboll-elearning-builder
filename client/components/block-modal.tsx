@@ -29,8 +29,8 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
     const [description, setDescription] = useState(initialData?.description || "");
 
     // Type-specific fields
-    const [videoUrl, setVideoUrl] = useState(initialData?.video_url || "");
-    const [imageUrls, setImageUrls] = useState(initialData?.image_urls || []);
+    const [videoUrl, setVideoUrl] = useState(initialData?.videoUrl || "");
+    const [imageUrls, setImageUrls] = useState(initialData?.imageUrls || []);
     const [question, setQuestion] = useState(initialData?.question || "");
     const [tabs, setTabs] = useState(initialData?.tabs || []);
     const [cards, setCards] = useState(initialData?.cards || []);
@@ -49,8 +49,8 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
                 type: blockType,
                 headline,
                 description,
-                ...(blockType === BlockType.VIDEO && { video_url: videoUrl }),
-                ...(blockType === BlockType.IMAGE && { image_urls: imageUrls }),
+                ...(blockType === BlockType.VIDEO && { videoUrl: videoUrl }),
+                ...(blockType === BlockType.IMAGE && { imageUrls: imageUrls }),
                 ...(blockType === BlockType.INTERACTIVE_TABS && { tabs }),
                 ...(blockType === BlockType.FLIP_CARDS && { cards }),
                 ...(blockType === BlockType.FEEDBACK_ACTIVITY && { question }),

@@ -11,6 +11,7 @@
     --font-mono: var(--font-geist-mono);
     --color-incept-primary: var(--incept-primary);
     --color-incept-secondary: var(--incept-secondary);
+    --color-incept-green: var(--incept-green);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -53,6 +54,7 @@
     --foreground: oklch(0.145 0 0); /* neutral-950 */
     --incept-primary: #ff8855;
     --incept-secondary: #009df0;
+    --incept-green: #ACD092;
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);

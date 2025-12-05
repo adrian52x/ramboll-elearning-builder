@@ -7,14 +7,14 @@ export const mockExistingBlocks = [
         type: BlockType.VIDEO,
         headline: "Safety Introduction Video",
         description: "Overview of workplace safety procedures",
-        content: { video_url: "https://example.com/safety-intro.mp4" },
+        content: { videoUrl: "https://example.com/safety-intro.mp4" },
     },
     {
         id: 2,
         type: BlockType.VIDEO,
         headline: "Equipment Training Video",
         description: "How to use safety equipment",
-        content: { video_url: "https://example.com/equipment-training.mp4" },
+        content: { videoUrl: "https://example.com/equipment-training.mp4" },
     },
     {
         id: 3,
@@ -22,7 +22,7 @@ export const mockExistingBlocks = [
         headline: "Equipment Photos",
         description: "Essential safety equipment images",
         content: {
-            image_urls: ["https://example.com/equipment1.jpg", "https://example.com/equipment2.jpg"],
+            imageUrls: ["https://example.com/equipment1.jpg", "https://example.com/equipment2.jpg"],
         },
     },
     {

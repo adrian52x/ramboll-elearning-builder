@@ -43,8 +43,8 @@ export class UploadsService {
             );
         }
 
-        // Validate file size (50MB max)
-        const maxSize = 50 * 1024 * 1024; // 50MB
+        // Validate file size (500MB max)
+        const maxSize = 500 * 1024 * 1024; // 500MB
         if (file.size > maxSize) {
             throw new BadRequestException('File size exceeds 50MB limit');
         }
