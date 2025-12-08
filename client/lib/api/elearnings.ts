@@ -32,7 +32,7 @@ export async function fetchELearningById(id: number): Promise<ELearningById> {
     return response.json();
 }
 
-export async function createELearning(data: CreateELearningDto): Promise<ELearning> {
+export async function createELearning(data: CreateELearningDto): Promise<{id: number; message: string}> {
     const response = await fetch(`${API_BASE_URL}/e-learnings`, {
         method: "POST",
         headers: {

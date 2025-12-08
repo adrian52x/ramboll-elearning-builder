@@ -72,7 +72,7 @@ export const UniversesTab = ({ data, onUpdate, onSubmit, onCancel }: UniversesTa
                     Cancel
                 </Button>
                 <Button type="button" variant="primary" onClick={onSubmit}>
-                    Create E-Learning
+                    Submit
                 </Button>
             </div>
         </>

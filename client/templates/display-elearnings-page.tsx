@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ELearning } from "@/types";
 import { use } from "react";
+import { deleteELearning } from "@/lib/api/elearnings";
 
 interface DisplayELearningsPageProps {
     eLearnings: ELearning[];
@@ -21,9 +22,14 @@ export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps
         router.push(`/${id}/edit`);
     };
 
-    const handleDelete = (id: number) => {
-        console.log("Delete e-learning:", id);
-        // TODO: Implement delete functionality
+    const handleDelete = async (id: number) => {
+        try {
+            await deleteELearning(id);
+            alert(`E-Learning deleted successfully! ID: ${id}`);
+            router.refresh();
+        } catch (error) {
+            alert(`Failed to delete e-learning: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
     };
 
     const handleCreate = () => {
