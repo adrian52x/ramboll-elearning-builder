@@ -116,7 +116,7 @@ export const BasicInfoTab = ({ data, onUpdate, onCancel }: BasicInfoTabProps) =>
                             <span>Uploading image...</span>
                         </div>
                     )}
-                    {data.coverImage && !uploading && data.coverImage.startsWith('http') && (
+                    {data.coverImage && !uploading && (
                         <div className="p-3 border rounded-lg bg-gray-50">
                             <div className="flex items-center gap-3">
                                 <ImageIcon className="w-6 h-6 text-gray-600 shrink-0" />

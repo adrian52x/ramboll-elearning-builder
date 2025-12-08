@@ -8,16 +8,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateOutputJSON } from "@/lib/elearning-builder-utils";
 import { BasicInfoTab, StructureTab, UniversesTab } from "./create-elearning-tabs";
+import mockElearning from "@/data/create-elearning-mock.json"
 
 export function CreateELearningPage() {
+    // For testing with mock data, uncomment the line below
+    const mockData: CreateELearningDto = mockElearning;
+
     const router = useRouter();
-    const [formData, setFormData] = useState<CreateELearningDto>({
-        title: "",
-        description: "",
-        coverImage: "",
-        steps: [],
-        universeIds: [],
-    });
+    // const [formData, setFormData] = useState<CreateELearningDto>({
+    //     title: "",
+    //     description: "",
+    //     coverImage: "",
+    //     steps: [],
+    //     universeIds: [],
+    // });
+
+    const [formData, setFormData] = useState<CreateELearningDto>(mockData);
 
     /* Update form data from any tab
     Only updates the specific field, preserving other form data */

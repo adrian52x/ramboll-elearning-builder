@@ -4,12 +4,17 @@ import { ELearningCard } from "@/components/cards/e-learning-card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ELearning } from "@/types";
+import { use } from "react";
 
 interface DisplayELearningsPageProps {
     eLearnings: ELearning[];
+    //eLearningsPromise: Promise<ELearning[]>;
 }
 
 export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps) {
+    
+    //const eLearnings = use(eLearningsPromise);
+    
     const router = useRouter();
 
     const handleEdit = (id: number) => {
