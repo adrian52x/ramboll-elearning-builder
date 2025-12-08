@@ -8,6 +8,7 @@ export const generateOutputJSON = (data: CreateELearningDto) => {
     return {
         title: data.title,
         description: data.description,
+        coverImage: data.coverImage,
         universeIds: data.universeIds,
         steps: generateStepsJSON(data.steps),
     };

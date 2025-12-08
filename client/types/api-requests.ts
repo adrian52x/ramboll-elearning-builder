@@ -7,6 +7,7 @@ import { BlockType } from "./enums";
 export interface CreateELearningDto {
     title: string;
     description?: string;
+    coverImage: string;
     steps: CreateStepDto[];
     universeIds: number[];
 }
@@ -29,10 +30,10 @@ export interface CreateBlockDto {
     description?: string;
 
     // VIDEO BLOCK FIELDS
-    video_url?: string;
+    videoUrl?: string;
 
     // IMAGE BLOCK FIELDS
-    image_urls?: string[];
+    imageUrls?: string[];
 
     // INTERACTIVE TABS FIELDS
     tabs?: TabDto[];
@@ -47,8 +48,8 @@ export interface CreateBlockDto {
 // Supporting types for nested structures
 export interface TabDto {
     title: string;
-    description: string;
-    content_url: string;
+    description?: string;
+    contentUrl: string;
 }
 
 export interface CardDto {

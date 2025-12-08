@@ -10,6 +10,7 @@ import { ELearningsModule } from './modules/e-learnings/e-learnings.module';
 import config from '../mikro-orm.config';
 import { BlocksModule } from './modules/blocks/blocks.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { UploadsModule } from './modules/uploads/uploads.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { AuthModule } from './modules/auth/auth.module';
     UnitsModule,
     UsersModule,
     ELearningsModule,
-    BlocksModule
+    BlocksModule,
+    UploadsModule
   ],
   controllers: [AppController],
   providers: [AppService],

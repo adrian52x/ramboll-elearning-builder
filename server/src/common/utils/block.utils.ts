@@ -5,10 +5,10 @@ import { CreateBlockDto } from '../../modules/blocks/dto/create-block.dto';
 export function buildBlockContent(blockDto: CreateBlockDto): Record<string, any> {
   switch (blockDto.type) {
     case BlockType.VIDEO:
-      return { video_url: blockDto.video_url };
+      return { videoUrl: blockDto.videoUrl };
 
     case BlockType.IMAGE:
-      return { image_urls: blockDto.image_urls };
+      return { imageUrls: blockDto.imageUrls };
 
     case BlockType.INTERACTIVE_TABS:
       return { tabs: blockDto.tabs };

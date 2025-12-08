@@ -10,6 +10,8 @@ import { StepBlock } from '../../modules/step-blocks/entities/step-block.entity'
 import { UniverseELearning } from '../../modules/universe-e-learning/entities/universe-e-learning.entity';
 import * as bcrypt from 'bcrypt';
 
+const STORAGE_BASE_URL = 'http://localhost:9000/elearning-resources/';
+
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
     // Create Universes
@@ -87,11 +89,12 @@ export class DatabaseSeeder extends Seeder {
     const eLearning1 = em.create(ELearning, {
       title: 'Introduction to Sustainability',
       description: 'Learn the fundamentals of sustainable development and environmental responsibility',
+      coverImage: STORAGE_BASE_URL + 'placeholders/coverImage1.png',
     });
 
     // Step 1 - What is Sustainability
     const step1 = em.create(Step, {
-      eLearning: eLearning1,
+      eLearning: eLearning1, 
       title: 'Understanding Sustainability',
       orderIndex: 1,
     });
@@ -101,7 +104,7 @@ export class DatabaseSeeder extends Seeder {
       headline: 'Introduction to Sustainable Development',
       description: 'Watch this overview of sustainability principles',
       content: {
-        video_url: 'https://example.com/videos/sustainability-intro.mp4',
+        videoUrl: STORAGE_BASE_URL + 'placeholders/video-placeholder.mp4',
       },
     });
 
@@ -124,9 +127,9 @@ export class DatabaseSeeder extends Seeder {
       description: 'Visual representation of sustainability dimensions',
       content: {
         image_urls: [
-          'https://example.com/images/sustainability-pillars.jpg',
-          'https://example.com/images/circular-economy.jpg',
-          'https://example.com/images/sdg-goals.jpg',
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
         ],
       },
     });
@@ -140,17 +143,17 @@ export class DatabaseSeeder extends Seeder {
           {
             title: 'Environmental',
             description: 'Protecting natural resources and ecosystems',
-            content_url: 'https://example.com/content/environmental.html',
+            contentUrl: STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           },
           {
             title: 'Social',
             description: 'Ensuring equity and human wellbeing',
-            content_url: 'https://example.com/content/social.html',
+            contentUrl: STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           },
           {
             title: 'Economic',
             description: 'Building viable and resilient economies',
-            content_url: 'https://example.com/content/economic.html',
+            contentUrl: STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           },
         ],
       },
@@ -230,38 +233,39 @@ export class DatabaseSeeder extends Seeder {
     });
 
     // ============================================
-    // E-LEARNING 2: Biodiversity and Ecosystems
+    // E-LEARNING 2: Resource Management and Circular Economy
     // ============================================
     const eLearning2 = em.create(ELearning, {
-      title: 'Biodiversity and Ecosystems: Awareness Training for Infrastructure',
-      description: 'Understanding the impact of infrastructure projects on biodiversity and ecosystem services',
+      title: 'Resource Management and Circular Economy: Awareness Training for Infrastructure',
+      description: 'Learn how to implement circular economy principles and optimize resource management in infrastructure projects',
+      coverImage: STORAGE_BASE_URL + 'placeholders/coverImage2.png',
     });
 
-    // Step 1 - Biodiversity Basics
+    // Step 1 - Circular Economy Fundamentals
     const step4 = em.create(Step, {
       eLearning: eLearning2,
-      title: 'Why Biodiversity Matters',
+      title: 'Understanding Circular Economy',
       orderIndex: 1,
     });
 
     const imageBlock2 = em.create(Block, {
       type: BlockType.IMAGE,
-      headline: 'Ecosystem Diversity',
-      description: 'Examples of diverse ecosystems affected by infrastructure',
+      headline: 'Linear vs Circular Resource Flow',
+      description: 'Comparing traditional linear economy with circular economy models',
       content: {
-        image_urls: [
-          'https://example.com/images/forest-ecosystem.jpg',
-          'https://example.com/images/wetland-biodiversity.jpg',
+        imageUrls: [
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
         ],
       },
     });
 
     const videoBlock2 = em.create(Block, {
       type: BlockType.VIDEO,
-      headline: 'Infrastructure and Nature',
-      description: 'How construction impacts local ecosystems',
+      headline: 'Circular Economy in Infrastructure',
+      description: 'Real-world examples of resource optimization in construction',
       content: {
-        video_url: 'https://example.com/videos/infrastructure-biodiversity.mp4',
+        videoUrl: STORAGE_BASE_URL + 'placeholders/video-placeholder.mp4',
       },
     });
 
@@ -277,19 +281,19 @@ export class DatabaseSeeder extends Seeder {
       orderIndex: 2,
     });
 
-    // Step 2 - Best Practices
+    // Step 2 - Implementation Strategies
     const step5 = em.create(Step, {
       eLearning: eLearning2,
-      title: 'Protecting Biodiversity in Projects',
+      title: 'Applying Circular Principles',
       orderIndex: 2,
     });
 
     const feedbackBlock2 = em.create(Block, {
       type: BlockType.FEEDBACK_ACTIVITY,
-      headline: 'Biodiversity Action Plan',
-      description: 'Reflect on mitigation strategies',
+      headline: 'Your Resource Management Plan',
+      description: 'Reflect on circular economy implementation',
       content: {
-        question: 'What measures can you take to minimize biodiversity impact in your projects?',
+        question: 'How can you apply circular economy principles to reduce waste and optimize resource use in your infrastructure projects?',
       },
     });
 
@@ -311,6 +315,7 @@ export class DatabaseSeeder extends Seeder {
     const eLearning3 = em.create(ELearning, {
       title: 'Carbon Footprint and Greenhouse Gas Emissions',
       description: 'Understanding and reducing carbon emissions in infrastructure and construction',
+      coverImage: STORAGE_BASE_URL + 'placeholders/coverImage3.png',
     });
 
     // Step 1 - Understanding Carbon Footprint
@@ -325,7 +330,7 @@ export class DatabaseSeeder extends Seeder {
       headline: 'Carbon Emissions Explained',
       description: 'Learn about greenhouse gases and climate impact',
       content: {
-        video_url: 'https://example.com/videos/carbon-footprint-basics.mp4',
+        videoUrl: STORAGE_BASE_URL + 'placeholders/video-placeholder.mp4',
       },
     });
 
@@ -351,17 +356,17 @@ export class DatabaseSeeder extends Seeder {
           {
             title: 'Scope 1',
             description: 'Direct emissions from owned sources',
-            content_url: 'https://example.com/content/scope1.html',
+            contentUrl: STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           },
           {
             title: 'Scope 2',
             description: 'Indirect emissions from purchased energy',
-            content_url: 'https://example.com/content/scope2.html',
+            contentUrl: STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           },
           {
             title: 'Scope 3',
             description: 'All other indirect emissions in value chain',
-            content_url: 'https://example.com/content/scope3.html',
+            contentUrl: STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           },
         ],
       },
@@ -372,10 +377,10 @@ export class DatabaseSeeder extends Seeder {
       headline: 'Carbon Reduction Strategies',
       description: 'Visual guide to emission reduction methods',
       content: {
-        image_urls: [
-          'https://example.com/images/renewable-energy.jpg',
-          'https://example.com/images/carbon-capture.jpg',
-          'https://example.com/images/efficient-transport.jpg',
+        imageUrls: [
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
+          STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
         ],
       },
     });
@@ -460,6 +465,42 @@ export class DatabaseSeeder extends Seeder {
       clientUser3,
     ]);
 
+    
+    // ============================================
+    // STANDALONE BLOCKS (not attached to any e-learning)
+    // ============================================
+    
+    // Flip Cards Block - Key terminology
+    em.create(Block, {
+      type: BlockType.FLIP_CARDS,
+      headline: 'Key terminology (Biodiversity and ecosystems)',
+      content: {
+        cards: [
+          {
+            front: 'Ecosystems',
+            back: 'A ecosystem is a community or group of living organisms that live in and interact with each other and their surroundings in a specific area.',
+          },
+          {
+            front: 'Biodiversity',
+            back: 'Biodiversity — short for biological diversity — is the variety of all living things and their interactions. Biodiversity changes over time as extinction occurs and new species evolve. Scientists often speak of three levels of diversity: Species, genetic, and ecosystem diversity.',
+          },
+          {
+            front: 'Blue & green infrastructure (BGI)',
+            back: 'Blue and green infrastructure refers to using water bodies and urban parks, trees, and ditches deliberately to increase ecosystem services such as water retention, reduction of the temperature and air pollution to increase the recreational value and habitats for biodiversity within the city. It is heavily linked to nature-based solutions in its design and implementation.',
+          },
+        ],
+      },
+    });
+
+    // Image Block - Global and infrastructure biodiversity statistics
+    em.create(Block, {
+      type: BlockType.IMAGE,
+      headline: 'Global and infrastructure biodiversity statistics',
+      content: {
+        imageUrls: [STORAGE_BASE_URL + 'placeholders/img-existing-block.jpg'],
+      },
+    });
+
     console.log('✅ Database seeded successfully!');
     console.log('---');
     console.log('Created 3 universes:');
@@ -475,7 +516,12 @@ export class DatabaseSeeder extends Seeder {
     console.log('---');
     console.log('Created 3 sustainability e-learnings:');
     console.log('  1. Introduction to Sustainability (3 steps, 5 blocks) → Universe 1 & 2');
-    console.log('  2. Biodiversity and Ecosystems (2 steps, 3 blocks) → Universe 3');
+    console.log('  2. Resource Management and Circular Economy (2 steps, 3 blocks) → Universe 3');
     console.log('  3. Carbon Footprint and GHG Emissions (3 steps, 5 blocks) → Unassigned');
+    console.log('---');
+    console.log('Created standalone blocks:');
+    console.log('  - Flip Cards: Key terminology (Biodiversity and ecosystems)');
+    console.log('  - Image Block: Global and infrastructure biodiversity statistics');
+
   }
 }

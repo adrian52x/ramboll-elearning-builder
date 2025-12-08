@@ -21,6 +21,7 @@ export interface ELearning {
     id: number;
     title: string;
     description?: string;
+    coverImage: string;
     createdAt: string;
     updatedAt: string;
     universeElearnings: UniverseELearning[];
@@ -30,6 +31,7 @@ export interface ELearningById {
     id: number;
     title: string;
     description: string;
+    coverImage: string;
     createdAt: string;
     updatedAt: string;
     steps: Step[];

@@ -40,6 +40,7 @@ export class ELearningsService {
                 const eLearning = em.create(ELearning, {
                     title: dto.title,
                     description: dto.description,
+                    coverImage: dto.coverImage,
                 });
 
                 // 2. Create steps and assign blocks

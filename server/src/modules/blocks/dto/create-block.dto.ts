@@ -20,15 +20,15 @@ export class CreateBlockDto {
 
   // ========== VIDEO BLOCK FIELDS ==========
   @ValidateIf(o => o.type === BlockType.VIDEO)
-  @IsUrl()
+  @IsString()
   @IsNotEmpty()
-  video_url?: string;
+  videoUrl?: string;
 
   // ========== IMAGE BLOCK FIELDS ==========
   @ValidateIf(o => o.type === BlockType.IMAGE)
   @IsArray()
-  @IsUrl({}, { each: true })
-  image_urls?: string[];
+  @IsString({ each: true })
+  imageUrls?: string[];
 
   // ========== INTERACTIVE TABS FIELDS ==========
   @ValidateIf(o => o.type === BlockType.INTERACTIVE_TABS)
@@ -58,12 +58,12 @@ class TabDto {
   title!: string;
 
   @IsString()
-  @IsNotEmpty()
-  description!: string;
+  @IsOptional()
+  description?: string;
 
-  @IsUrl()
+  @IsString()
   @IsNotEmpty()
-  content_url!: string;
+  contentUrl!: string;
 }
 
 class CardDto {
