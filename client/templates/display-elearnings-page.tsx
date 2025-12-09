@@ -46,7 +46,7 @@ export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps
                         <p className="text-muted-foreground">Manage your e-learning courses and content.</p>
                     </div>
 
-                    <Button className="shrink-0 bg-incept-primary" onClick={handleCreate}>
+                    <Button className="shrink-0" onClick={handleCreate}>
                         + Create New E-Learning
                     </Button>
                 </div>
