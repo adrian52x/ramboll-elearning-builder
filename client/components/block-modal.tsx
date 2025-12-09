@@ -9,6 +9,7 @@ import { Block, BlockType, CreateBlockDto } from "@/types";
 import { Textarea } from "@/components/ui/textarea";
 import { BlockModalMode } from "@/types/ui-state";
 import { VideoBlockForm, ImageBlockForm, InteractiveTabsForm, FlipCardsForm, FeedbackActivityForm } from "./block-modal-forms";
+import { BlockCard } from "./cards/block-card";
 
 interface BlockConfigModalProps {
     isOpen: boolean;
@@ -134,22 +135,15 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
                         {filteredExistingBlocks.length === 0 ? (
                             <div className="text-center py-8 text-gray-500">No existing {blockType} blocks available</div>
                         ) : (
-                            <div className="grid grid-cols-3 gap-3">
+                            <div className="flex flex-wrap gap-4">
                                 {filteredExistingBlocks.map((block) => (
-                                    <div
-                                        key={block.id}
+                                    <BlockCard
+                                        key={block.id} 
                                         onClick={() => setSelectedExistingBlock(block.id)}
-                                        className={`
-                                            p-3 border rounded-lg cursor-pointer transition-all 
-                                            ${selectedExistingBlock === block.id ? "border-background bg-background/10" : "border-gray-300 hover:border-gray-400 bg-white"}
-                                        `}
-                                    >
-                                        <div className="space-y-2">
-                                            <h4 className="font-medium text-sm">{block.headline}</h4>
-                                            {block.description && <p className="text-xs text-gray-500 line-clamp-2">{block.description}</p>}
-                                            <span className="inline-block text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">ID: {block.id}</span>
-                                        </div>
-                                    </div>
+                                        type={block.type} 
+                                        headline={block.headline}
+                                        className={`w-26 h-26 ${selectedExistingBlock === block.id ? "ring-2 ring-primary ring-offset-2" : ""}`}
+                                    />
                                 ))}
                             </div>
                         )}
