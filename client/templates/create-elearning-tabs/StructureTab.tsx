@@ -220,8 +220,8 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                                             className="relative group cursor-pointer"
                                                             onClick={() => handleBlockClick(stepIndex, blockIndex)}
                                                         >
-                                                            <BlockCard type={blockType} />
-                                                            {existingBlock && (
+                                                            <BlockCard type={blockType} headline={existingBlock?.headline || stepBlock.newBlock?.headline} variant="default" />
+                                                            {/* {existingBlock && (
                                                                 <div className="absolute bottom-1 left-1 right-1 bg-background/90 text-white text-xs px-1 rounded text-center truncate">
                                                                     {existingBlock.headline}
                                                                 </div>
@@ -230,7 +230,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                                                 <div className="absolute bottom-1 left-1 right-1 bg-background/90 text-white text-xs px-1 rounded text-center truncate">
                                                                     {stepBlock.newBlock.headline}
                                                                 </div>
-                                                            )}
+                                                            )} */}
                                                             <Button
                                                                 type="button"
                                                                 variant="destructive"
