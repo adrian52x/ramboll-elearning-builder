@@ -7,7 +7,7 @@ import { updateELearning } from "@/lib/api/elearnings";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateOutputJSON } from "@/lib/elearning-builder-utils";
-import { BasicInfoTab, StructureTab, UniversesTab } from "./create-elearning-tabs";
+import { BasicInfoTab, StructureTab, UniversesTab } from "../components/create-elearning-tabs";
 
 interface UpdateELearningPageProps {
     eLearningId: number;
