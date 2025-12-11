@@ -10,10 +10,10 @@ export const useGetElearnings = () => {
     return { elearnings, isPending, isError };
 };
 
-export const useGetELearningById = (id: number) => {
+export const useGetELearningById = (id: number | undefined) => {
     const { data: elearning, isPending, isError } = useQuery({
         queryKey: ['elearning', id],
-        queryFn: () => ELearningAPI.fetchELearningById(id),
+        queryFn: () => ELearningAPI.fetchELearningById(id!),
         enabled: !!id, // only run the query if id is provided
     });
     return { elearning, isPending, isError };
@@ -35,7 +35,7 @@ export const useCreateELearning = () => {
 
 export const useDeleteELearning = () => {
     const queryClient = useQueryClient();
-    
+
     const deleteELearning = useMutation({
         mutationFn: (id: number) => ELearningAPI.deleteELearning(id),
         onSuccess: () => {

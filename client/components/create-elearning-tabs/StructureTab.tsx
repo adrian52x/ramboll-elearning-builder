@@ -8,8 +8,8 @@ import { CreateELearningDto, CreateStepDto, BlockType, StepBlockDTO, CreateBlock
 import { BlockCard } from "@/components/cards/block-card";
 import { BlockConfigModal } from "@/components/block-modal";
 import { BlockModalMode } from "@/types/ui-state";
-import { getAllBlocks } from "@/lib/api/blocks";
 import { Trash2 } from "lucide-react";
+import { useGetBlocks } from "@/lib/hooks/useBlocks";
 
 interface StructureTabProps {
     data: CreateELearningDto;
@@ -17,8 +17,6 @@ interface StructureTabProps {
 }
 
 export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
-    const [existingBlocks, setExistingBlocks] = useState<Block[]>([]);
-    const [loadingBlocks, setLoadingBlocks] = useState(true);
     const [draggedBlockType, setDraggedBlockType] = useState<BlockType | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBlock, setSelectedBlock] = useState<{
@@ -27,19 +25,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
     } | null>(null);
     const [modalBlockType, setModalBlockType] = useState<BlockType | null>(null);
 
-    useEffect(() => {
-        const fetchBlocks = async () => {
-            try {
-                const blocks = await getAllBlocks();
-                setExistingBlocks(blocks);
-            } catch (error) {
-                console.error('Failed to fetch blocks:', error);
-            } finally {
-                setLoadingBlocks(false);
-            }
-        };
-        fetchBlocks();
-    }, []);
+    const { blocks } = useGetBlocks();
 
     const addStep = () => {
         const newStep: CreateStepDto = {
@@ -110,7 +96,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
         let blockType: BlockType | undefined;
 
         if (block.existingBlockId !== undefined) {
-            const existingBlock = existingBlocks.find((b) => b.id === block.existingBlockId);
+            const existingBlock = blocks?.find((b) => b.id === block.existingBlockId);
             blockType = existingBlock?.type;
         } else {
             blockType = block.newBlock?.type;
@@ -206,11 +192,12 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                         ) : (
                                             <div className="flex gap-4 flex-wrap">
                                                 {step.stepBlocks.map((stepBlock, blockIndex) => {
-                                                    const isExisting = stepBlock.existingBlockId !== undefined;
-                                                    const existingBlock = isExisting
-                                                        ? existingBlocks.find((b) => b.id === stepBlock.existingBlockId)
+                                                    const existingBlock = stepBlock.existingBlockId 
+                                                        ? blocks?.find((b) => b.id === stepBlock.existingBlockId)
                                                         : null;
+                                                    
                                                     const blockType = existingBlock?.type || stepBlock.newBlock?.type;
+                                                    const headline = existingBlock?.headline || stepBlock.newBlock?.headline;
 
                                                     if (!blockType) return null;
 
@@ -220,17 +207,11 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                                             className="relative group cursor-pointer"
                                                             onClick={() => handleBlockClick(stepIndex, blockIndex)}
                                                         >
-                                                            <BlockCard type={blockType} headline={existingBlock?.headline || stepBlock.newBlock?.headline} variant="default" />
-                                                            {/* {existingBlock && (
-                                                                <div className="absolute bottom-1 left-1 right-1 bg-background/90 text-white text-xs px-1 rounded text-center truncate">
-                                                                    {existingBlock.headline}
-                                                                </div>
-                                                            )}
-                                                            {stepBlock.newBlock && stepBlock.newBlock.headline && (
-                                                                <div className="absolute bottom-1 left-1 right-1 bg-background/90 text-white text-xs px-1 rounded text-center truncate">
-                                                                    {stepBlock.newBlock.headline}
-                                                                </div>
-                                                            )} */}
+                                                            <BlockCard 
+                                                                type={blockType} 
+                                                                headline={headline} 
+                                                                variant="default" 
+                                                            />
                                                             <Button
                                                                 type="button"
                                                                 variant="destructive"
@@ -269,7 +250,6 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                     initialExistingBlockId={
                         selectedBlock ? data.steps[selectedBlock.stepIndex].stepBlocks[selectedBlock.blockIndex].existingBlockId : undefined
                     }
-                    existingBlocks={existingBlocks}
                     onSave={handleModalSave}
                 />
             </CardContent>

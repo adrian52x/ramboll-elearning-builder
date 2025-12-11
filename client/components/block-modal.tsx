@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { BlockModalMode } from "@/types/ui-state";
 import { VideoBlockForm, ImageBlockForm, InteractiveTabsForm, FlipCardsForm, FeedbackActivityForm } from "./block-modal-forms";
 import { BlockCard } from "./cards/block-card";
+import { useGetBlocks } from "@/lib/hooks/useBlocks";
 
 interface BlockConfigModalProps {
     isOpen: boolean;
@@ -17,11 +18,10 @@ interface BlockConfigModalProps {
     blockType: BlockType | null;
     initialData?: CreateBlockDto;
     initialExistingBlockId?: number;
-    existingBlocks: Block[];
     onSave: (data: { mode: BlockModalMode; blockData?: CreateBlockDto; existingBlockId?: number }) => void;
 }
 
-export function BlockConfigModal({ isOpen, onClose, blockType, initialData, initialExistingBlockId, existingBlocks, onSave }: BlockConfigModalProps) {
+export function BlockConfigModal({ isOpen, onClose, blockType, initialData, initialExistingBlockId, onSave }: BlockConfigModalProps) {
     const [mode, setMode] = useState<BlockModalMode>(initialExistingBlockId ? BlockModalMode.EXISTING : BlockModalMode.NEW);
     const [selectedExistingBlock, setSelectedExistingBlock] = useState<number | null>(initialExistingBlockId || null);
 
@@ -38,9 +38,12 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
 
     //console.log("selectedExistingBlock", selectedExistingBlock, initialExistingBlockId);
 
+    // Fetch all blocks
+    const { blocks } = useGetBlocks();
+
     if (!blockType) return null;
 
-    const filteredExistingBlocks = existingBlocks.filter((b) => b.type === blockType);
+    const filteredExistingBlocks = blocks?.filter((b) => b.type === blockType) || [];
 
     const handleSave = () => {
         if (mode === BlockModalMode.EXISTING && selectedExistingBlock) {

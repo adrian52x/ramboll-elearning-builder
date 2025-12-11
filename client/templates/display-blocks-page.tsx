@@ -1,81 +1,32 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
-import { Block, ELearning, ELearningById } from "@/types/api-responses";
+import { useState, useMemo } from "react";
 import { BlockType } from "@/types/enums";
-import { getAllBlocks } from "@/lib/api/blocks";
-import { fetchELearnings, fetchELearningById } from "@/lib/api/elearnings";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { BlockCard } from "@/components/cards/block-card";
+import { useGetBlocks } from "@/lib/hooks/useBlocks";
+import { useGetELearningById, useGetElearnings } from "@/lib/hooks/useElearnings";
 
 export const DisplayBlocksPage = () => {
-    const [blocks, setBlocks] = useState<Block[]>([]);
-    const [eLearnings, setELearnings] = useState<ELearning[]>([]);
-    const [selectedELearningDetails, setSelectedELearningDetails] = useState<ELearningById | null>(null);
-    const [loadingBlocks, setLoadingBlocks] = useState(true);
-    const [loadingELearnings, setLoadingELearnings] = useState(true);
-    const [loadingELearningDetails, setLoadingELearningDetails] = useState(false);
-    const [blocksError, setBlocksError] = useState<string | null>(null);
-    const [eLearningsError, setELearningsError] = useState<string | null>(null);
-    
     // Filter states
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedBlockType, setSelectedBlockType] = useState<string>("all");
     const [selectedELearning, setSelectedELearning] = useState<string>("all");
 
-    useEffect(() => {
-        const fetchData = async () => {
-            // Fetch blocks
-            try {
-                const blocksData = await getAllBlocks();
-                setBlocks(blocksData);
-            } catch (err) {
-                setBlocksError(err instanceof Error ? err.message : "Failed to fetch blocks");
-            } finally {
-                setLoadingBlocks(false);
-            }
-
-            // Fetch e-learnings
-            try {
-                const eLearningsData = await fetchELearnings();
-                setELearnings(eLearningsData);
-            } catch (err) {
-                setELearningsError(err instanceof Error ? err.message : "Failed to fetch e-learnings");
-            } finally {
-                setLoadingELearnings(false);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    // Fetch e-learning details when a specific e-learning is selected
-    useEffect(() => {
-        const fetchELearningDetails = async () => {
-            if (selectedELearning === "all") {
-                setSelectedELearningDetails(null);
-                return;
-            }
-
-            setLoadingELearningDetails(true);
-            try {
-                const details = await fetchELearningById(parseInt(selectedELearning));
-                setSelectedELearningDetails(details);
-            } catch (err) {
-                console.error("Failed to fetch e-learning details:", err);
-                setSelectedELearningDetails(null);
-            } finally {
-                setLoadingELearningDetails(false);
-            }
-        };
-
-        fetchELearningDetails();
-    }, [selectedELearning]);
+    // Fetch all data with TanStack Query
+    const { blocks, isPending: isBlocksPending, isError: isBlocksError } = useGetBlocks();
+    const { elearnings, isPending: isElearningsPending, isError: isElearningsError } = useGetElearnings();
+    
+    // Fetch selected e-learning details (only when one is selected)
+    const { elearning: selectedELearningDetails, } = useGetELearningById(
+        selectedELearning !== "all" ? parseInt(selectedELearning) : undefined
+    );
 
     // Filter blocks based on search term, block type, and e-learning
     const filteredBlocks = useMemo(() => {
+        if (!blocks) return [];
         return blocks.filter((block) => {
             // Filter by search term (headline or description)
             const matchesSearch = 
@@ -159,18 +110,15 @@ export const DisplayBlocksPage = () => {
                                 id="eLearning"
                                 value={selectedELearning}
                                 onChange={(e) => setSelectedELearning(e.target.value)}
-                                disabled={loadingELearnings || loadingELearningDetails}
+                                disabled={isElearningsPending}
                             >
                                 <option value="all">All E-Learnings</option>
-                                {eLearnings.map((eLearning) => (
+                                {elearnings?.map((eLearning) => (
                                     <option key={eLearning.id} value={eLearning.id.toString()}>
                                         {eLearning.title}
                                     </option>
                                 ))}
                             </Select>
-                            {loadingELearningDetails && (
-                                <p className="text-xs text-muted-foreground">Loading e-learning blocks...</p>
-                            )}
                         </div>
                     </div>
 
@@ -194,30 +142,30 @@ export const DisplayBlocksPage = () => {
                 {/* Blocks */}
                 <div className="bg-card border border-neutral-300 shadow-md rounded-md p-6 space-y-6">
                     {/* Loading State */}
-                    {loadingBlocks && (
+                    {isBlocksPending && (
                         <div className="flex items-center justify-center py-12">
                             <div className="text-muted-foreground">Loading blocks...</div>
                         </div>
                     )}
 
                     {/* Error State */}
-                    {blocksError && (
+                    {isBlocksError && (
                         <div className="flex items-center justify-center py-12">
-                            <div className="text-red-600">Error: {blocksError}</div>
+                            <div className="text-red-600">Error loading blocks</div>
                         </div>
                     )}
 
                     {/* Blocks Display */}
-                    {!loadingBlocks && !blocksError && (
+                    {!isBlocksPending && !isBlocksError && (
                         <>
                             {filteredBlocks.length === 0 ? (
                                 <div className="text-center py-12 text-muted-foreground">
-                                    {blocks.length === 0 ? "No blocks available." : "No blocks match your filters."}
+                                    {blocks?.length === 0 ? "No blocks available." : "No blocks match your filters."}
                                 </div>
                             ) : (
                                 <>
                                     <div className="text-sm text-muted-foreground mb-2">
-                                        Showing {filteredBlocks.length} of {blocks.length} block{blocks.length !== 1 ? 's' : ''}
+                                        Showing {filteredBlocks.length} of {blocks?.length || 0} block{(blocks?.length || 0) !== 1 ? 's' : ''}
                                     </div>
                                     <div className="flex flex-wrap gap-4">
                                         {filteredBlocks.map((block) => (
