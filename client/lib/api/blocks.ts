@@ -14,3 +14,19 @@ export async function getAllBlocks() {
 
     return response.json();
 }
+
+export class BlockAPI {
+
+    static async getAllBlocks() {
+        const response = await fetch(`${API_BASE_URL}/api/blocks`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error('Failed to fetch blocks');
+        }
+        return response.json();
+    }
+}

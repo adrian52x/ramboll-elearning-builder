@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UploadInput } from "@/components/ui/upload-input";
 import { useState } from "react";
-import { uploadFile } from "@/lib/api/uploads";
+import { UploadAPI } from "@/lib/api/uploads";
 import Image from "next/image";
 
 interface ImageBlockFormProps {
@@ -49,7 +49,7 @@ export function ImageBlockForm({ imageUrls, onImageUrlsChange }: ImageBlockFormP
         setUploading(index);
 
         try {
-            const url = await uploadFile(file);
+            const url = await UploadAPI.uploadFile(file);
             updateImageUrl(index, url);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to upload image');

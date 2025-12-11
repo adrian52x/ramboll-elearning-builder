@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { UploadInput } from "@/components/ui/upload-input";
 import { useState } from "react";
-import { uploadFile } from "@/lib/api/uploads";
+import { UploadAPI } from "@/lib/api/uploads";
 import { Video } from "lucide-react";
 
 interface VideoBlockFormProps {
@@ -38,7 +38,7 @@ export function VideoBlockForm({ videoUrl, onVideoUrlChange }: VideoBlockFormPro
         setUploading(true);
 
         try {
-            const url = await uploadFile(file);
+            const url = await UploadAPI.uploadFile(file);
             onVideoUrlChange(url);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Failed to upload video');

@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { UploadInput } from "@/components/ui/upload-input";
 import { TabDto } from "@/types";
-import { uploadFile } from "@/lib/api/uploads";
+import { UploadAPI } from "@/lib/api/uploads";
 import { useState } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
@@ -46,7 +46,7 @@ export function InteractiveTabsForm({ tabs, onTabsChange }: InteractiveTabsFormP
         setUploadingIndex(index);
 
         try {
-            const url = await uploadFile(file);
+            const url = await UploadAPI.uploadFile(file);
             updateTab(index, "contentUrl", url);
         } catch (err) {
             setUploadError(err instanceof Error ? err.message : 'Failed to upload image');
