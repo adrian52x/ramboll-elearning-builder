@@ -1,22 +1,49 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CreateELearningDto } from "@/types";
-import { updateELearning } from "@/lib/api/elearnings";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateOutputJSON } from "@/lib/elearning-builder-utils";
 import { BasicInfoTab, StructureTab, UniversesTab } from "../components/create-elearning-tabs";
+import { useGetELearningById, useUpdateELearning } from "@/lib/hooks/useElearnings";
 
 interface UpdateELearningPageProps {
     eLearningId: number;
-    initialData: CreateELearningDto;
 }
 
-export function UpdateELearningPage({ eLearningId, initialData }: UpdateELearningPageProps) {
+export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
     const router = useRouter();
-    const [formData, setFormData] = useState<CreateELearningDto>(initialData);
+    const { elearning, isPending, isError } = useGetELearningById(eLearningId);
+    const { updateELearning } = useUpdateELearning();
+    const [formData, setFormData] = useState<CreateELearningDto>({
+        title: "",
+        description: "",
+        coverImage: "",
+        steps: [],
+        universeIds: [],
+    });
+
+    // Transform API response to form data when loaded
+    useEffect(() => {
+        if (elearning) {
+            setFormData({
+                title: elearning.title,
+                description: elearning.description,
+                coverImage: elearning.coverImage,
+                steps: elearning.steps.map((step) => ({
+                    title: step.title,
+                    orderIndex: step.orderIndex,
+                    stepBlocks: step.stepBlocks.map((sb) => ({
+                        existingBlockId: sb.block.id,
+                        orderIndex: sb.orderIndex,
+                    })),
+                })),
+                universeIds: elearning.universeElearnings.map((ue) => ue.universe.id),
+            });
+        }
+    }, [elearning]);
 
     /* Update form data from any tab
     Only updates the specific field, preserving other form data */
@@ -45,20 +72,48 @@ export function UpdateELearningPage({ eLearningId, initialData }: UpdateELearnin
             }
         }
 
-        try {
-            //const updatedELearning = await updateELearning(eLearningId, formData);
-            //console.log("E-learning updated successfully:", updatedELearning);
-            //router.push("/");
-            alert("Update functionality not yet implemented.");
-        } catch (error) {
-            console.error("Failed to update e-learning:", error);
-            alert("Failed to update e-learning. Please check the console for details.");
-        }
+        alert("Update functionality not yet implemented.");
+        // Submit using the mutation hook
+        // updateELearning.mutate(
+        //     { id: eLearningId, data: formData },
+        //     {
+        //         onSuccess: (updatedELearning) => {
+        //             console.log("E-learning updated successfully:", updatedELearning);
+        //             alert("E-learning updated successfully!");
+        //             router.push("/");
+        //         },
+        //         onError: (error) => {
+        //             console.error("Failed to update e-learning:", error);
+        //             alert(error);
+        //         }
+        //     }
+        // );
     };
 
     const handleCancel = () => {
+        if (!confirm(`Are you sure you want to cancel editing this e-learning?`)) {
+            return;
+        }
         router.push("/");
     };
+
+    if (isPending) {
+        return (
+            <div className="page-wrapper">
+                <div className="flex items-center justify-center py-12">
+                    <div className="text-muted-foreground">Loading e-learning...</div>
+                </div>
+            </div>
+        );
+    }
+
+    if (isError || !elearning) {
+        return (
+            <div className="page-wrapper">
+                <div className="text-red-600">Failed to load e-learning. Please try again.</div>
+            </div>
+        );
+    }
 
     return (
         <div className="page-wrapper">

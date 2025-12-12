@@ -33,6 +33,22 @@ export const useCreateELearning = () => {
     return { createELearning };
 }
 
+export const useUpdateELearning = () => {
+    const queryClient = useQueryClient();
+
+    const updateELearning = useMutation({
+        mutationFn: ({ id, data }: { id: number; data: CreateELearningDto }) => 
+            ELearningAPI.updateELearning(id, data),
+        onSuccess: (_, variables) => {
+            // Invalidate both the list and the specific e-learning
+            queryClient.invalidateQueries({ queryKey: ["elearnings"] });
+            queryClient.invalidateQueries({ queryKey: ["elearning", variables.id] });
+        }
+    });
+
+    return { updateELearning };
+}
+
 export const useDeleteELearning = () => {
     const queryClient = useQueryClient();
 

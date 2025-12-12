@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreateELearningDto } from "@/types";
-import { createELearning } from "@/lib/api/elearnings";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateOutputJSON } from "@/lib/elearning-builder-utils";
 import { BasicInfoTab, StructureTab, UniversesTab } from "../components/create-elearning-tabs";
+import { useCreateELearning } from "@/lib/hooks/useElearnings";
 import mockElearning from "@/data/create-elearning-mock.json"
 
 export function CreateELearningPage() {
@@ -15,6 +15,7 @@ export function CreateELearningPage() {
     const mockData: CreateELearningDto = mockElearning;
 
     const router = useRouter();
+    const { createELearning } = useCreateELearning();
     // const [formData, setFormData] = useState<CreateELearningDto>({
     //     title: "",
     //     description: "",
@@ -52,17 +53,23 @@ export function CreateELearningPage() {
             }
         }
 
-        try {
-            const newELearning = await createELearning(formData);
-            alert(`${newELearning.message} - ID: ${newELearning.id}`);
-            //router.push("/");
-        } catch (error) {
-            console.error("Failed to create e-learning:", error);
-            alert("Failed to create e-learning. Please check the console for details.");
-        }
+        // Submit using the mutation hook
+        createELearning.mutate(formData, {
+            onSuccess: (data) => {
+                alert(`${data.message} - ID: ${data.id}`);
+                router.push("/");
+            },
+            onError: (error) => {
+                console.error("Failed to create e-learning:", error);
+                alert(error);
+            }
+        });
     };
 
     const handleCancel = () => {
+        if (!confirm(`Are you sure you want to cancel creating this e-learning?`)) {
+            return;
+        }
         router.push("/");
     };
 

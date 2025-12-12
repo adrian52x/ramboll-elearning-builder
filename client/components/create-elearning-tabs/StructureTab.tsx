@@ -150,12 +150,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
             <CardContent className="space-y-6">
                 {/* Steps */}
                 <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold">Steps</h3>
-                        <Button className="z-10" type="button" variant="outline" onClick={addStep}>
-                            Add Step
-                        </Button>
-                    </div>
+                    <h3 className="text-lg font-semibold">Steps</h3>
 
                     {data.steps.length === 0 ? (
                         <div className="text-center py-8 text-muted-foreground border-2 border-dashed rounded-lg">
@@ -234,6 +229,11 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                             </div>
                         ))
                     )}
+                    <div className="flex justify-end">
+                        <Button className="z-10" type="button" onClick={addStep}>
+                            Add Step
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Block Configuration Modal */}

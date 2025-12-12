@@ -3,18 +3,21 @@
 import { ELearningCard } from "@/components/cards/e-learning-card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ELearning } from "@/types";
-import { use } from "react";
-import { deleteELearning } from "@/lib/api/elearnings";
+//import { use } from "react";
+import { useDeleteELearning } from "@/lib/hooks/useElearnings";
+import { useGetElearnings } from "@/lib/hooks/useElearnings";
 
-interface DisplayELearningsPageProps {
-    eLearnings: ELearning[];
-    //eLearningsPromise: Promise<ELearning[]>;
-}
+// interface DisplayELearningsPageProps {
+//     eLearnings: ELearning[];
+//     //eLearningsPromise: Promise<ELearning[]>;
+// }
 
-export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps) {
+export function DisplayELearningsPage() {
     
     //const eLearnings = use(eLearningsPromise);
+
+    const { elearnings } = useGetElearnings();
+    const { deleteELearning } = useDeleteELearning();
     
     const router = useRouter();
 
@@ -22,14 +25,19 @@ export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps
         router.push(`/${id}/edit`);
     };
 
-    const handleDelete = async (id: number) => {
-        try {
-            await deleteELearning(id);
-            alert(`E-Learning deleted successfully! ID: ${id}`);
-            router.refresh();
-        } catch (error) {
-            alert(`Failed to delete e-learning: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    const handleDelete = (id: number) => {
+        if (!confirm(`Are you sure you want to delete this e-learning?`)) {
+            return;
         }
+
+        deleteELearning.mutate(id, {
+            onSuccess: () => {
+                alert(`E-Learning deleted successfully! ID: ${id}`);
+            },
+            onError: (error) => {
+                alert(`Failed to delete e-learning: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            }
+        });
     };
 
     const handleCreate = () => {
@@ -53,7 +61,7 @@ export function DisplayELearningsPage({ eLearnings }: DisplayELearningsPageProps
 
                 {/* E-Learning Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    {eLearnings.map((eLearning) => (
+                    {elearnings?.map((eLearning) => (
                         <ELearningCard
                             key={eLearning.id}
                             eLearning={eLearning}
