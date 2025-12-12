@@ -2,10 +2,11 @@
 
 import { ELearningCard } from "@/components/cards/e-learning-card";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { ErrorMessage } from "@/components/ui/error-message";
 import { useRouter } from "next/navigation";
-//import { use } from "react";
-import { useDeleteELearning } from "@/lib/hooks/useElearnings";
-import { useGetElearnings } from "@/lib/hooks/useElearnings";
+import { useDeleteELearning, useGetElearnings } from "@/lib/hooks/useElearnings";
+import { getErrorMessage } from "@/lib/api/error-handler";
 
 // interface DisplayELearningsPageProps {
 //     eLearnings: ELearning[];
@@ -13,10 +14,7 @@ import { useGetElearnings } from "@/lib/hooks/useElearnings";
 // }
 
 export function DisplayELearningsPage() {
-    
-    //const eLearnings = use(eLearningsPromise);
-
-    const { elearnings } = useGetElearnings();
+    const { elearnings, isPending, isError, error } = useGetElearnings();
     const { deleteELearning } = useDeleteELearning();
     
     const router = useRouter();
@@ -35,7 +33,7 @@ export function DisplayELearningsPage() {
                 alert(`E-Learning deleted successfully! ID: ${id}`);
             },
             onError: (error) => {
-                alert(`Failed to delete e-learning: ${error instanceof Error ? error.message : 'Unknown error'}`);
+                alert(`Failed to delete e-learning: ${getErrorMessage(error)}`);
             }
         });
     };
@@ -59,17 +57,34 @@ export function DisplayELearningsPage() {
                     </Button>
                 </div>
 
+                {/* Loading State */}
+                {isPending && (
+                    <div className="flex items-center justify-center py-12">
+                        <Spinner size="lg" />
+                    </div>
+                )}
+
+                {/* Error State */}
+                {isError && (
+                    <ErrorMessage
+                        title="Failed to Load E-Learnings"
+                        message={getErrorMessage(error)}
+                    />
+                )}
+
                 {/* E-Learning Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    {elearnings?.map((eLearning) => (
-                        <ELearningCard
-                            key={eLearning.id}
-                            eLearning={eLearning}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
-                        />
-                    ))}
-                </div>
+                {!isPending && !isError && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                        {elearnings?.map((eLearning) => (
+                            <ELearningCard
+                                key={eLearning.id}
+                                eLearning={eLearning}
+                                onEdit={handleEdit}
+                                onDelete={handleDelete}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { generateOutputJSON } from "@/lib/elearning-builder-utils";
 import { BasicInfoTab, StructureTab, UniversesTab } from "../components/create-elearning-tabs";
 import { useCreateELearning } from "@/lib/hooks/useElearnings";
+import { APIError, getErrorMessage } from "@/lib/api/error-handler";
 import mockElearning from "@/data/create-elearning-mock.json"
 
 export function CreateELearningPage() {
@@ -60,8 +61,7 @@ export function CreateELearningPage() {
                 router.push("/");
             },
             onError: (error) => {
-                console.error("Failed to create e-learning:", error);
-                alert(error);
+                alert(`Failed to create e-learning: ${getErrorMessage(error)}`);
             }
         });
     };

@@ -5,9 +5,12 @@ import { useRouter } from "next/navigation";
 import { CreateELearningDto } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Spinner } from "@/components/ui/spinner";
+import { ErrorMessage } from "@/components/ui/error-message";
 import { generateOutputJSON } from "@/lib/elearning-builder-utils";
 import { BasicInfoTab, StructureTab, UniversesTab } from "../components/create-elearning-tabs";
 import { useGetELearningById, useUpdateELearning } from "@/lib/hooks/useElearnings";
+import { getErrorMessage } from "@/lib/api/error-handler";
 
 interface UpdateELearningPageProps {
     eLearningId: number;
@@ -15,7 +18,7 @@ interface UpdateELearningPageProps {
 
 export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
     const router = useRouter();
-    const { elearning, isPending, isError } = useGetELearningById(eLearningId);
+    const { elearning, isPending, isError, error } = useGetELearningById(eLearningId);
     const { updateELearning } = useUpdateELearning();
     const [formData, setFormData] = useState<CreateELearningDto>({
         title: "",
@@ -83,7 +86,6 @@ export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
         //             router.push("/");
         //         },
         //         onError: (error) => {
-        //             console.error("Failed to update e-learning:", error);
         //             alert(error);
         //         }
         //     }
@@ -101,7 +103,7 @@ export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
         return (
             <div className="page-wrapper">
                 <div className="flex items-center justify-center py-12">
-                    <div className="text-muted-foreground">Loading e-learning...</div>
+                    <Spinner size="lg" />
                 </div>
             </div>
         );
@@ -110,7 +112,10 @@ export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
     if (isError || !elearning) {
         return (
             <div className="page-wrapper">
-                <div className="text-red-600">Failed to load e-learning. Please try again.</div>
+                <ErrorMessage
+                    title="Failed to Load E-Learning"
+                    message={getErrorMessage(error)}
+                />
             </div>
         );
     }

@@ -3,20 +3,20 @@ import { ELearningAPI } from "../api/elearnings";
 import { CreateELearningDto } from "@/types";
 
 export const useGetElearnings = () => {
-    const { data: elearnings, isPending, isError } = useQuery({
+    const { data: elearnings, isPending, isError, error } = useQuery({
         queryKey: ['elearnings'],
         queryFn: ELearningAPI.fetchELearnings,
     });
-    return { elearnings, isPending, isError };
+    return { elearnings, isPending, isError, error };
 };
 
 export const useGetELearningById = (id: number | undefined) => {
-    const { data: elearning, isPending, isError } = useQuery({
+    const { data: elearning, isPending, isError, error } = useQuery({
         queryKey: ['elearning', id],
         queryFn: () => ELearningAPI.fetchELearningById(id!),
         enabled: !!id, // only run the query if id is provided
     });
-    return { elearning, isPending, isError };
+    return { elearning, isPending, isError, error };
 }
 
 export const useCreateELearning = () => {

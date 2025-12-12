@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { BlockCard } from "@/components/cards/block-card";
+import { Spinner } from "@/components/ui/spinner";
+import { ErrorMessage } from "@/components/ui/error-message";
 import { useGetBlocks } from "@/lib/hooks/useBlocks";
 import { useGetELearningById, useGetElearnings } from "@/lib/hooks/useElearnings";
+import { getErrorMessage } from "@/lib/api/error-handler";
 
 export const DisplayBlocksPage = () => {
     // Filter states
@@ -16,7 +19,7 @@ export const DisplayBlocksPage = () => {
     const [selectedELearning, setSelectedELearning] = useState<string>("all");
 
     // Fetch all data with TanStack Query
-    const { blocks, isPending: isBlocksPending, isError: isBlocksError } = useGetBlocks();
+    const { blocks, isPending: isBlocksPending, isError: isBlocksError, error: blocksError } = useGetBlocks();
     const { elearnings, isPending: isElearningsPending, isError: isElearningsError } = useGetElearnings();
     
     // Fetch selected e-learning details (only when one is selected)
@@ -144,15 +147,16 @@ export const DisplayBlocksPage = () => {
                     {/* Loading State */}
                     {isBlocksPending && (
                         <div className="flex items-center justify-center py-12">
-                            <div className="text-muted-foreground">Loading blocks...</div>
+                            <Spinner size="lg" />
                         </div>
                     )}
 
                     {/* Error State */}
                     {isBlocksError && (
-                        <div className="flex items-center justify-center py-12">
-                            <div className="text-red-600">Error loading blocks</div>
-                        </div>
+                        <ErrorMessage
+                            title="Failed to Load Blocks"
+                            message={getErrorMessage(blocksError)}
+                        />
                     )}
 
                     {/* Blocks Display */}
