@@ -8,7 +8,7 @@ import { CreateELearningDto, CreateStepDto, BlockType, StepBlockDTO, CreateBlock
 import { BlockCard } from "@/components/cards/block-card";
 import { BlockConfigModal } from "@/components/block-modal";
 import { BlockModalMode } from "@/types/ui-state";
-import { Trash2 } from "lucide-react";
+import { ArrowBigDown, Box, Route, Trash2 } from "lucide-react";
 import { useGetBlocks } from "@/lib/hooks/useBlocks";
 
 interface StructureTabProps {
@@ -145,12 +145,15 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                 </div>
             </CardHeader>
             <div className="flex justify-center w-full">
-                <span className="text-muted-foreground">Available Blocks (Drag to add)</span>
+                <span className="text-muted-foreground">Block Types (Drag to add)</span>
             </div>
             <CardContent className="space-y-6">
                 {/* Steps */}
                 <div className="space-y-6">
-                    <h3 className="text-lg font-semibold">Steps</h3>
+                    <div className="flex items-center gap-2">
+                        <Route  className="h-5 w-5"/>
+                        <h3 className="text-lg font-semibold">Steps</h3>
+                    </div>
 
                     {data.steps.length === 0 ? (
                         <div className="text-center py-8 text-muted-foreground border-2 border-dashed rounded-lg">
@@ -171,19 +174,22 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                             value={step.title}
                                             onChange={(e) => updateStep(stepIndex, { title: e.target.value })}
                                         />
-                                        <Button className="z-10" type="button" variant="destructive" size="sm" onClick={() => removeStep(stepIndex)}>
+                                        <Button className="z-10 px-2" type="button" variant="destructive" size="sm" onClick={() => removeStep(stepIndex)}>
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
                                     </div>
 
                                     {/* Step Drop Area */}
                                     <div
-                                        className="p-4 border-2 border-gray-500 rounded-lg min-h-[100px]"
+                                        className="p-4 border-2 border-dashed border-gray-400 hover:border-primary/70 rounded-lg min-h-[100px] transition-colors"
                                         onDragOver={handleDragOver}
                                         onDrop={(e) => handleDrop(e, stepIndex)}
                                     >
                                         {step.stepBlocks.length === 0 ? (
-                                            <div className="flex items-center justify-center h-20 text-muted-foreground">Drop blocks here</div>
+                                            <div className="flex flex-col items-center justify-center h-20 text-muted-foreground gap-2">
+                                                <Box /> <ArrowBigDown />
+                                                {/* <span className="text-sm">Drag and drop blocks here</span> */}
+                                            </div>
                                         ) : (
                                             <div className="flex gap-4 flex-wrap">
                                                 {step.stepBlocks.map((stepBlock, blockIndex) => {
