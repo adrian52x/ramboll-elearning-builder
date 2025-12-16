@@ -11,7 +11,7 @@ import { UniverseELearning } from '../../modules/universe-e-learning/entities/un
 import * as bcrypt from 'bcrypt';
 
 const STORAGE_BASE_URL = 'http://localhost:9000/elearning-resources/';
-// TO DO - Re-seed database again - wrote on 15 Dec 16:51
+// TO DO - Re-seed database again - wrote on 15 Dec 16:51 - DONE 16 Dec 18:00
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
     // Create Universes
@@ -96,7 +96,7 @@ export class DatabaseSeeder extends Seeder {
     const step1 = em.create(Step, {
       eLearning: eLearning1, 
       title: 'Understanding Sustainability',
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     const videoBlock1 = em.create(Block, {
@@ -111,14 +111,14 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step1,
       block: videoBlock1,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     // Step 2 - Key Concepts
     const step2 = em.create(Step, {
       eLearning: eLearning1,
       title: 'Three Pillars of Sustainability',
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     const imageBlock1 = em.create(Block, {
@@ -162,20 +162,20 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step2,
       block: imageBlock1,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     em.create(StepBlock, {
       step: step2,
       block: tabsBlock1,
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     // Step 3 - Apply Your Knowledge
     const step3 = em.create(Step, {
       eLearning: eLearning1,
       title: 'Sustainability in Action',
-      orderIndex: 3,
+      orderIndex: 2,
     });
 
     const flipCardsBlock1 = em.create(Block, {
@@ -212,13 +212,13 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step3,
       block: flipCardsBlock1,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     em.create(StepBlock, {
       step: step3,
       block: feedbackBlock1,
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     // Assign E-Learning 1 to Universe 1 and Universe 2
@@ -245,7 +245,7 @@ export class DatabaseSeeder extends Seeder {
     const step4 = em.create(Step, {
       eLearning: eLearning2,
       title: 'Understanding Circular Economy',
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     const imageBlock2 = em.create(Block, {
@@ -272,20 +272,20 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step4,
       block: imageBlock2,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     em.create(StepBlock, {
       step: step4,
       block: videoBlock2,
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     // Step 2 - Implementation Strategies
     const step5 = em.create(Step, {
       eLearning: eLearning2,
       title: 'Applying Circular Principles',
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     const feedbackBlock2 = em.create(Block, {
@@ -300,7 +300,7 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step5,
       block: feedbackBlock2,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     // Assign E-Learning 2 to Universe 3
@@ -322,7 +322,7 @@ export class DatabaseSeeder extends Seeder {
     const step6 = em.create(Step, {
       eLearning: eLearning3,
       title: 'What is a Carbon Footprint?',
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     const videoBlock3 = em.create(Block, {
@@ -337,14 +337,14 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step6,
       block: videoBlock3,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     // Step 2 - Measuring Emissions
     const step7 = em.create(Step, {
       eLearning: eLearning3,
       title: 'Calculating Project Emissions',
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     const tabsBlock2 = em.create(Block, {
@@ -388,20 +388,20 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step7,
       block: tabsBlock2,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     em.create(StepBlock, {
       step: step7,
       block: imageBlock3,
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     // Step 3 - Reduction Strategies
     const step8 = em.create(Step, {
       eLearning: eLearning3,
       title: 'Taking Action on Climate',
-      orderIndex: 3,
+      orderIndex: 2,
     });
 
     const flipCardsBlock2 = em.create(Block, {
@@ -438,13 +438,13 @@ export class DatabaseSeeder extends Seeder {
     em.create(StepBlock, {
       step: step8,
       block: flipCardsBlock2,
-      orderIndex: 1,
+      orderIndex: 0,
     });
 
     em.create(StepBlock, {
       step: step8,
       block: feedbackBlock3,
-      orderIndex: 2,
+      orderIndex: 1,
     });
 
     // E-Learning 3 is NOT assigned to any universe (unassigned course)
