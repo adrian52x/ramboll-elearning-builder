@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { ELearningsService } from './e-learnings.service';
 import { CreateELearningDto } from './dto/create-e-learning.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -47,6 +47,15 @@ export class ELearningsController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.eLearningsService.findOne(id);
+  }
+
+  @Put(':id')
+  //@UseGuards(JwtAuthGuard, AdminGuard)
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: CreateELearningDto
+  ) {
+    return this.eLearningsService.update(id, dto);
   }
 
   @Delete(':id')

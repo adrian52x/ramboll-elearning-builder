@@ -158,7 +158,8 @@ export const DisplayBlocksPage = () => {
                             message={getErrorMessage(blocksError)}
                         />
                     )}
-
+                    
+                    {/* TO DO: // add edit delete button for blocks - implement just delete for now */}
                     {/* Blocks Display */}
                     {!isBlocksPending && !isBlocksError && (
                         <>

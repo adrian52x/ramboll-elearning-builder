@@ -75,21 +75,20 @@ export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
             }
         }
 
-        alert("Update functionality not yet implemented.");
         // Submit using the mutation hook
-        // updateELearning.mutate(
-        //     { id: eLearningId, data: formData },
-        //     {
-        //         onSuccess: (updatedELearning) => {
-        //             console.log("E-learning updated successfully:", updatedELearning);
-        //             alert("E-learning updated successfully!");
-        //             router.push("/");
-        //         },
-        //         onError: (error) => {
-        //             alert(error);
-        //         }
-        //     }
-        // );
+        updateELearning.mutate(
+            { id: eLearningId, data: formData },
+            {
+                onSuccess: (response) => {
+                    console.log("E-learning updated successfully:", response);
+                    alert("E-learning updated successfully!");
+                    router.push("/");
+                },
+                onError: (error) => {
+                    alert(getErrorMessage(error));
+                }
+            }
+        );
     };
 
     const handleCancel = () => {

@@ -26,6 +26,8 @@ export const useCreateELearning = () => {
         mutationFn: (elearning: CreateELearningDto) => ELearningAPI.createELearning(elearning),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["elearnings"] });
+            // Invalidate blocks list (in case new blocks were created)
+            queryClient.invalidateQueries({ queryKey: ["blocks"] });
         }
 
     });
@@ -40,9 +42,11 @@ export const useUpdateELearning = () => {
         mutationFn: ({ id, data }: { id: number; data: CreateELearningDto }) => 
             ELearningAPI.updateELearning(id, data),
         onSuccess: (_, variables) => {
-            // Invalidate both the list and the specific e-learning
+            // Invalidate e-learnings list and specific e-learning
             queryClient.invalidateQueries({ queryKey: ["elearnings"] });
             queryClient.invalidateQueries({ queryKey: ["elearning", variables.id] });
+            // Invalidate blocks list (in case new blocks were created)
+            queryClient.invalidateQueries({ queryKey: ["blocks"] });
         }
     });
 

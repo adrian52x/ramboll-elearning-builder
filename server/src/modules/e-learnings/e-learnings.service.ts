@@ -134,6 +134,102 @@ export class ELearningsService {
     }
 
     /**
+     * Update an e-learning using "replace-all" strategy
+     * - Updates basic fields (title, description, coverImage)
+     * - Deletes all existing Steps (cascades to StepBlocks)
+     * - Deletes all existing UniverseELearnings
+     * - Recreates Steps, StepBlocks, and UniverseELearnings from DTO
+     * - Never deletes Blocks (they're independent, shared resources)
+     */
+    async update(id: number, dto: CreateELearningDto) {
+        try {
+            return await this.em.transactional(async (em) => {
+                // 1. Fetch the existing e-learning with relationships
+                const eLearning = await em.findOneOrFail(ELearning, { id }, {
+                    populate: ['steps.stepBlocks', 'universeElearnings']
+                });
+
+                // 2. Update basic fields
+                eLearning.title = dto.title;
+                eLearning.description = dto.description;
+                eLearning.coverImage = dto.coverImage;
+
+                // 3. Remove all relationships manually in correct order
+                // First: StepBlocks (children of Steps)
+                for (const step of eLearning.steps.getItems()) {
+                    for (const stepBlock of step.stepBlocks.getItems()) {
+                        em.remove(stepBlock);
+                    }
+                }
+                // Flush StepBlock deletions to database before deleting Steps
+                await em.flush();
+
+                // Then: Steps (children of ELearning)
+                for (const step of eLearning.steps.getItems()) {
+                    em.remove(step);
+                }
+
+                // 4. Clear universe assignments (orphanRemoval handles deletion)
+                eLearning.universeElearnings.removeAll();
+
+                // 5. Recreate steps and assign blocks (same logic as create)
+                for (const stepDto of dto.steps) {
+                    const step = em.create(Step, {
+                        eLearning,
+                        title: stepDto.title,
+                        orderIndex: stepDto.orderIndex,
+                    });
+
+                    // 6. Handle blocks (create new or reference existing)
+                    for (const blockAssignment of stepDto.stepBlocks) {
+                        let block: Block;
+
+                        if (blockAssignment.existingBlockId) {
+                            // Reference existing block (doesn't delete it)
+                            block = await em.findOneOrFail(Block, { id: blockAssignment.existingBlockId });
+                        } else if (blockAssignment.newBlock) {
+                            // Create new block
+                            const content = buildBlockContent(blockAssignment.newBlock);
+                            block = em.create(Block, {
+                                type: blockAssignment.newBlock.type,
+                                headline: blockAssignment.newBlock.headline,
+                                description: blockAssignment.newBlock.description,
+                                content,
+                            });
+                        } else {
+                            throw new Error('Each block assignment must have either existingBlockId or newBlock');
+                        }
+
+                        // 7. Create step-block relationship
+                        em.create(StepBlock, {
+                            step,
+                            block,
+                            orderIndex: blockAssignment.orderIndex,
+                        });
+                    }
+                }
+
+                // 8. Recreate universe assignments
+                for (const universeId of dto.universeIds) {
+                    const universe = await em.findOneOrFail(Universe, { id: universeId });
+                    em.create(UniverseELearning, {
+                        universe,
+                        eLearning,
+                    });
+                }
+
+                await em.flush();
+                return { message: 'E-learning updated successfully', id: eLearning.id };
+            });
+        } catch (error) {
+            if (error instanceof UniqueConstraintViolationException) {
+                throw new BadRequestException('Duplicate data detected: ensure all orderIndex values are unique and blocks are not duplicated within steps');
+            }
+            throw error;
+        }
+    }
+
+    /**
      * Need to populate the relationships before deleting, 
      * so MikroORM knows what children to remove.
      */
