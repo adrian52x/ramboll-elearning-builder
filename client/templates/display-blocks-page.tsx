@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 import { BlockCard } from "@/components/cards/block-card";
 import { Spinner } from "@/components/ui/spinner";
 import { ErrorMessage } from "@/components/ui/error-message";
-import { useGetBlocks } from "@/lib/hooks/useBlocks";
+import { useGetBlocks, useDeleteBlock } from "@/lib/hooks/useBlocks";
 import { useGetELearningById, useGetElearnings } from "@/lib/hooks/useElearnings";
 import { getErrorMessage } from "@/lib/api/error-handler";
+import { Trash2, Pencil } from "lucide-react";
 
 export const DisplayBlocksPage = () => {
     // Filter states
@@ -21,6 +22,7 @@ export const DisplayBlocksPage = () => {
     // Fetch all data with TanStack Query
     const { blocks, isPending: isBlocksPending, isError: isBlocksError, error: blocksError } = useGetBlocks();
     const { elearnings, isPending: isElearningsPending, isError: isElearningsError } = useGetElearnings();
+    const { deleteBlock } = useDeleteBlock();
     
     // Fetch selected e-learning details (only when one is selected)
     const { elearning: selectedELearningDetails, } = useGetELearningById(
@@ -58,6 +60,25 @@ export const DisplayBlocksPage = () => {
             return matchesSearch && matchesBlockType && matchesELearning;
         });
     }, [blocks, searchTerm, selectedBlockType, selectedELearning, selectedELearningDetails]);
+
+    const handleDeleteBlock = (blockId: number, blockHeadline: string) => {
+        if (!confirm(`Are you sure you want to delete the block "${blockHeadline}"?`)) {
+            return;
+        }
+        
+        deleteBlock.mutate(blockId, {
+            onSuccess: () => {
+                alert("Block deleted successfully!");
+            },
+            onError: (error) => {
+                alert(getErrorMessage(error));
+            }
+        });
+    };
+
+    const handleUpdateBlock = (blockId: number) => {
+        alert(`Update block ${blockId} - Not implemented yet`);
+    };
 
     return (
         <div className="page-wrapper">
@@ -159,7 +180,6 @@ export const DisplayBlocksPage = () => {
                         />
                     )}
                     
-                    {/* TO DO: // add edit delete button for blocks - implement just delete for now */}
                     {/* Blocks Display */}
                     {!isBlocksPending && !isBlocksError && (
                         <>
@@ -174,7 +194,23 @@ export const DisplayBlocksPage = () => {
                                     </div>
                                     <div className="flex flex-wrap gap-4">
                                         {filteredBlocks.map((block) => (
-                                            <BlockCard key={block.id} type={block.type} className="w-26 h-26" headline={block.headline} />
+                                            <div key={block.id} className="relative group" onClick={() => handleUpdateBlock(block.id)}>
+                                                {/* Block card */}
+                                                <BlockCard type={block.type} className="w-26 h-26" headline={block.headline} />
+                                                {/* Delete Button */}
+                                                <Button
+                                                    type="button"
+                                                    variant="destructive"
+                                                    size="sm"
+                                                    className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDeleteBlock(block.id, block.headline);
+                                                    }}
+                                                >
+                                                    <Trash2 className="h-3 w-3" />
+                                                </Button>
+                                            </div>
                                         ))}
                                     </div>
                                 </>

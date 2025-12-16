@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { EntityManager } from '@mikro-orm/postgresql';
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { EntityManager, ForeignKeyConstraintViolationException } from '@mikro-orm/postgresql';
 import { Block } from './entities/block.entity';
 import { CreateBlockDto } from './dto/create-block.dto';
 import { buildBlockContent } from '../../common/utils/block.utils';
 
-// TO DO: Endpoint to get orphaned blocks (not used in any step) (include in future requirements)
 @Injectable()
 export class BlocksService {
     constructor(private readonly em: EntityManager) {}
@@ -59,8 +58,30 @@ export class BlocksService {
         return block;
     }
 
+    /*
+        * Delete a block (only if not used in any step), else throw error
+    */
     async remove(id: number): Promise<void> {
-        const block = await this.em.findOneOrFail(Block, { id });
-        await this.em.removeAndFlush(block);
+        try {
+            const block = await this.em.findOneOrFail(Block, { id }, {
+                populate: ['stepBlocks']
+            });
+            
+            // Check if block is being used in any steps
+            if (block.stepBlocks.length > 0) {
+                throw new BadRequestException(
+                    `Cannot delete block "${block.headline}". It is currently being used in ${block.stepBlocks.length} step(s).`
+                );
+            }
+            
+            await this.em.removeAndFlush(block);
+        } catch (error) {
+            if (error instanceof ForeignKeyConstraintViolationException) {
+                throw new BadRequestException(
+                    'Cannot delete this block. It is currently being used in one or more e-learnings.'
+                );
+            }
+            throw error;
+        }
     }
 }

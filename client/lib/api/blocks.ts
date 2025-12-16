@@ -10,4 +10,15 @@ export class BlockAPI {
         
         return handleAPIResponse<Block[]>(response);
     }
+
+    static async deleteBlock(id: number): Promise<void> {
+        const response = await fetch(`${API_BASE_URL}/api/blocks/${id}`, {
+            method: 'DELETE',
+        });
+        
+        if (!response.ok) {
+            return handleAPIResponse<void>(response);
+        }
+        // DELETE returns no content, so don't try to parse JSON
+    }
 }

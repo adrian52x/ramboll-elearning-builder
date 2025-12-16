@@ -47,7 +47,7 @@ export async function handleAPIResponse<T>(response: Response): Promise<T> {
 // Get user-friendly error message
 export function getErrorMessage(error: unknown): string {
     if (error instanceof APIError) {
-        return `${error.message} - (${error.statusCode})`;
+        return `${error.message} - (Status: ${error.statusCode})`;
     }
     
     if (error instanceof Error) {
