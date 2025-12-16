@@ -1,3 +1,5 @@
+// TO DO : Deprecated - Remove unused types and interfaces
+
 interface Universe {
     id: string;
     name: string;

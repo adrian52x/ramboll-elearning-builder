@@ -30,13 +30,7 @@ export class ELearningsController {
 
   /**
    * Get e-learnings for current logged-in user's universe
-   * 
-   * Frontend usage:
-   * - User dashboard: GET /api/e-learnings/my
-   * - Automatically filters by user's universe
-   * - Returns only: id, title, description
-   */
-  
+  */
   @Get('my')
   @UseGuards(JwtAuthGuard)
   findMyELearnings(@CurrentUser() user: AuthUser) {

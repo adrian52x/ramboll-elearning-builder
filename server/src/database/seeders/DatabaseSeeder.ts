@@ -11,7 +11,7 @@ import { UniverseELearning } from '../../modules/universe-e-learning/entities/un
 import * as bcrypt from 'bcrypt';
 
 const STORAGE_BASE_URL = 'http://localhost:9000/elearning-resources/';
-
+// TO DO - Re-seed database again - wrote on 15 Dec 16:51
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {
     // Create Universes
@@ -126,7 +126,7 @@ export class DatabaseSeeder extends Seeder {
       headline: 'Environmental, Social, and Economic Pillars',
       description: 'Visual representation of sustainability dimensions',
       content: {
-        image_urls: [
+        imageUrls: [
           STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           STORAGE_BASE_URL + 'placeholders/image-placeholder.png',
           STORAGE_BASE_URL + 'placeholders/image-placeholder.png',

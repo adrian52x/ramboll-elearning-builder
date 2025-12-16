@@ -4,6 +4,7 @@ import { Block } from './entities/block.entity';
 import { CreateBlockDto } from './dto/create-block.dto';
 import { buildBlockContent } from '../../common/utils/block.utils';
 
+// TO DO: Endpoint to get orphaned blocks (not used in any step) (include in future requirements)
 @Injectable()
 export class BlocksService {
     constructor(private readonly em: EntityManager) {}
