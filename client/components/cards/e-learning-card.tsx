@@ -11,7 +11,7 @@ interface ELearningCardProps {
 
 export function ELearningCard({ eLearning, onEdit, onDelete }: ELearningCardProps) {
     return (
-        <div className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
+        <div className="bg-card border-1 border-neutral-100 rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
             {/* Cover Image */}
             <div className="bg-muted flex items-center justify-center relative py-8">
                 <div className="relative w-48 h-48 rounded-full border-8 border-incept-green overflow-hidden flex items-center justify-center bg-white">
@@ -31,14 +31,14 @@ export function ELearningCard({ eLearning, onEdit, onDelete }: ELearningCardProp
 
             {/* Content */}
             <div className="p-4 flex flex-col flex-1">
-                <h3 className="text-lg font-semibold text-card-foreground line-clamp-3 mb-4 text-center">{eLearning.title}</h3>
+                <h3 className="text-lg font-semibold text-card-foreground line-clamp-3 mb-4 text-center" title={eLearning.title}>{eLearning.title}</h3>
 
                 {/* Action Buttons */}
                 <div className="flex gap-2 justify-end mt-auto">
-                    <Button onClick={() => onEdit(eLearning.id)} variant="outline" size="sm">
+                    <Button onClick={() => onEdit(eLearning.id)} variant="outline" size="sm" title="Edit">
                         <Edit className="h-4 w-4" />
                     </Button>
-                    <Button onClick={() => onDelete(eLearning.id)} variant="outline" size="sm">
+                    <Button onClick={() => onDelete(eLearning.id)} variant="outline" size="sm" title="Delete">
                         <Trash2 className="h-4 w-4" />
                     </Button>
                 </div>

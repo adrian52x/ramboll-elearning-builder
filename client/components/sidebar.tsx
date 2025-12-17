@@ -19,12 +19,7 @@ const menuItems = [
         title: "Content Blocks",
         icon: Box,
         url: "/content-blocks",
-    },
-    {
-        title: "Others",
-        icon: Folder,
-        url: "",
-    },
+    }
 ];
 
 export function AppSidebar() {

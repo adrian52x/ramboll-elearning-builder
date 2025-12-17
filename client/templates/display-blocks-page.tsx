@@ -87,7 +87,7 @@ export const DisplayBlocksPage = () => {
                 <div className="flex justify-between items-start">
                     <div className="space-y-2">
                         <h1 className="text-2xl font-bold text-foreground">Content Blocks</h1>
-                        <p className="text-muted-foreground">Manage your content blocks.</p>
+                        {/* <p className="text-muted-foreground">Manage your content blocks.</p> */}
                     </div>
 
                     <Button className="shrink-0" onClick={() => alert("Create New Content Block clicked")}>
@@ -96,7 +96,7 @@ export const DisplayBlocksPage = () => {
                 </div>
 
                 {/* Search and Filters */}
-                <div className="bg-card border border-neutral-300 shadow-md rounded-md p-6 space-y-4">
+                <div className="bg-card border border-neutral-300 shadow-md rounded-md p-4 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Search Input */}
                         <div className="space-y-2">
@@ -164,7 +164,7 @@ export const DisplayBlocksPage = () => {
                 </div>
 
                 {/* Blocks */}
-                <div className="bg-card border border-neutral-300 shadow-md rounded-md p-6 space-y-6">
+                <div className="bg-card border border-neutral-300 shadow-md rounded-md p-4 min-h-[65vh]">
                     {/* Loading State */}
                     {isBlocksPending && (
                         <div className="flex items-center justify-center py-12">

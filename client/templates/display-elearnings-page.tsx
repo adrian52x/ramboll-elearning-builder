@@ -78,12 +78,12 @@ export function DisplayELearningsPage() {
 
     return (
         <div className="page-wrapper">
-            <div className="space-y-8">
+            <div className="space-y-4">
                 {/* Header */}
                 <div className="flex justify-between items-start">
                     <div className="space-y-2">
                         <h1 className="text-2xl font-bold text-foreground">E-Learnings</h1>
-                        <p className="text-muted-foreground">Manage your e-learning courses and content.</p>
+                        {/* <p className="text-muted-foreground">Manage your e-learning courses and content.</p> */}
                     </div>
 
                     <Button className="shrink-0" onClick={handleCreate}>
@@ -92,7 +92,7 @@ export function DisplayELearningsPage() {
                 </div>
 
                 {/* Search and Filters */}
-                <div className="bg-card border border-neutral-300 shadow-md rounded-md p-6 space-y-4">
+                <div className="bg-card border border-neutral-300 shadow-md rounded-md p-4 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Search Input */}
                         <div className="space-y-2">
@@ -160,7 +160,7 @@ export function DisplayELearningsPage() {
 
                 {/* E-Learning Grid */}
                 {!isPending && !isError && (
-                    <>
+                    <div className="bg-card border border-neutral-300 shadow-md rounded-md p-4 min-h-[65vh]">
                         {filteredELearnings.length === 0 ? (
                             <div className="text-center py-12 text-muted-foreground">
                                 {elearnings?.length === 0 ? "No e-learnings available." : "No e-learnings match your filters."}
@@ -182,7 +182,7 @@ export function DisplayELearningsPage() {
                                 </div>
                             </>
                         )}
-                    </>
+                    </div>
                 )}
             </div>
         </div>
