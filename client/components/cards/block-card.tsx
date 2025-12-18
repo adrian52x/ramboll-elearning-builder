@@ -1,15 +1,19 @@
 import { BlockType } from "@/types";
-import { Video, Image, TabletSmartphone, CreditCard, MessageSquare, RotateCcwSquare, RotateCwSquare, SquareMousePointer } from "lucide-react";
+import { Video, Image, TabletSmartphone, CreditCard, MessageSquare, RotateCcwSquare, RotateCwSquare, SquareMousePointer, Trash2, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface BlockCardProps {
     type: BlockType;
-    onClick?: () => void;
     className?: string;
     headline?: string;
-    variant?: 'default' | 'compact' | '2nd';
+    variant?: 'default' | 'compact';
+    onClick?: () => void;
+    onDelete?: () => void;
+    onPreview?: () => void;
+    showActions?: boolean;
 }
 
-export function BlockCard({ type, onClick, className = "", headline, variant = 'default' }: BlockCardProps) {
+export function BlockCard({ type, onClick, className = "", headline, variant = 'default', onDelete, onPreview, showActions = true }: BlockCardProps) {
     const blockConfig = {
         [BlockType.VIDEO]: {
             icon: Video,
@@ -58,6 +62,7 @@ export function BlockCard({ type, onClick, className = "", headline, variant = '
                 onClick={onClick}
                 className={`
                     relative
+                    group
                     w-24 h-24
                     flex flex-col items-center
                     ${headline ? 'justify-start pt-1' : 'justify-center'}
@@ -89,6 +94,41 @@ export function BlockCard({ type, onClick, className = "", headline, variant = '
                         title={headline}
                     >
                         {headline}
+                    </div>
+                )}
+                
+                {/* Action Buttons */}
+                {showActions && (onPreview || onDelete) && (
+                    <div className="absolute -top-2 -right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                        {onPreview && (
+                            <Button
+                                type="button"
+                                size="sm"
+                                className="h-6 w-6 p-0"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onPreview();
+                                }}
+                                title="Preview block"
+                            >
+                                <Eye className="h-3 w-3" />
+                            </Button>
+                        )}
+                        {onDelete && (
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                size="sm"
+                                className="h-6 w-6 p-0"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onDelete();
+                                }}
+                                title="Delete block"
+                            >
+                                <Trash2 className="h-3 w-3" />
+                            </Button>
+                        )}
                     </div>
                 )}
             </div>

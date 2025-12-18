@@ -89,7 +89,7 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
         onUpdate({ steps: newSteps });
     };
 
-    const handleBlockClick = (stepIndex: number, blockIndex: number) => {
+    const handleCreateBlock = (stepIndex: number, blockIndex: number) => {
         const block = data.steps[stepIndex].stepBlocks[blockIndex];
 
         // Get type from either newBlock or existing block
@@ -203,29 +203,14 @@ export const StructureTab = ({ data, onUpdate }: StructureTabProps) => {
                                                     if (!blockType) return null;
 
                                                     return (
-                                                        <div
+                                                        <BlockCard 
                                                             key={blockIndex}
-                                                            className="relative group cursor-pointer"
-                                                            onClick={() => handleBlockClick(stepIndex, blockIndex)}
-                                                        >
-                                                            <BlockCard 
-                                                                type={blockType} 
-                                                                headline={headline} 
-                                                                variant="default" 
-                                                            />
-                                                            <Button
-                                                                type="button"
-                                                                variant="destructive"
-                                                                size="sm"
-                                                                className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    removeBlock(stepIndex, blockIndex);
-                                                                }}
-                                                            >
-                                                                <Trash2 className="h-3 w-3" />
-                                                            </Button>
-                                                        </div>
+                                                            type={blockType} 
+                                                            headline={headline} 
+                                                            variant="default"
+                                                            onClick={() => handleCreateBlock(stepIndex, blockIndex)}
+                                                            onDelete={() => removeBlock(stepIndex, blockIndex)}
+                                                        />
                                                     );
                                                 })}
                                             </div>

@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { BlockModalMode } from "@/types/ui-state";
 import { VideoBlockForm, ImageBlockForm, InteractiveTabsForm, FlipCardsForm, FeedbackActivityForm } from "./block-modal-forms";
 import { BlockCard } from "./cards/block-card";
+import { BlockPreviewModal } from "./preview/BlockPreviewModal";
 import { useGetBlocks } from "@/lib/hooks/useBlocks";
 
 interface BlockConfigModalProps {
@@ -24,6 +25,8 @@ interface BlockConfigModalProps {
 export function BlockConfigModal({ isOpen, onClose, blockType, initialData, initialExistingBlockId, onSave }: BlockConfigModalProps) {
     const [mode, setMode] = useState<BlockModalMode>(initialExistingBlockId ? BlockModalMode.EXISTING : BlockModalMode.NEW);
     const [selectedExistingBlock, setSelectedExistingBlock] = useState<number | null>(initialExistingBlockId || null);
+    const [previewBlock, setPreviewBlock] = useState<Block | null>(null);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
     // Form state for new block
     const [headline, setHeadline] = useState(initialData?.headline || "");
@@ -76,6 +79,11 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
         setTabs([]);
         setCards([]);
         onClose();
+    };
+
+    const handlePreviewBlock = (block: Block) => {
+        setPreviewBlock(block);
+        setIsPreviewOpen(true);
     };
 
     // Save block disabled button conditions
@@ -146,6 +154,7 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
                                         type={block.type} 
                                         headline={block.headline}
                                         className={`w-26 h-26 ${selectedExistingBlock === block.id ? "ring-2 ring-primary ring-offset-2" : ""}`}
+                                        onPreview={() => handlePreviewBlock(block)}
                                     />
                                 ))}
                             </div>
@@ -162,6 +171,13 @@ export function BlockConfigModal({ isOpen, onClose, blockType, initialData, init
                     </Button>
                 </DialogFooter>
             </DialogContent>
+            
+            {/* Block Preview Modal */}
+            <BlockPreviewModal
+                isOpen={isPreviewOpen}
+                onClose={() => setIsPreviewOpen(false)}
+                block={previewBlock}
+            />
         </Dialog>
     );
 }

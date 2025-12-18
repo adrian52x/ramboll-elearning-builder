@@ -204,39 +204,15 @@ export const DisplayBlocksPage = () => {
                                     </div>
                                     <div className="flex flex-wrap gap-4">
                                         {filteredBlocks.map((block) => (
-                                            <div key={block.id} className="relative group" onClick={() => handleUpdateBlock(block.id)}>
-                                                {/* Block card */}
-                                                <BlockCard type={block.type} className="w-26 h-26" headline={block.headline} />
-                                                {/* Action Buttons */}
-                                                <div className="absolute -top-2 -right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <Button
-                                                        type="button"
-                                                        variant="secondary"
-                                                        size="sm"
-                                                        className="h-6 w-6 p-0"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handlePreviewBlock(block);
-                                                        }}
-                                                        title="Preview block"
-                                                    >
-                                                        <Eye className="h-3 w-3" />
-                                                    </Button>
-                                                    <Button
-                                                        type="button"
-                                                        variant="destructive"
-                                                        size="sm"
-                                                        className="h-6 w-6 p-0"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleDeleteBlock(block.id, block.headline);
-                                                        }}
-                                                        title="Delete block"
-                                                    >
-                                                        <Trash2 className="h-3 w-3" />
-                                                    </Button>
-                                                </div>
-                                            </div>
+                                            <BlockCard 
+                                                key={block.id}
+                                                type={block.type} 
+                                                className="w-26 h-26" 
+                                                headline={block.headline}
+                                                onClick={() => handleUpdateBlock(block.id)}
+                                                onPreview={() => handlePreviewBlock(block)}
+                                                onDelete={() => handleDeleteBlock(block.id, block.headline)}
+                                            />
                                         ))}
                                     </div>
                                 </>
