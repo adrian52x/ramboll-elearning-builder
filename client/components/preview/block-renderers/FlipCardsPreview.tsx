@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, RotateCw } from "lucide-react";
 
 interface FlipCard {
     front: string;
@@ -15,29 +13,24 @@ interface FlipCardsPreviewProps {
 }
 
 export function FlipCardsPreview({ description, cards }: FlipCardsPreviewProps) {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isFlipped, setIsFlipped] = useState(false);
+    const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
 
-    const nextCard = () => {
-        setCurrentIndex((prev) => (prev + 1) % cards.length);
-        setIsFlipped(false);
-    };
-
-    const previousCard = () => {
-        setCurrentIndex((prev) => (prev - 1 + cards.length) % cards.length);
-        setIsFlipped(false);
-    };
-
-    const toggleFlip = () => {
-        setIsFlipped((prev) => !prev);
+    const toggleFlip = (index: number) => {
+        setFlippedCards((prev) => {
+            const newSet = new Set(prev);
+            if (newSet.has(index)) {
+                newSet.delete(index);
+            } else {
+                newSet.add(index);
+            }
+            return newSet;
+        });
     };
 
     if (cards.length === 0) {
         return (
             <div className="space-y-4">
-                <>
-                    {description && <p className="text-muted-foreground">{description}</p>}
-                </>
+                {description && <p className="text-muted-foreground">{description}</p>}
                 <Card>
                     <CardContent className="pt-6">
                         <p className="text-muted-foreground text-center">No cards configured</p>
@@ -47,61 +40,57 @@ export function FlipCardsPreview({ description, cards }: FlipCardsPreviewProps) 
         );
     }
 
-    const currentCard = cards[currentIndex];
-
     return (
         <div className="space-y-4">
-            <>
-                {description && <p className="text-muted-foreground">{description}</p>}
-            </>
+            {description && <p>{description}</p>}
 
-            <div className="space-y-4">
-                {/* Card Display */}
-                <Card className="min-h-[300px] cursor-pointer transition-all hover:shadow-lg" onClick={toggleFlip}>
-                    <CardContent className="pt-6 h-full flex flex-col items-center justify-center p-8">
-                        <div className="text-center space-y-4">
-                            <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                                {isFlipped ? "Back" : "Front"}
+            {/* Card Grid */}
+            <div className="grid grid-cols-3 gap-4">
+                {cards.map((card, index) => {
+                    const isFlipped = flippedCards.has(index);
+                    
+                    return (
+                        <div
+                            key={index}
+                            className="perspective-1000 h-[300px] cursor-pointer"
+                            onClick={() => toggleFlip(index)}
+                        >
+                            <div
+                                className={`relative w-full h-full transition-transform duration-500 transform-style-3d ${
+                                    isFlipped ? "rotate-y-180" : ""
+                                }`}
+                            >
+                                {/* Front of card */}
+                                <Card className="absolute w-full h-full backface-hidden overflow-hidden bg-incept-primary/5">
+                                    <CardContent className="h-full flex flex-col items-center justify-center p-6 overflow-y-auto">
+                                        <div className="text-center space-y-2">
+                                            <div className="text-xs font-semibold text-incept-primary uppercase tracking-wider">
+                                                Front
+                                            </div>
+                                            <p className="text-sm text-foreground whitespace-pre-wrap break-words">
+                                                {card.front}
+                                            </p>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                {/* Back of card */}
+                                <Card className="absolute w-full h-full backface-hidden rotate-y-180 bg-incept-green/20 overflow-hidden">
+                                    <CardContent className="h-full flex flex-col items-center justify-center p-6 overflow-y-auto">
+                                        <div className="text-center space-y-2">
+                                            <div className="text-xs font-semibold text-incept-secondary uppercase tracking-wider">
+                                                Back
+                                            </div>
+                                            <p className="text-sm text-foreground whitespace-pre-wrap break-words">
+                                                {card.back}
+                                            </p>
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             </div>
-                            <p className="text-lg text-foreground whitespace-pre-wrap">
-                                {isFlipped ? currentCard.back : currentCard.front}
-                            </p>
                         </div>
-                    </CardContent>
-                </Card>
-
-                {/* Controls */}
-                <div className="flex items-center justify-between">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={previousCard}
-                        disabled={cards.length <= 1}
-                    >
-                        <ChevronLeft className="h-4 w-4 mr-1" />
-                        Previous
-                    </Button>
-
-                    <div className="flex items-center gap-3">
-                        <span className="text-sm text-muted-foreground">
-                            Card {currentIndex + 1} of {cards.length}
-                        </span>
-                        <Button variant="outline" size="sm" onClick={toggleFlip}>
-                            <RotateCw className="h-4 w-4 mr-1" />
-                            Flip
-                        </Button>
-                    </div>
-
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={nextCard}
-                        disabled={cards.length <= 1}
-                    >
-                        Next
-                        <ChevronRight className="h-4 w-4 ml-1" />
-                    </Button>
-                </div>
+                    );
+                })}
             </div>
         </div>
     );

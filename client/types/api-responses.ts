@@ -59,3 +59,9 @@ export interface Block {
     description?: string;
     content: Record<string, any>;
 }
+
+export interface Tab {
+    title: string;
+    contentUrl: string;
+    description?: string;
+}

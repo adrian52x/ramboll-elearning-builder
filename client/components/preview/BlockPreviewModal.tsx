@@ -18,7 +18,7 @@ export function BlockPreviewModal({ isOpen, onClose, block }: BlockPreviewModalP
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="w-[80vw] h-[80vh] flex flex-col space-y-4">
                 <DialogHeader>
                     <div className="flex items-center gap-2">
                         <DialogTitle>Block Preview</DialogTitle>
@@ -28,7 +28,7 @@ export function BlockPreviewModal({ isOpen, onClose, block }: BlockPreviewModalP
                     </div>
                 </DialogHeader>
                 
-                <div className="mt-4">
+                <div className="flex-1 overflow-y-auto">
                     <BlockPreview block={block} />
                 </div>
             </DialogContent>

@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 
 interface BlockPreviewProps {
     block: Block;
-    blockNumber?: number;
     defaultExpanded?: boolean;
 }
 
@@ -22,7 +21,7 @@ interface BlockPreviewProps {
  * Main block preview component that routes to the appropriate renderer
  * based on the block type.
  */
-export function BlockPreview({ block, blockNumber, defaultExpanded = true }: BlockPreviewProps) {
+export function BlockPreview({ block, defaultExpanded = true }: BlockPreviewProps) {
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const { type, headline, description, content } = block;
 
@@ -101,11 +100,9 @@ export function BlockPreview({ block, blockNumber, defaultExpanded = true }: Blo
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 <div className="flex items-center gap-3">
-                    {blockNumber !== undefined && (
-                        <Badge className="bg-incept-green w-8 h-8 p-1">
-                            <Check />
-                        </Badge>
-                    )}
+                    <Badge className="bg-incept-green w-8 h-8 p-1">
+                        <Check />
+                    </Badge>
                     <h4 className="font-medium">{headline}</h4>
                 </div>
                 <div className="flex items-center gap-2">

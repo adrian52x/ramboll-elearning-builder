@@ -1,8 +1,9 @@
-Create Entities:
+TO DO:
+Feedback preview block to do
+make JSON Output Preview expandable /colapse
 
-ELearning --- DONE
-Steps - block many to many>?
-Blocks ( VideoBlock, ImageBlock, etc.)
-ELearningAssignment
-
-TO DO: for report - future development - prevent race conditions when updating something.
+TO DO: for report - 
+future development - 
+    prevent race conditions when updating something.
+    re-order blocks inside Structure Tab
+    assessments/ quiz blocks

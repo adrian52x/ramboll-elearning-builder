@@ -48,16 +48,16 @@ export function ELearningPreviewModal({ isOpen, onClose, elearning }: ELearningP
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="w-[80vw] h-[90vh] flex flex-col">
+            <DialogContent className="h-[90vh] w-[80vw] flex flex-col">
                 <DialogHeader>
-                    <DialogTitle className="sr-only">{elearning.title} - Preview</DialogTitle>
+                    <DialogTitle className="text-sm">{elearning.title}</DialogTitle>
                     
                     {/* Step Navigation Arrows */}
                     <div className="flex items-center justify-center gap-8">
                         {elearning.steps.map((step, index) => (
                             <StepArrow
                                 key={step.id}
-                                size="md"
+                                size="sm"
                                 variant={index <= currentStepIndex ? "active" : "default"}
                             >
                                 {index + 1}
@@ -67,20 +67,19 @@ export function ELearningPreviewModal({ isOpen, onClose, elearning }: ELearningP
 
                     {/* Step Title */}
                     <div className="flex items-center justify-center pt-2">
-                        <h3 className="text-2xl font-bold text-incept-secondary">{currentStep?.title}</h3>
+                        <h3 className="text-xl font-bold text-incept-secondary">{currentStep?.title}</h3>
                     </div>
                 </DialogHeader>
 
 
 
                 {/* Block Content - All blocks in step */}
-                <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+                <div className="flex-1 overflow-y-auto px-6 space-y-3">
                     {currentStepBlocks.length > 0 ? (
-                        currentStepBlocks.map((stepBlock, index) => (
+                        currentStepBlocks.map((stepBlock) => (
                             <BlockPreview 
                                 key={stepBlock.id}
                                 block={stepBlock.block}
-                                blockNumber={index + 1}
                                 defaultExpanded={false}
                             />
                         ))
