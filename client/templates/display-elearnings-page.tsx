@@ -9,9 +9,11 @@ import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { useRouter } from "next/navigation";
-import { useDeleteELearning, useGetElearnings } from "@/lib/hooks/useElearnings";
+import { useDeleteELearning, useGetElearnings, useGetELearningById } from "@/lib/hooks/useElearnings";
 import { useGetUniverses } from "@/lib/hooks/useUniverses";
 import { getErrorMessage } from "@/lib/api/error-handler";
+import { ELearningPreviewModal } from "@/components/preview/ELearningPreviewModal";
+import { ELearningById } from "@/types";
 
 // interface DisplayELearningsPageProps {
 //     eLearnings: ELearning[];
@@ -23,9 +25,14 @@ export function DisplayELearningsPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedUniverse, setSelectedUniverse] = useState<string>("all");
 
+    // Preview modal state
+    const [previewELearningId, setPreviewELearningId] = useState<number | null>(null);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
     const { elearnings, isPending, isError, error } = useGetElearnings();
     const { universes, isPending: isUniversesPending } = useGetUniverses();
     const { deleteELearning } = useDeleteELearning();
+    const { elearning: previewELearning } = useGetELearningById(previewELearningId || undefined);
     
     const router = useRouter();
 
@@ -50,6 +57,11 @@ export function DisplayELearningsPage() {
 
     const handleCreate = () => {
         router.push("/create");
+    };
+
+    const handlePreview = (id: number) => {
+        setPreviewELearningId(id);
+        setIsPreviewOpen(true);
     };
 
     // Filter e-learnings based on search term and universe
@@ -160,7 +172,7 @@ export function DisplayELearningsPage() {
 
                 {/* E-Learning Grid */}
                 {!isPending && !isError && (
-                    <div className="bg-card border border-neutral-300 shadow-md rounded-md p-4 min-h-[65vh]">
+                    <div>
                         {filteredELearnings.length === 0 ? (
                             <div className="text-center py-12 text-muted-foreground">
                                 {elearnings?.length === 0 ? "No e-learnings available." : "No e-learnings match your filters."}
@@ -177,6 +189,7 @@ export function DisplayELearningsPage() {
                                             eLearning={eLearning}
                                             onEdit={handleEdit}
                                             onDelete={handleDelete}
+                                            onPreview={handlePreview}
                                         />
                                     ))}
                                 </div>
@@ -185,6 +198,13 @@ export function DisplayELearningsPage() {
                     </div>
                 )}
             </div>
+
+            {/* Preview Modal */}
+            <ELearningPreviewModal
+                isOpen={isPreviewOpen}
+                onClose={() => setIsPreviewOpen(false)}
+                elearning={previewELearning || null}
+            />
         </div>
     );
 }

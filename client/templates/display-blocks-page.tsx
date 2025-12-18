@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
-import { BlockType } from "@/types/enums";
+import { BlockType, Block } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -11,13 +11,18 @@ import { ErrorMessage } from "@/components/ui/error-message";
 import { useGetBlocks, useDeleteBlock } from "@/lib/hooks/useBlocks";
 import { useGetELearningById, useGetElearnings } from "@/lib/hooks/useElearnings";
 import { getErrorMessage } from "@/lib/api/error-handler";
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2, Pencil, Eye } from "lucide-react";
+import { BlockPreviewModal } from "@/components/preview/BlockPreviewModal";
 
 export const DisplayBlocksPage = () => {
     // Filter states
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedBlockType, setSelectedBlockType] = useState<string>("all");
     const [selectedELearning, setSelectedELearning] = useState<string>("all");
+
+    // Preview modal state
+    const [previewBlock, setPreviewBlock] = useState<Block | null>(null);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
     // Fetch all data with TanStack Query
     const { blocks, isPending: isBlocksPending, isError: isBlocksError, error: blocksError } = useGetBlocks();
@@ -78,6 +83,11 @@ export const DisplayBlocksPage = () => {
 
     const handleUpdateBlock = (blockId: number) => {
         alert(`Update block ${blockId} - Not implemented yet`);
+    };
+
+    const handlePreviewBlock = (block: Block) => {
+        setPreviewBlock(block);
+        setIsPreviewOpen(true);
     };
 
     return (
@@ -164,7 +174,7 @@ export const DisplayBlocksPage = () => {
                 </div>
 
                 {/* Blocks */}
-                <div className="bg-card border border-neutral-300 shadow-md rounded-md p-4 min-h-[65vh]">
+                <div>
                     {/* Loading State */}
                     {isBlocksPending && (
                         <div className="flex items-center justify-center py-12">
@@ -197,19 +207,35 @@ export const DisplayBlocksPage = () => {
                                             <div key={block.id} className="relative group" onClick={() => handleUpdateBlock(block.id)}>
                                                 {/* Block card */}
                                                 <BlockCard type={block.type} className="w-26 h-26" headline={block.headline} />
-                                                {/* Delete Button */}
-                                                <Button
-                                                    type="button"
-                                                    variant="destructive"
-                                                    size="sm"
-                                                    className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDeleteBlock(block.id, block.headline);
-                                                    }}
-                                                >
-                                                    <Trash2 className="h-3 w-3" />
-                                                </Button>
+                                                {/* Action Buttons */}
+                                                <div className="absolute -top-2 -right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <Button
+                                                        type="button"
+                                                        variant="secondary"
+                                                        size="sm"
+                                                        className="h-6 w-6 p-0"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handlePreviewBlock(block);
+                                                        }}
+                                                        title="Preview block"
+                                                    >
+                                                        <Eye className="h-3 w-3" />
+                                                    </Button>
+                                                    <Button
+                                                        type="button"
+                                                        variant="destructive"
+                                                        size="sm"
+                                                        className="h-6 w-6 p-0"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleDeleteBlock(block.id, block.headline);
+                                                        }}
+                                                        title="Delete block"
+                                                    >
+                                                        <Trash2 className="h-3 w-3" />
+                                                    </Button>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -219,6 +245,13 @@ export const DisplayBlocksPage = () => {
                     )}
                 </div>
             </div>
+
+            {/* Preview Modal */}
+            <BlockPreviewModal
+                isOpen={isPreviewOpen}
+                onClose={() => setIsPreviewOpen(false)}
+                block={previewBlock}
+            />
         </div>
     );
 };
