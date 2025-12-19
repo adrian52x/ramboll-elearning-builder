@@ -92,12 +92,12 @@ export function BlockPreview({ block, defaultExpanded = true }: BlockPreviewProp
 
     return (
         <div className={cn(
-            "mx-30 border rounded-lg transition-all duration-300 cursor-pointer hover:shadow-md",
+            "mx-30 border rounded-lg transition-all duration-300 hover:shadow-md",
             isFeedbackBlock ? "bg-incept-green/30" : "bg-card"
         )}>
             {/* Block Header - Always Visible */}
             <div
-                className="flex items-center justify-between p-4"
+                className="flex items-center justify-between p-4 cursor-pointer"
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 <div className="flex items-center gap-3">

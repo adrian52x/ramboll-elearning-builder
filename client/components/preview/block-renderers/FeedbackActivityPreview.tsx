@@ -14,7 +14,7 @@ export function FeedbackActivityPreview({ description, question }: FeedbackActiv
         <div className="space-y-4">
             <div className="p-2 grid grid-cols-2 gap-4 items-center">
                 {description && <p className="text-sm">{description}</p>}
-                <div className="bg-incept-green rounded-lg p-3 flex gap-3 items-center">
+                <div className="border border-incept-green rounded-lg p-3 flex gap-3 items-center shadow-md">
                     <Megaphone fill="white" className="w-10 h-10 flex-shrink-0"/>
                     <p className="text-foreground font-medium">{question}</p>
                 </div>
