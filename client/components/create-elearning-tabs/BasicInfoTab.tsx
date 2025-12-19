@@ -125,7 +125,7 @@ export const BasicInfoTab = ({ data, onUpdate, onCancel }: BasicInfoTabProps) =>
                                     <p className="text-xs text-gray-500 break-all overflow-hidden">{data.coverImage}</p>
                                 </div>
                             </div>
-                            <div className="mt-4 bg-muted flex items-center justify-center py-8">
+                            <div className="flex items-center justify-center py-8">
                                 <div className="relative w-48 h-48 rounded-full border-8 border-incept-green overflow-hidden flex items-center justify-center bg-white">
                                     <Image 
                                         src={data.coverImage} 

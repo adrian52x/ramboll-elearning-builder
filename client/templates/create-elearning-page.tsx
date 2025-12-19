@@ -76,7 +76,7 @@ export function CreateELearningPage() {
         <div className="page-wrapper">
             <div className="space-y-8">
                 {/* Header */}
-                <h1 className="text-2xl font-bold text-background">Create New E-Learning</h1>
+                <h1 className="text-xl font-bold text-background">Create New E-Learning</h1>
 
                 <Tabs defaultValue="basic">
                     <TabsList className="w-full">

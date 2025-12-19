@@ -16,15 +16,15 @@ const variantStyles = {
 
 const sizeStyles = {
     sm: {
-        container: "w-12 h-4",
+        container: "w-16 h-4",
         arrow: "border-t-[8px] border-b-[8px] border-l-[8px] right-[-8px]",
     },
     md: {
-        container: "w-14 h-5",
+        container: "w-18 h-5",
         arrow: "border-t-[10px] border-b-[10px] border-l-[10px] right-[-10px]",
     },
     lg: {
-        container: "w-16 h-6",
+        container: "w-20 h-6",
         arrow: "border-t-[12px] border-b-[12px] border-l-[12px] right-[-12px]",
     },
 };

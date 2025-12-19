@@ -56,8 +56,10 @@ export function ELearningPreviewModal({ isOpen, onClose, elearning }: ELearningP
                     <div className="flex items-center justify-center gap-8">
                         {elearning.steps.map((step, index) => (
                             <StepArrow
+                                onClick={() => setCurrentStepIndex(index)}
                                 key={step.id}
                                 size="sm"
+                                className="cursor-pointer"
                                 variant={index <= currentStepIndex ? "active" : "default"}
                             >
                                 {index + 1}
