@@ -3,13 +3,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreateELearningDto } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { generateOutputJSON } from "@/lib/elearning-builder-utils";
 import { BasicInfoTab, StructureTab, UniversesTab } from "../components/create-elearning-tabs";
 import { useCreateELearning } from "@/lib/hooks/useElearnings";
-import { APIError, getErrorMessage } from "@/lib/api/error-handler";
-import mockElearning from "@/data/create-elearning-mock.json"
+import { getErrorMessage } from "@/lib/api/error-handler";
+import mockElearning from "@/data/create-elearning-mock.json";
+import { JsonOutputCard } from "@/components/cards/json-output-card";
 
 export function CreateELearningPage() {
     // For testing with mock data, uncomment the line below
@@ -97,16 +96,7 @@ export function CreateELearningPage() {
                 </Tabs>
 
                 {/* JSON Output */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>JSON Output Preview</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <pre className="bg-muted p-4 rounded-lg overflow-auto max-h-96 text-xs">
-                            {JSON.stringify(generateOutputJSON(formData), null, 2)}
-                        </pre>
-                    </CardContent>
-                </Card>
+                <JsonOutputCard formData={formData} />
 
             </div>
         </div>

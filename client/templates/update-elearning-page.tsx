@@ -3,12 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CreateELearningDto } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Spinner } from "@/components/ui/spinner";
 import { ErrorMessage } from "@/components/ui/error-message";
-import { generateOutputJSON } from "@/lib/elearning-builder-utils";
 import { BasicInfoTab, StructureTab, UniversesTab } from "../components/create-elearning-tabs";
+import { JsonOutputCard } from "@/components/cards/json-output-card";
 import { useGetELearningById, useUpdateELearning } from "@/lib/hooks/useElearnings";
 import { getErrorMessage } from "@/lib/api/error-handler";
 
@@ -143,16 +142,7 @@ export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
                 </Tabs>
 
                 {/* JSON Output */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>JSON Output Preview</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <pre className="bg-muted p-4 rounded-lg overflow-auto max-h-96 text-xs">
-                            {JSON.stringify(generateOutputJSON(formData), null, 2)}
-                        </pre>
-                    </CardContent>
-                </Card>
+                <JsonOutputCard formData={formData} />
 
             </div>
         </div>

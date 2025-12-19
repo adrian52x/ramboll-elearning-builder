@@ -22,7 +22,7 @@ interface BlockPreviewProps {
  * based on the block type.
  */
 export function BlockPreview({ block, defaultExpanded = true }: BlockPreviewProps) {
-    const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+    const [isExpanded, setIsExpanded] = useState<boolean>(defaultExpanded);
     const { type, headline, description, content } = block;
 
     const blockIconConfig = {
@@ -89,11 +89,7 @@ export function BlockPreview({ block, defaultExpanded = true }: BlockPreviewProp
     };
 
     return (
-        <div
-            className={cn(
-                "mx-30 border rounded-lg transition-all duration-300 cursor-pointer hover:shadow-md bg-card"
-            )}
-        >
+        <div className="mx-30 border rounded-lg transition-all duration-300 cursor-pointer hover:shadow-md bg-card">
             {/* Block Header - Always Visible */}
             <div
                 className="flex items-center justify-between p-4"
@@ -119,7 +115,7 @@ export function BlockPreview({ block, defaultExpanded = true }: BlockPreviewProp
             <div
                 className={cn(
                     "overflow-hidden transition-all duration-300",
-                    isExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                    isExpanded ? "max-h-[2000px]" : "max-h-0"
                 )}
             >
                 <div className="px-4 pb-4">
