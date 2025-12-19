@@ -32,8 +32,16 @@ export class BlocksService {
         return this.em.find(Block, {});
     }
 
-    async findOne(id: number): Promise<Block> {
-        return this.em.findOneOrFail(Block, { id });
+    // async findOne(id: number): Promise<Block> {
+    //     return this.em.findOneOrFail(Block, { id });
+    // }
+
+    // Find blocks that are not used in any steps (orphan blocks)
+    async findUnused(): Promise<Block[]> {
+        const qb = this.em.createQueryBuilder(Block, 'b');
+        qb.leftJoin('b.stepBlocks', 'sb')
+          .where({ 'sb.id': null });
+        return qb.getResultList();
     }
 
     /**

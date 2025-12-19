@@ -1,5 +1,4 @@
 TO DO:
-Feedback preview block to do
 unit tests
 
 TO DO: for report - 

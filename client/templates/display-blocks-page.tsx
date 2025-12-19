@@ -8,10 +8,9 @@ import { Label } from "@/components/ui/label";
 import { BlockCard } from "@/components/cards/block-card";
 import { Spinner } from "@/components/ui/spinner";
 import { ErrorMessage } from "@/components/ui/error-message";
-import { useGetBlocks, useDeleteBlock } from "@/lib/hooks/useBlocks";
+import { useGetBlocks, useDeleteBlock, useGetUnusedBlocks } from "@/lib/hooks/useBlocks";
 import { useGetELearningById, useGetElearnings } from "@/lib/hooks/useElearnings";
 import { getErrorMessage } from "@/lib/api/error-handler";
-import { Trash2, Pencil, Eye } from "lucide-react";
 import { BlockPreviewModal } from "@/components/preview/BlockPreviewModal";
 
 export const DisplayBlocksPage = () => {
@@ -26,10 +25,11 @@ export const DisplayBlocksPage = () => {
 
     // Fetch all data with TanStack Query
     const { blocks, isPending: isBlocksPending, isError: isBlocksError, error: blocksError } = useGetBlocks();
-    const { elearnings, isPending: isElearningsPending, isError: isElearningsError } = useGetElearnings();
+    const { blocks: unusedBlocks } = useGetUnusedBlocks();
+    const { elearnings, isPending: isElearningsPending } = useGetElearnings();
     const { deleteBlock } = useDeleteBlock();
     
-    // Fetch selected e-learning details (only when one is selected)
+    // Fetch selected e-learning details (only when one is selected, passing undefined will skip the query)
     const { elearning: selectedELearningDetails, } = useGetELearningById(
         selectedELearning !== "all" ? parseInt(selectedELearning) : undefined
     );
@@ -37,22 +37,29 @@ export const DisplayBlocksPage = () => {
     // Filter blocks based on search term, block type, and e-learning
     const filteredBlocks = useMemo(() => {
         if (!blocks) return [];
+        
+        // Create set of unused block IDs
+        const unusedBlockIds = new Set(unusedBlocks?.map(b => b.id) || []);
+        
         return blocks.filter((block) => {
             // Filter by search term (headline or description)
-            const matchesSearch = 
+            const matchesSearch: boolean | undefined = 
                 searchTerm === "" ||
                 block.headline?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 block.description?.toLowerCase().includes(searchTerm.toLowerCase());
 
             // Filter by block type
-            const matchesBlockType = 
+            const matchesBlockType: boolean = 
                 selectedBlockType === "all" || 
                 block.type === selectedBlockType;
 
             // Filter by e-learning (check if block is used in the selected e-learning)
-            let matchesELearning = selectedELearning === "all";
+            let matchesELearning: boolean = selectedELearning === "all";
             
-            if (!matchesELearning && selectedELearningDetails) {
+            if (selectedELearning === "unassigned") {
+                // Show only unassigned blocks
+                matchesELearning = unusedBlockIds.has(block.id);
+            } else if (selectedELearningDetails) {
                 // Get all block IDs used in the selected e-learning
                 const blockIdsInELearning = new Set(
                     selectedELearningDetails.steps.flatMap(step =>
@@ -64,7 +71,7 @@ export const DisplayBlocksPage = () => {
 
             return matchesSearch && matchesBlockType && matchesELearning;
         });
-    }, [blocks, searchTerm, selectedBlockType, selectedELearning, selectedELearningDetails]);
+    }, [blocks, searchTerm, selectedBlockType, selectedELearning, selectedELearningDetails, unusedBlocks]);
 
     const handleDeleteBlock = (blockId: number, blockHeadline: string) => {
         if (!confirm(`Are you sure you want to delete the block "${blockHeadline}"?`)) {
@@ -147,6 +154,8 @@ export const DisplayBlocksPage = () => {
                                 disabled={isElearningsPending}
                             >
                                 <option value="all">All E-Learnings</option>
+                                <option value="unassigned">Unassigned</option>
+                                <hr />
                                 {elearnings?.map((eLearning) => (
                                     <option key={eLearning.id} value={eLearning.id.toString()}>
                                         {eLearning.title}

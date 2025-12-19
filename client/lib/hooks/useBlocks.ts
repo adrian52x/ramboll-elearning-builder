@@ -9,6 +9,14 @@ export const useGetBlocks = () => {
     return { blocks, isPending, isError, error };
 };
 
+export const useGetUnusedBlocks = () => {
+    const { data: blocks, isPending, isError, error } = useQuery({
+        queryKey: ['blocks', 'unused'],
+        queryFn: BlockAPI.getUnusedBlocks,
+    });
+    return { blocks, isPending, isError, error };
+}
+
 export const useDeleteBlock = () => {
     const queryClient = useQueryClient();
 

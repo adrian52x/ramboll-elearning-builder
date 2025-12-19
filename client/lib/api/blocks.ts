@@ -11,6 +11,12 @@ export class BlockAPI {
         return handleAPIResponse<Block[]>(response);
     }
 
+    static async getUnusedBlocks(): Promise<Block[]> {
+        const response = await fetch(`${API_BASE_URL}/api/blocks/unused`);
+        
+        return handleAPIResponse<Block[]>(response);
+    }
+
     static async deleteBlock(id: number): Promise<void> {
         const response = await fetch(`${API_BASE_URL}/api/blocks/${id}`, {
             method: 'DELETE',
