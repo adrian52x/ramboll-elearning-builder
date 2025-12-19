@@ -9,7 +9,7 @@ import {
     FeedbackActivityPreview,
 } from "./block-renderers";
 import { Badge } from "../ui/badge";
-import { Check, ChevronDown, ChevronUp, Video, Image, SquareMousePointer, RotateCwSquare, MessageSquare, HelpCircle } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, Video, Image, SquareMousePointer, RotateCwSquare, MessageSquare, HelpCircle, MessageCircleQuestion } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface BlockPreviewProps {
@@ -88,8 +88,13 @@ export function BlockPreview({ block, defaultExpanded = true }: BlockPreviewProp
         }
     };
 
+    const isFeedbackBlock = type === BlockType.FEEDBACK_ACTIVITY;
+
     return (
-        <div className="mx-30 border rounded-lg transition-all duration-300 cursor-pointer hover:shadow-md bg-card">
+        <div className={cn(
+            "mx-30 border rounded-lg transition-all duration-300 cursor-pointer hover:shadow-md",
+            isFeedbackBlock ? "bg-incept-green/30" : "bg-card"
+        )}>
             {/* Block Header - Always Visible */}
             <div
                 className="flex items-center justify-between p-4"
@@ -97,9 +102,9 @@ export function BlockPreview({ block, defaultExpanded = true }: BlockPreviewProp
             >
                 <div className="flex items-center gap-3">
                     <Badge className="bg-incept-green w-8 h-8 p-1">
-                        <Check />
+                        {isFeedbackBlock ? <MessageCircleQuestion /> : <Check />}
                     </Badge>
-                    <h4 className="font-medium">{headline}</h4>
+                    <h4 className="font-medium">{isFeedbackBlock ? `Feedback activity: ${headline}` : headline}</h4>
                 </div>
                 <div className="flex items-center gap-2">
                     <BlockIcon />

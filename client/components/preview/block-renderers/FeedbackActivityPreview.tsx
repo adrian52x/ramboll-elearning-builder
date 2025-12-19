@@ -1,9 +1,8 @@
 "use client";
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { MessageSquare } from "lucide-react";
+import { Megaphone } from "lucide-react";
 
 interface FeedbackActivityPreviewProps {
     description?: string;
@@ -11,67 +10,27 @@ interface FeedbackActivityPreviewProps {
 }
 
 export function FeedbackActivityPreview({ description, question }: FeedbackActivityPreviewProps) {
-    const [feedback, setFeedback] = useState("");
-    const [isSubmitted, setIsSubmitted] = useState(false);
-
-    const handleSubmit = () => {
-        if (feedback.trim()) {
-            setIsSubmitted(true);
-            // In a real implementation, this would send to backend
-        }
-    };
-
-    const handleReset = () => {
-        setFeedback("");
-        setIsSubmitted(false);
-    };
-
     return (
         <div className="space-y-4">
-            <>
-                {description && <p className="text-muted-foreground">{description}</p>}
-            </>
+            <div className="p-2 grid grid-cols-2 gap-4 items-center">
+                {description && <p className="text-sm">{description}</p>}
+                <div className="bg-incept-green rounded-lg p-3 flex gap-3 items-center">
+                    <Megaphone fill="white" className="w-10 h-10 flex-shrink-0"/>
+                    <p className="text-foreground font-medium">{question}</p>
+                </div>
+            </div>
 
             <Card>
-                <CardContent className="pt-6 space-y-4">
-                    <div className="flex items-start gap-3">
-                        <MessageSquare className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
-                        <div className="flex-1 space-y-4">
-                            <p className="text-foreground font-medium">{question}</p>
-
-                            {!isSubmitted ? (
-                                <>
-                                    <Textarea
-                                        placeholder="Type your response here..."
-                                        value={feedback}
-                                        onChange={(e) => setFeedback(e.target.value)}
-                                        rows={6}
-                                        className="resize-none"
-                                    />
-                                    <Button 
-                                        onClick={handleSubmit} 
-                                        disabled={!feedback.trim()}
-                                        className="w-full sm:w-auto"
-                                    >
-                                        Submit Feedback
-                                    </Button>
-                                </>
-                            ) : (
-                                <div className="space-y-4">
-                                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                                        <p className="text-green-800 font-medium mb-2">✓ Feedback Submitted</p>
-                                        <p className="text-green-700 text-sm whitespace-pre-wrap">{feedback}</p>
-                                    </div>
-                                    <Button 
-                                        variant="outline" 
-                                        onClick={handleReset}
-                                        className="w-full sm:w-auto"
-                                    >
-                                        Edit Response
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
+                <CardContent className=" space-y-4">
+                    <Textarea
+                        placeholder="Type your response here..."
+                        rows={6}
+                        className="resize-none h-24"
+                    />
+                    <div className="flex justify-end">
+                        <Button className="py-1 bg-incept-primary rounded-xl">
+                            Submit
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
