@@ -5,16 +5,30 @@ import { Input } from "@/components/ui/input";
 import { UploadInput } from "@/components/ui/upload-input";
 import { useState } from "react";
 import { UploadAPI } from "@/lib/api/uploads";
-import { Video } from "lucide-react";
+import { Video, CheckCircle2, XCircle } from "lucide-react";
 
 interface VideoBlockFormProps {
     videoUrl: string;
     onVideoUrlChange: (url: string) => void;
 }
 
+// Helper function to validate video URL
+function isValidVideoUrl(url: string): boolean {
+    if (!url) return false;
+    
+    // Check for YouTube URLs
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    if (youtubeRegex.test(url)) return true;
+    
+    // Check for direct video file extensions
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
+    return videoExtensions.some(ext => url.toLowerCase().includes(ext));
+}
+
 export function VideoBlockForm({ videoUrl, onVideoUrlChange }: VideoBlockFormProps) {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const isValid = isValidVideoUrl(videoUrl);
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -66,7 +80,7 @@ export function VideoBlockForm({ videoUrl, onVideoUrlChange }: VideoBlockFormPro
                     />
                 )}
                 <Input
-                    placeholder="https://example.com/video.mp4"
+                    placeholder="https://example.com/video.mp4 or YouTube URL"
                     value={videoUrl}
                     onChange={(e) => onVideoUrlChange(e.target.value)}
                     disabled={uploading}
@@ -85,6 +99,11 @@ export function VideoBlockForm({ videoUrl, onVideoUrlChange }: VideoBlockFormPro
                                 <p className="text-sm font-medium text-gray-900">Video uploaded</p>
                                 <p className="text-xs text-gray-500 break-all overflow-hidden">{videoUrl}</p>
                             </div>
+                            {isValid ? (
+                                <CheckCircle2 className="w-6 h-6 text-green-600" />
+                            ) : (
+                                <XCircle className="w-6 h-6 text-red-600" />
+                            )}
                         </div>
                     </div>
                 )}

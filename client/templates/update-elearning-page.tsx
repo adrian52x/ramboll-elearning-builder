@@ -122,7 +122,7 @@ export function UpdateELearningPage({ eLearningId }: UpdateELearningPageProps) {
         <div className="page-wrapper">
             <div className="space-y-8">
                 {/* Header */}
-                <h1 className="text-2xl font-bold text-background">Edit E-Learning</h1>
+                <h1 className="text-2xl font-bold text-background">Edit: <span className="underline">{elearning.title}</span></h1>
 
                 <Tabs defaultValue="basic">
                     <TabsList className="w-full">
