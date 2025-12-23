@@ -6,3 +6,5 @@ future development -
     prevent race conditions when updating something.
     re-order blocks inside Structure Tab
     assessments/ quiz blocks
+    better validation in frontend
+    integration tests (e2e) with a test db

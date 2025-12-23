@@ -24,13 +24,13 @@ export class ELearningsService {
      *     {
      *       title: "Introduction",
      *       orderIndex: 1,
-     *       blocks: [
+     *       stepBlocks: [
      *         { newBlock: { type: "video", headline: "Welcome", ... }, orderIndex: 1 },
-     *         { existingBlockId: "uuid-of-existing-block", orderIndex: 2 }
+     *         { existingBlockId: "id-of-existing-block", orderIndex: 2 }
      *       ]
      *     }
      *   ],
-     *   universeIds: ["uuid1", "uuid2"]
+     *   universeIds: ["1", "2"]
      * }
      */
     async create(dto: CreateELearningDto) {

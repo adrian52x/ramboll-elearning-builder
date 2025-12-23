@@ -42,14 +42,14 @@ export class StorageConfig {
     async ensureBucketExists(): Promise<void> {
         try {
             await this.s3Client.send(new HeadBucketCommand({ Bucket: this.bucketName }));
-            console.log(`Bucket ${this.bucketName} already exists.`);
+            //console.log(`Bucket ${this.bucketName} already exists.`);
             // Set public read policy
             await this.setPublicReadPolicy();
         } catch (error) {
             // Bucket doesn't exist, create it
             try {
                 await this.s3Client.send(new CreateBucketCommand({ Bucket: this.bucketName }));
-                console.log(`Bucket ${this.bucketName} created.`);
+                //console.log(`Bucket ${this.bucketName} created.`);
                 // Set public read policy
                 await this.setPublicReadPolicy();
             } catch (createError) {
@@ -78,7 +78,7 @@ export class StorageConfig {
                 Policy: JSON.stringify(policy),
                 }),
             );
-            console.log(`Public read policy set for bucket ${this.bucketName}`);
+            //console.log(`Public read policy set for bucket ${this.bucketName}`);
         } catch (error) {
             console.error('Failed to set bucket policy:', error);
         }

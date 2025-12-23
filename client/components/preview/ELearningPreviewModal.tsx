@@ -76,7 +76,7 @@ export function ELearningPreviewModal({ isOpen, onClose, elearning }: ELearningP
 
 
                 {/* Block Content - All blocks in step */}
-                <div className="flex-1 overflow-y-auto px-6 space-y-3">
+                <div className="flex-1 overflow-y-auto px-6 space-y-3 pb-10">
                     {currentStepBlocks.length > 0 ? (
                         currentStepBlocks.map((stepBlock) => (
                             <BlockPreview 

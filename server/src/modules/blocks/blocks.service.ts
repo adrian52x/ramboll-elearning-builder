@@ -32,17 +32,27 @@ export class BlocksService {
         return this.em.find(Block, {});
     }
 
-    // async findOne(id: number): Promise<Block> {
-    //     return this.em.findOneOrFail(Block, { id });
-    // }
+    async findOne(id: number): Promise<Block> {
+        return this.em.findOneOrFail(Block, { id });
+    }
 
     // Find blocks that are not used in any steps (orphan blocks)
     async findUnused(): Promise<Block[]> {
-        const qb = this.em.createQueryBuilder(Block, 'b');
-        qb.leftJoin('b.stepBlocks', 'sb')
-          .where({ 'sb.id': null });
-        return qb.getResultList();
+        // Get all blocks with their stepBlocks populated
+        const blocks = await this.em.find(Block, {}, {
+            populate: ['stepBlocks']
+        });
+        
+        // Filter blocks that have no stepBlocks
+        return blocks.filter(block => block.stepBlocks.length === 0);
     }
+
+    // async findUnused(): Promise<Block[]> {
+    //     const qb = this.em.createQueryBuilder(Block, 'b');
+    //     qb.leftJoinAndSelect('b.stepBlocks', 'sb')
+    //       .where({ 'sb.id': null });
+    //     return qb.getResultList();
+    // }
 
     /**
      * Update block content (affects all steps using this block)

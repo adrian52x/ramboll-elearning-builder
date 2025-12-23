@@ -16,14 +16,14 @@ export class BlocksController {
     return this.blocksService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id', ParseIntPipe) id: number) {
-  //   return this.blocksService.findOne(id);
-  // }
-
   @Get('unused')
   findUnused() {
     return this.blocksService.findUnused();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.blocksService.findOne(id);
   }
 
   @Patch(':id')
