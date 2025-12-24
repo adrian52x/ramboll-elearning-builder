@@ -37,20 +37,6 @@ export class UsersService {
     return user;
   }
 
-  // async update(id: number, username?: string, password?: string, role?: UserRole) {
-  //   const user = await this.em.findOne(User, { id });
-  //   if (!user) {
-  //     throw new NotFoundException(`User with id ${id} not found`);
-  //   }
-
-  //   if (username) user.username = username;
-  //   if (password) user.password = await bcrypt.hash(password, 10);
-  //   if (role) user.role = role;
-
-  //   await this.em.flush();
-  //   return user;
-  // }
-
   async remove(id: number) {
     const user = await this.em.findOne(User, { id });
     if (!user) {

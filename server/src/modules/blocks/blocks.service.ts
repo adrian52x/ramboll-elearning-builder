@@ -55,25 +55,10 @@ export class BlocksService {
     // }
 
     /**
-     * Update block content (affects all steps using this block)
+     * Not implemented - kept for future use
      */
     async update(id: number, dto: Partial<CreateBlockDto>): Promise<Block> {
-        const block = await this.em.findOneOrFail(Block, { id });
-        
-        if (dto.headline) block.headline = dto.headline;
-        if (dto.description !== undefined) block.description = dto.description;
-        
-        // If type changes or type-specific fields change, rebuild content
-        if (dto.type && dto.type !== block.type) {
-            block.type = dto.type;
-            block.content = buildBlockContent(dto as CreateBlockDto);
-        } else if (dto.type) {
-            // Same type but content might have changed
-            block.content = buildBlockContent(dto as CreateBlockDto);
-        }
-
-        await this.em.flush();
-        return block;
+        throw new BadRequestException('Block updates are not currently supported');
     }
 
     /*

@@ -17,7 +17,7 @@ export class StorageConfig {
 
         // S3-compatible client for MinIO
         this.s3Client = new S3Client({
-            region: this.configService.get('MINIO_REGION', 'us-east-1'),
+            region: this.configService.get('MINIO_REGION', 'eu-central-1'),
             endpoint: this.endpoint,
             credentials: {
                 accessKeyId: this.configService.get('MINIO_ACCESS_KEY', 'minioadmin'),

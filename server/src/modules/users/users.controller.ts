@@ -26,16 +26,6 @@ export class UsersController {
     );
   }
 
-  // @Patch(':id')
-  // update(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateUserDto) {
-  //   return this.usersService.update(
-  //     id,
-  //     updateDto.username,
-  //     updateDto.password,
-  //     updateDto.role
-  //   );
-  // }
-
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);

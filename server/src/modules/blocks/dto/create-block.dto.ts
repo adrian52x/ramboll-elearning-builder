@@ -14,10 +14,6 @@ export class CreateBlockDto {
   @IsOptional()
   description?: string;
 
-  // wrong - not needed as orderIndex is part of StepBlockDTO
-  // @IsNumber()
-  // orderIndex!: number;
-
   // ========== VIDEO BLOCK FIELDS ==========
   @ValidateIf(o => o.type === BlockType.VIDEO)
   @IsString()

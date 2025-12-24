@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class UploadsService {
     private storageConfig: StorageConfig;
 
-    constructor(private configService: ConfigService) {
+    constructor(configService: ConfigService) {
         this.storageConfig = new StorageConfig(configService);
         this.init();
     }
