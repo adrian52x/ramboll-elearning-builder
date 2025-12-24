@@ -65,3 +65,8 @@ export interface Tab {
     contentUrl: string;
     description?: string;
 }
+
+export interface FlipCard {
+    front: string;
+    back: string;
+}

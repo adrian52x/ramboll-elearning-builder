@@ -1,11 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-
-interface FlipCard {
-    front: string;
-    back: string;
-}
+import { FlipCard } from "@/types";
 
 interface FlipCardsPreviewProps {
     description?: string;
